@@ -148,7 +148,21 @@
         /* ВСПЛЫВАЮЩЕЕ МЕНЮ ПЛЕЙЛИСТА */
         .playlist-menu { position: absolute; bottom: 70px; left: 0; width: 100%; max-height: 250px; background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; overflow-y: auto; display: none; flex-direction: column; padding: 10px 0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); z-index: 1000; }
         .playlist-menu.show { display: flex; animation: fadeIn 0.2s ease; }
-        .playlist-item { padding: 12px 20px; font-size: 13px; color: #ccc; cursor: pointer; transition: background 0.2s, color 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .playlist-item { 
+    padding: 14px 20px; 
+    font-size: 13px; 
+    color: #ccc; 
+    cursor: pointer; 
+    transition: background 0.2s, color 0.2s; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    border-bottom: 1px solid rgba(255,255,255,0.02); 
+    flex-shrink: 0; /* 🚨 Запрещаем браузеру сплющивать строку */
+    min-height: 44px; /* Задаем минимальную комфортную высоту для пальца */
+    line-height: 1.2; /* Фиксируем высоту самого шрифта */
+        }
+        
         .playlist-item:last-child { border-bottom: none; }
         .playlist-item:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
         .playlist-item.active { color: #fff; font-weight: bold; background: rgba(255, 255, 255, 0.05); border-left: 3px solid #fff; }
