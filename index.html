@@ -397,10 +397,11 @@
                     playlistMenu.innerHTML = '<div style="text-align:center; padding:15px; color:#a1a1aa;">Нет доступных треков</div>';
                 }
             })
-            .catch(err => {
-                console.error(err);
-                trackNameEl.innerText = "Ошибка списка";
-                playlistMenu.innerHTML = '<div style="text-align:center; padding:15px; color:#ef4444;">Не удалось загрузить треки</div>';
+                        .catch(err => {
+                trackNameEl.innerText = "Смотри лог";
+                playlistMenu.innerHTML = `<div style="text-align:left; padding:15px; color:#ef4444; font-family: monospace; font-size: 12px; line-height: 1.4; word-wrap: break-word;">
+                    <b>🚨 ОШИБКА:</b><br>${err.name}: ${err.message}<br><br><b>ДЕТАЛИ:</b><br>${err.stack}
+                </div>`;
             });
 
         function buildPlaylistMenu() {
