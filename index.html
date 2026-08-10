@@ -37,30 +37,30 @@
             padding: 20px 20px 130px 20px; 
         }
 
-        /* 🔮 Анимированные жидкие неоновые сферы на фоне */
+        /* 🔮 Анимированные черно-белые сферы на фоне */
         .orb-1, .orb-2 {
             position: absolute;
             border-radius: 50%;
-            filter: blur(60px);
+            filter: blur(50px);
             z-index: 0;
-            opacity: 0.6;
-            pointer-events: none; 
+            opacity: 0.8; /* Сделал максимально заметными */
+            pointer-events: none; /* Пропускаем клики насквозь */
             animation: float 12s infinite ease-in-out alternate;
         }
 
         .orb-1 {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(135deg, #ffffff, #333333);
             top: 5%;
             left: -10%;
             animation-delay: 0s;
         }
 
         .orb-2 {
-            width: 350px;
-            height: 350px;
-            background: linear-gradient(135deg, #8b5cf6, #d946ef);
+            width: 380px;
+            height: 380px;
+            background: linear-gradient(135deg, #777777, #111111);
             bottom: 10%;
             right: -10%;
             animation-delay: -4s;
@@ -72,22 +72,34 @@
             100% { transform: translate3d(-20px, 60px, 0) scale(0.9); }
         }
 
-        /* 🧊 Жидкое стекло (Glassmorphism) */
+        /* 🧊 Жидкое стекло с градиентными КРАЯМИ */
         .card {
-            background: rgba(15, 15, 15, 0.4);
+            background: rgba(12, 12, 12, 0.6);
             backdrop-filter: blur(35px);
             -webkit-backdrop-filter: blur(35px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
-            border-left: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 32px;
             padding: 30px 25px 25px 25px; 
             width: 100%;
             max-width: 420px;
             text-align: center;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
             z-index: 2;
+            position: relative;
             animation: glassAppear 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Тот самый максимально заметный градиент краев (Черно-белый) */
+        .card::after, .bottom-player::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px; /* Толщина краев */
+            background: linear-gradient(135deg, #ffffff 0%, #111111 50%, #ffffff 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
         }
 
         @keyframes glassAppear {
@@ -96,22 +108,22 @@
         }
 
         .avatar-container { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
-        .avatar-container::after {
-            content: ''; position: absolute; top: -5%; left: -5%; right: -5%; bottom: -5%;
-            background: linear-gradient(45deg, #06b6d4, #d946ef);
-            border-radius: 50%; z-index: -1; filter: blur(15px); opacity: 0.5;
+        .avatar-container::before {
+            content: ''; position: absolute; top: -4%; left: -4%; right: -4%; bottom: -4%;
+            background: linear-gradient(45deg, #ffffff, #444444);
+            border-radius: 50%; z-index: -1; filter: blur(12px); opacity: 0.6;
             transition: opacity 0.5s ease;
         }
         .avatar {
             width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
             transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         .avatar-container:hover .avatar { transform: scale(1.05); }
-        .avatar-container:hover::after { opacity: 0.8; }
+        .avatar-container:hover::before { opacity: 0.9; }
 
-        h1 { font-size: 26px; font-weight: 700; margin-bottom: 2px; letter-spacing: -0.5px; text-shadow: 0 2px 10px rgba(255,255,255,0.2); }
+        h1 { font-size: 26px; font-weight: 700; margin-bottom: 2px; letter-spacing: -0.5px; text-shadow: 0 2px 10px rgba(255,255,255,0.3); }
         .username { font-size: 14px; color: #a3a3a3; font-weight: 500; margin-bottom: 15px; letter-spacing: 0.5px; }
         .bio { font-size: 14px; color: #d4d4d4; line-height: 1.6; margin-bottom: 25px; font-weight: 400; }
 
@@ -121,14 +133,14 @@
             padding: 14px 20px; 
             background: rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 18px; color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 500;
             transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer;
         }
         .link-item:hover { 
             background: rgba(255, 255, 255, 0.15); 
-            border-color: rgba(255, 255, 255, 0.3); 
+            border-color: rgba(255, 255, 255, 0.4); 
             transform: translateY(-3px); 
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); 
         }
@@ -139,37 +151,34 @@
         .expand-btn svg { width: 20px; height: 20px; fill: currentColor; transition: transform 0.3s ease; }
         .expand-btn:hover { color: #ffffff; }
         .expand-btn.active svg { transform: rotate(180deg); }
-        .expand-content { display: none; align-items: center; margin-top: 10px; padding: 12px 16px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 14px; color: #d4d4d4; font-size: 14px; width: 100%; text-align: left; }
+        .expand-content { display: none; align-items: center; margin-top: 10px; padding: 12px 16px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; color: #e5e5e5; font-size: 14px; width: 100%; text-align: left; }
         .expand-content.show { display: flex; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ИСПРАВЛЕНЫ МАЛЕНЬКИЕ ИКОНКИ В ТЕКСТЕ */
-        /* brightness(0) делает любую картинку черной, а invert(1) - чисто белой. */
-        .inline-icon { width: 18px; height: 18px; vertical-align: text-bottom; margin-right: 6px; filter: brightness(0) invert(1); opacity: 0.8; }
+        /* Иконки теперь ярко-белые всегда */
+        .inline-icon { width: 18px; height: 18px; vertical-align: text-bottom; margin-right: 6px; filter: brightness(0) invert(1); opacity: 1; }
         
-        .footer { margin-top: 25px; font-size: 10px; color: #52525b; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;}
+        .footer { margin-top: 25px; font-size: 10px; color: #71717a; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;}
 
-        /* ИСПРАВЛЕНЫ НИЖНИЕ ИКОНКИ */
+        /* Нижние иконки */
         .bottom-icons { display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 18px; z-index: 2; opacity: 0; animation: iconsAppear 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 0.4s; }
         @keyframes iconsAppear { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        /* Базовая непрозрачность увеличена с 0.4 до 0.6, чтобы они не были слишком темными */
-        .bottom-icon-link { color: #ffffff; opacity: 0.6; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; }
-        .bottom-icon-link:hover { opacity: 1; transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 4px 8px rgba(255,255,255,0.2));}
+        
+        .bottom-icon-link { color: #ffffff; opacity: 0.7; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; }
+        .bottom-icon-link:hover { opacity: 1; transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 4px 8px rgba(255,255,255,0.4));}
         .bottom-icon-svg { width: 28px; height: 28px; fill: currentColor; }
 
-        /* 🎵 ПЛЕЕР (Жидкое стекло) */
+        /* 🎵 ПЛЕЕР */
         .bottom-player-wrapper { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 420px; z-index: 999; }
         .bottom-player { 
             width: 100%; 
-            background: rgba(20, 20, 20, 0.5); 
+            background: rgba(12, 12, 12, 0.6); 
             backdrop-filter: blur(40px); 
             -webkit-backdrop-filter: blur(40px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 24px; 
             padding: 12px 20px; 
             display: flex; align-items: center; justify-content: space-between; 
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9); 
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9); 
             animation: playerSlideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; 
             animation-delay: 0.2s;
             opacity: 0;
@@ -180,37 +189,37 @@
         
         .player-controls { display: flex; align-items: center; gap: 15px; width: 100%; }
         
-        .play-pause-btn { background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #000000; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); flex-shrink: 0; box-shadow: 0 4px 15px rgba(255,255,255,0.15);}
-        .play-pause-btn:hover { transform: scale(1.08); background: #ffffff; box-shadow: 0 6px 20px rgba(255,255,255,0.3); }
+        .play-pause-btn { background: #ffffff; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #000000; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); flex-shrink: 0; box-shadow: 0 4px 15px rgba(255,255,255,0.2);}
+        .play-pause-btn:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(255,255,255,0.4); }
         .play-pause-btn svg { width: 18px; height: 18px; fill: currentColor; }
 
         .track-meta { display: flex; flex-direction: column; overflow: hidden; flex-grow: 1; }
-        .track-name { font-size: 14px; font-weight: 600; color: #ffffff; letter-spacing: -0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 5px rgba(0,0,0,0.5);}
+        .track-name { font-size: 14px; font-weight: 600; color: #ffffff; letter-spacing: -0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 5px rgba(0,0,0,0.8);}
         .track-status { font-size: 11px; color: #a1a1aa; margin-top: 2px; font-weight: 500;}
 
-        .playlist-toggle-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; cursor: pointer; color: #fff; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; padding: 8px; }
-        .playlist-toggle-btn:hover { background: rgba(255, 255, 255, 0.15); transform: scale(1.05); border-color: rgba(255,255,255,0.25);}
+        .playlist-toggle-btn { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; cursor: pointer; color: #fff; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; padding: 8px; }
+        .playlist-toggle-btn:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); border-color: rgba(255,255,255,0.3);}
         .playlist-toggle-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
         .equalizer { display: flex; align-items: flex-end; gap: 3px; width: 18px; height: 16px; flex-shrink: 0; margin-left: 5px;}
-        .eq-bar { width: 4px; height: 100%; background: #06b6d4; transform-origin: bottom; animation: bounce 0.5s ease-in-out infinite alternate; animation-play-state: paused; border-radius: 2px; box-shadow: 0 0 8px rgba(6, 182, 212, 0.5);}
+        .eq-bar { width: 4px; height: 100%; background: #ffffff; transform-origin: bottom; animation: bounce 0.5s ease-in-out infinite alternate; animation-play-state: paused; border-radius: 2px; box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);}
         .equalizer.playing .eq-bar { animation-play-state: running; }
-        .eq-bar:nth-child(1) { animation-duration: 0.4s; } .eq-bar:nth-child(2) { animation-duration: 0.7s; background: #d946ef; box-shadow: 0 0 8px rgba(217, 70, 239, 0.5);} .eq-bar:nth-child(3) { animation-duration: 0.5s; }
+        .eq-bar:nth-child(1) { animation-duration: 0.4s; } .eq-bar:nth-child(2) { animation-duration: 0.7s; background: #aaaaaa; box-shadow: 0 0 8px rgba(170, 170, 170, 0.5);} .eq-bar:nth-child(3) { animation-duration: 0.5s; }
         @keyframes bounce { 0% { transform: scaleY(0.15); } 100% { transform: scaleY(1); } }
 
         /* ВСПЛЫВАЮЩЕЕ МЕНЮ ПЛЕЙЛИСТА */
-        .playlist-menu { position: absolute; bottom: 75px; left: 0; width: 100%; max-height: 280px; background: rgba(10, 10, 10, 0.75); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px); border: 1px solid rgba(255, 255, 255, 0.1); border-top: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; overflow-y: auto; display: none; flex-direction: column; padding: 8px 0; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9); z-index: 1000; }
+        .playlist-menu { position: absolute; bottom: 75px; left: 0; width: 100%; max-height: 280px; background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px); border: 1px solid rgba(255, 255, 255, 0.15); border-top: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; overflow-y: auto; display: none; flex-direction: column; padding: 8px 0; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9); z-index: 1000; }
         .playlist-menu.show { display: flex; animation: menuFadeIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
         @keyframes menuFadeIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
         
-        .playlist-item { padding: 14px 20px; font-size: 13.5px; color: #a1a1aa; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid rgba(255,255,255,0.03); flex-shrink: 0; min-height: 44px; line-height: 1.2;}
+        .playlist-item { padding: 14px 20px; font-size: 13.5px; color: #a1a1aa; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; min-height: 44px; line-height: 1.2;}
         .playlist-item:last-child { border-bottom: none; }
-        .playlist-item:hover { background: rgba(255, 255, 255, 0.08); color: #fff; padding-left: 25px;}
-        .playlist-item.active { color: #fff; font-weight: 600; background: rgba(255, 255, 255, 0.05); border-left: 4px solid #06b6d4; padding-left: 20px;}
+        .playlist-item:hover { background: rgba(255, 255, 255, 0.1); color: #fff; padding-left: 25px;}
+        .playlist-item.active { color: #fff; font-weight: 600; background: rgba(255, 255, 255, 0.08); border-left: 4px solid #ffffff; padding-left: 20px;}
 
         .playlist-menu::-webkit-scrollbar { width: 5px; }
         .playlist-menu::-webkit-scrollbar-track { background: transparent; margin: 10px 0;}
-        .playlist-menu::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+        .playlist-menu::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.25); border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -263,10 +272,10 @@
     </div>
 
     <div class="bottom-icons">
-        <!-- 🔥 СЮДА ВШИТ ВЕКТОРНЫЙ STEAM 🔥 -->
-                <a href="https://steamcommunity.com/id/xxxc4elovekxxx/" target="_blank" class="bottom-icon-link" title="Мой Steam">
-            <svg class="bottom-icon-svg" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd">
-                <path d="M11.979 0C5.362 0 .001 5.36.001 11.979c0 5.485 3.69 10.106 8.745 11.533L12 18.252a4.428 4.428 0 0 0-1.748.361l-3.328-4.802c.045-.045.093-.092.143-.135a5.556 5.556 0 0 1 8.877-1.121 5.55 5.55 0 0 1 1.258 6.551 5.555 5.555 0 0 1-5.111 2.87c-.894 0-1.761-.212-2.544-.61L6.155 24c1.802.441 3.7.452 5.52.032 5.864-1.34 9.885-6.792 9.885-12.875C23.958 5.36 18.596 0 11.979 0zM15.46 12.012a3.024 3.024 0 0 0-2.315 4.887 3.024 3.024 0 0 0 4.81-2.42 3.023 3.023 0 0 0-2.495-2.467zm-1.026 3.655a1.503 1.503 0 0 1-1.332-2.181 1.502 1.502 0 0 1 2.457 1.238 1.502 1.502 0 0 1-1.125.943zm-4.707 3.23l2.87-1.196a4.4 4.4 0 0 0 .866 1.134l-2.607 1.086a2.477 2.477 0 1 1-1.129-1.024z"/>
+        <!-- 🔥 СЮДА ВШИТ НОВЫЙ ИДЕАЛЬНЫЙ STEAM SVG 🔥 -->
+        <a href="https://steamcommunity.com/id/xxxc4elovekxxx/" target="_blank" class="bottom-icon-link" title="Мой Steam">
+            <svg class="bottom-icon-svg" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.974 0c-8.401 0-15.292 6.479-15.943 14.714l8.573 3.547c0.729-0.495 1.604-0.786 2.552-0.786 0.083 0 0.167 0.005 0.25 0.005l3.813-5.521v-0.078c0-3.328 2.703-6.031 6.031-6.031s6.036 2.708 6.036 6.036c0 3.328-2.708 6.031-6.036 6.031h-0.135l-5.438 3.88c0 0.073 0.005 0.141 0.005 0.214 0 2.5-2.021 4.526-4.521 4.526-2.177 0-4.021-1.563-4.443-3.635l-6.135-2.542c1.901 6.719 8.063 11.641 15.391 11.641 8.833 0 15.995-7.161 15.995-16s-7.161-16-15.995-16zM10.052 24.281l-1.964-0.813c0.349 0.724 0.953 1.328 1.755 1.667 1.729 0.719 3.724-0.104 4.443-1.833 0.349-0.844 0.349-1.76 0.005-2.599-0.344-0.844-1-1.495-1.839-1.844-0.828-0.349-1.719-0.333-2.5-0.042l2.026 0.839c1.276 0.536 1.88 2 1.349 3.276s-2 1.88-3.276 1.349zM25.271 11.875c0-2.214-1.802-4.021-4.016-4.021-2.224 0-4.021 1.807-4.021 4.021 0 2.219 1.797 4.021 4.021 4.021 2.214 0 4.016-1.802 4.016-4.021zM18.245 11.87c0-1.672 1.349-3.021 3.016-3.021s3.026 1.349 3.026 3.021c0 1.667-1.359 3.021-3.026 3.021s-3.016-1.354-3.016-3.021z"/>
             </svg>
         </a>
         <a href="https://soundcloud.com" target="_blank" class="bottom-icon-link" title="Мой SoundCloud">
