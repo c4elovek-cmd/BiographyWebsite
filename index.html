@@ -44,9 +44,7 @@
             filter: blur(60px);
             z-index: 0;
             opacity: 0.6;
-            /* ВАЖНО: Пропускаем клики сквозь сферы, чтобы работал сброс меню */
             pointer-events: none; 
-            /* translate3d принудительно включает аппаратное ускорение на телефонах */
             animation: float 12s infinite ease-in-out alternate;
         }
 
@@ -145,18 +143,19 @@
         .expand-content.show { display: flex; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .inline-icon { width: 18px; height: 18px; vertical-align: text-bottom; margin-right: 6px; filter: invert(1) opacity(0.8); }
+        /* ИСПРАВЛЕНЫ МАЛЕНЬКИЕ ИКОНКИ В ТЕКСТЕ */
+        /* brightness(0) делает любую картинку черной, а invert(1) - чисто белой. */
+        .inline-icon { width: 18px; height: 18px; vertical-align: text-bottom; margin-right: 6px; filter: brightness(0) invert(1); opacity: 0.8; }
+        
         .footer { margin-top: 25px; font-size: 10px; color: #52525b; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;}
 
-        /* Нижние иконки соцсетей */
+        /* ИСПРАВЛЕНЫ НИЖНИЕ ИКОНКИ */
         .bottom-icons { display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 18px; z-index: 2; opacity: 0; animation: iconsAppear 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 0.4s; }
         @keyframes iconsAppear { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .bottom-icon-link { color: #ffffff; opacity: 0.4; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; }
+        /* Базовая непрозрачность увеличена с 0.4 до 0.6, чтобы они не были слишком темными */
+        .bottom-icon-link { color: #ffffff; opacity: 0.6; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; }
         .bottom-icon-link:hover { opacity: 1; transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 4px 8px rgba(255,255,255,0.2));}
         .bottom-icon-svg { width: 28px; height: 28px; fill: currentColor; }
-        
-        /* Возвращаем класс для картинки Steam */
-        .bottom-icon-img { width: 28px; height: 28px; object-fit: contain; filter: invert(1); }
 
         /* 🎵 ПЛЕЕР (Жидкое стекло) */
         .bottom-player-wrapper { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 420px; z-index: 999; }
@@ -209,7 +208,6 @@
         .playlist-item:hover { background: rgba(255, 255, 255, 0.08); color: #fff; padding-left: 25px;}
         .playlist-item.active { color: #fff; font-weight: 600; background: rgba(255, 255, 255, 0.05); border-left: 4px solid #06b6d4; padding-left: 20px;}
 
-        /* Кастомный скроллбар */
         .playlist-menu::-webkit-scrollbar { width: 5px; }
         .playlist-menu::-webkit-scrollbar-track { background: transparent; margin: 10px 0;}
         .playlist-menu::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
@@ -217,7 +215,6 @@
 </head>
 <body>
 
-    <!-- ФОНОВЫЕ СФЕРЫ -->
     <div class="orb-1"></div>
     <div class="orb-2"></div>
 
@@ -230,7 +227,6 @@
         <div class="username">@c4elovek-cmd</div>
 
         <p class="bio">
-            <!-- Исправлен путь, т.к. ты перенес иконку в папку svg -->
             <img src="svg/warning-circle.svg" alt="warning" class="inline-icon" onerror="this.src='warning-circle-svgrepo-com.svg'">
             Сайт сделан потому что были деньги которые надо было потратить. Здесь собраны все актуальные ссылки для связи со мной и мои текущие проекты.
         </p>
@@ -256,7 +252,6 @@
                 <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
             </button>
             <div id="expand-content" class="expand-content">
-                <!-- Исправлен путь, т.к. ты перенес иконку в папку svg -->
                 <img src="svg/info-square.svg" alt="info" class="inline-icon" onerror="this.src='info-square-svgrepo-com.svg'">
                 рагнарог
             </div>
@@ -268,9 +263,11 @@
     </div>
 
     <div class="bottom-icons">
+        <!-- 🔥 СЮДА ВШИТ ВЕКТОРНЫЙ STEAM 🔥 -->
         <a href="https://steamcommunity.com/id/xxxc4elovekxxx/" target="_blank" class="bottom-icon-link" title="Мой Steam">
-            <!-- Возвращена поддержка файла svg/steam.svg с инверсией цвета -->
-            <img src="svg/steam.svg" alt="steam" class="bottom-icon-img" />
+            <svg class="bottom-icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.979 0C5.362 0 .001 5.36.001 11.979c0 5.485 3.69 10.106 8.745 11.533L12 18.252a4.428 4.428 0 0 0-1.748.361l-3.328-4.802c.045-.045.093-.092.143-.135a5.556 5.556 0 0 1 8.877-1.121 5.55 5.55 0 0 1 1.258 6.551 5.555 5.555 0 0 1-5.111 2.87c-.894 0-1.761-.212-2.544-.61L6.155 24c1.802.441 3.7.452 5.52.032 5.864-1.34 9.885-6.792 9.885-12.875C23.958 5.36 18.596 0 11.979 0zM15.46 12.012a3.024 3.024 0 0 0-2.315 4.887 3.024 3.024 0 0 0 4.81-2.42 3.023 3.023 0 0 0-2.495-2.467zm-1.026 3.655a1.503 1.503 0 0 1-1.332-2.181 1.502 1.502 0 0 1 2.457 1.238 1.502 1.502 0 0 1-1.125.943zm-4.707 3.23l2.87-1.196a4.4 4.4 0 0 0 .866 1.134l-2.607 1.086a2.477 2.477 0 1 1-1.129-1.024z"/>
+            </svg>
         </a>
         <a href="https://soundcloud.com" target="_blank" class="bottom-icon-link" title="Мой SoundCloud">
             <svg class="bottom-icon-svg" viewBox="0 0 30 30" fill="currentColor">
@@ -279,11 +276,9 @@
         </a>
     </div>
 
-    <!-- Аудио-элемент -->
     <audio id="bg-music" src="" loop></audio>
 
     <div class="bottom-player-wrapper">
-        <!-- Меню выбора треков -->
         <div id="playlist-menu" class="playlist-menu">
             <div style="text-align:center; padding: 10px; color:#a1a1aa; font-size:13px;">Загрузка треков...</div>
         </div>
@@ -300,7 +295,6 @@
                     <span id="player-status" class="track-status">Кликните плей</span>
                 </div>
 
-                <!-- Кнопка списка треков -->
                 <button id="toggle-playlist-btn" class="playlist-toggle-btn" title="Показать весь плейлист">
                     <svg viewBox="0 0 24 24"><path d="M3 18h12v-2H3v2zM3 6v2h18V6H3zm0 7h18v-2H3v2z"/></svg>
                 </button>
@@ -315,16 +309,15 @@
     </div>
 
     <script>
-        // Спойлер
         const expandBtn = document.getElementById('expand-btn');
         const expandContent = document.getElementById('expand-content');
+        
         expandBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Отменяем всплытие, чтобы не сработало общее скрытие
+            e.stopPropagation(); 
             expandBtn.classList.toggle('active');
             expandContent.classList.toggle('show');
         });
 
-        // Копирование Discord
         const discordBtn = document.getElementById('discord-btn');
         const discordText = document.getElementById('discord-text');
         discordBtn.addEventListener('click', (e) => {
@@ -336,7 +329,6 @@
             }).catch(err => console.error('Ошибка копирования: ', err));
         });
 
-        // 🚨 ЧЕРНЫЙ СПИСОК ТРЕКОВ 🚨
         const BLACKLIST = [
             "Странный",
             "Её парень",
@@ -374,7 +366,6 @@
 
         let playlist = [];
 
-        // Загрузка playlist.json и фильтрация
         fetch('playlist.json')
             .then(response => response.json())
             .then(data => {
@@ -405,7 +396,7 @@
                 item.className = 'playlist-item';
                 item.innerText = cleanName;
                 item.onclick = (e) => {
-                    e.stopPropagation(); // Чтобы меню закрывалось корректно
+                    e.stopPropagation(); 
                     loadTrack(index, true);
                     playlistMenu.classList.remove('show');
                 };
@@ -441,13 +432,11 @@
             playlistMenu.classList.toggle('show');
         });
 
-        // 🚨 ФУНКЦИЯ ЗАКРЫТИЯ ПРИ КЛИКЕ В ЛЮБОЕ МЕСТО ЭКРАНА
+        // 🔥 КЛИК В ЛЮБУЮ ЧАСТЬ ЭКРАНА ДЛЯ ЗАКРЫТИЯ 🔥
         window.addEventListener('click', (e) => {
-            // Закрываем меню плейлиста, если кликнули мимо него и мимо кнопки
             if (!playlistMenu.contains(e.target) && !togglePlaylistBtn.contains(e.target)) {
                 playlistMenu.classList.remove('show');
             }
-            // Закрываем спойлер "Доп. информация", если кликнули мимо него и мимо кнопки
             if (!expandContent.contains(e.target) && !expandBtn.contains(e.target)) {
                 expandContent.classList.remove('show');
                 expandBtn.classList.remove('active');
