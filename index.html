@@ -359,9 +359,8 @@
             }).catch(err => console.error('Ошибка копирования: ', err));
         });
 
-        const BLACKLIST = [
+        // Полностью пустой черный список
         const BLACKLIST = [];
-
 
         const audio = document.getElementById('bg-music');
         const playBtn = document.getElementById('play-btn');
@@ -377,7 +376,6 @@
         let playlist = [];
         let currentTrackIndex = 0;
 
-        // ИСПРАВЛЕНИЕ: Жесткий обход кэша
         fetch('playlist.json', { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
