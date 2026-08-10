@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>c4elovek | Персональная страница</title>
     
-    <!-- Подключаем шрифт Rubik Maze из Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Maze&display=swap" rel="stylesheet">
@@ -20,15 +19,16 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* Применяем новый шрифт ко всему сайту */
             font-family: "Rubik Maze", system-ui, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* ИСПРАВЛЕНИЕ СКРОЛЛА: Разрешаем вертикальную прокрутку */
         html, body {
             width: 100%;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto; 
             position: relative;
             background-color: #000000;
         }
@@ -37,14 +37,14 @@
             color: #ffffff;
             display: flex;
             flex-direction: column; 
-            justify-content: center;
+            justify-content: flex-start; /* Чтобы верх не обрезался на мелких экранах */
             align-items: center;
-            padding: 20px 20px 130px 20px; 
+            padding: 40px 20px 150px 20px; /* Отступы, чтобы плеер ничего не перекрывал */
         }
 
-        /* 🔮 Сферы */
+        /* Сферы теперь привязаны к экрану (fixed), чтобы фон не уезжал при скролле */
         .orb-1, .orb-2 {
-            position: absolute;
+            position: fixed; 
             border-radius: 50%;
             filter: blur(50px);
             z-index: 0;
@@ -68,8 +68,9 @@
             top: 0; left: 0; 
         }
 
-        /* 🧊 Обертки */
+        /* Обертка центрируется через margin: auto 0 */
         .gradient-border-wrap {
+            margin: auto 0;
             position: relative;
             border-radius: 32px;
             padding: 2px; 
@@ -113,19 +114,20 @@
         .avatar-container:hover .avatar { transform: scale(1.05); }
         .avatar-container:hover::before { opacity: 0.9; }
 
-        h1 { font-size: 28px; font-weight: normal; margin-bottom: 2px; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(255,255,255,0.3); }
-        .username { font-size: 16px; color: #a3a3a3; font-weight: normal; margin-bottom: 15px; letter-spacing: 1px; }
-        .bio { font-size: 15px; color: #d4d4d4; line-height: 1.6; margin-bottom: 25px; font-weight: normal; }
+        /* Чуть-чуть уменьшил шрифты, так как Rubik Maze очень крупный */
+        h1 { font-size: 26px; font-weight: normal; margin-bottom: 2px; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(255,255,255,0.3); }
+        .username { font-size: 14px; color: #a3a3a3; font-weight: normal; margin-bottom: 15px; letter-spacing: 1px; }
+        .bio { font-size: 14px; color: #d4d4d4; line-height: 1.6; margin-bottom: 25px; font-weight: normal; }
 
         .links-container { display: flex; flex-direction: column; gap: 12px; }
         .link-item {
             display: flex; align-items: center; justify-content: center; gap: 12px;
-            padding: 14px 20px; 
+            padding: 12px 18px; 
             background: rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-top: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 18px; color: #ffffff; text-decoration: none; font-size: 17px; font-weight: normal;
+            border-radius: 18px; color: #ffffff; text-decoration: none; font-size: 15px; font-weight: normal;
             transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer;
         }
         .link-item:hover { 
@@ -137,19 +139,19 @@
         .icon { width: 22px; height: 22px; fill: currentColor; flex-shrink: 0; }
 
         .expand-container { display: flex; flex-direction: column; align-items: flex-start; margin-top: 18px; width: 100%; }
-        .expand-btn { background: none; border: none; cursor: pointer; padding: 5px 0; display: flex; align-items: center; gap: 6px; outline: none; color: #9ca3af; font-size: 15px; font-weight: normal; transition: color 0.3s ease; }
+        .expand-btn { background: none; border: none; cursor: pointer; padding: 5px 0; display: flex; align-items: center; gap: 6px; outline: none; color: #9ca3af; font-size: 14px; font-weight: normal; transition: color 0.3s ease; }
         .expand-btn svg { width: 20px; height: 20px; fill: currentColor; transition: transform 0.3s ease; }
         .expand-btn:hover { color: #ffffff; }
         .expand-btn.active svg { transform: rotate(180deg); }
-        .expand-content { display: none; align-items: center; margin-top: 10px; padding: 12px 16px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; color: #e5e5e5; font-size: 15px; width: 100%; text-align: left; }
+        .expand-content { display: none; align-items: center; margin-top: 10px; padding: 12px 16px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; color: #e5e5e5; font-size: 14px; width: 100%; text-align: left; }
         .expand-content.show { display: flex; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
         .inline-icon { width: 18px; height: 18px; vertical-align: text-bottom; margin-right: 6px; filter: brightness(0) invert(1); opacity: 1; }
         
-        .footer { margin-top: 25px; font-size: 12px; color: #71717a; letter-spacing: 2px; text-transform: uppercase; font-weight: normal;}
+        .footer { margin-top: 25px; font-size: 10px; color: #71717a; letter-spacing: 2px; text-transform: uppercase; font-weight: normal;}
 
-        .bottom-icons { display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 18px; z-index: 2; opacity: 0; animation: iconsAppear 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 0.4s; }
+        .bottom-icons { display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 20px; z-index: 2; opacity: 0; animation: iconsAppear 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 0.4s; }
         @keyframes iconsAppear { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
         .bottom-icon-link { color: #ffffff; opacity: 0.7; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; }
@@ -196,8 +198,8 @@
         .play-pause-btn svg { width: 18px; height: 18px; fill: currentColor; }
 
         .track-meta { display: flex; flex-direction: column; overflow: hidden; flex-grow: 1; }
-        .track-name { font-size: 16px; font-weight: normal; color: #ffffff; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 5px rgba(0,0,0,0.8);}
-        .track-status { font-size: 12px; color: #a1a1aa; margin-top: 2px; font-weight: normal; letter-spacing: 1px;}
+        .track-name { font-size: 14px; font-weight: normal; color: #ffffff; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 5px rgba(0,0,0,0.8);}
+        .track-status { font-size: 11px; color: #a1a1aa; margin-top: 2px; font-weight: normal; letter-spacing: 1px;}
 
         .playlist-toggle-btn { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; cursor: pointer; color: #fff; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; padding: 8px; }
         .playlist-toggle-btn:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); border-color: rgba(255,255,255,0.3);}
@@ -213,7 +215,7 @@
         .playlist-menu.show { display: flex; animation: menuFadeIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
         @keyframes menuFadeIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
         
-        .playlist-item { padding: 14px 20px; font-size: 15px; color: #a1a1aa; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; min-height: 44px; line-height: 1.2;}
+        .playlist-item { padding: 14px 20px; font-size: 14px; color: #a1a1aa; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; min-height: 44px; line-height: 1.2;}
         .playlist-item:last-child { border-bottom: none; }
         .playlist-item:hover { background: rgba(255, 255, 255, 0.1); color: #fff; padding-left: 25px;}
         .playlist-item.active { color: #fff; font-weight: normal; background: rgba(255, 255, 255, 0.08); border-left: 4px solid #ffffff; padding-left: 20px;}
@@ -276,7 +278,7 @@
 
     <div class="bottom-icons">
         <a href="https://steamcommunity.com/id/xxxc4elovekxxx/" target="_blank" class="bottom-icon-link" title="Мой Steam">
-            <svg class="bottom-icon-svg" viewBox="0 0 32 32" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" xmlns="http://www.w3.org/2000/svg">
+            <svg class="bottom-icon-svg" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.974 0c-8.401 0-15.292 6.479-15.943 14.714l8.573 3.547c0.729-0.495 1.604-0.786 2.552-0.786 0.083 0 0.167 0.005 0.25 0.005l3.813-5.521v-0.078c0-3.328 2.703-6.031 6.031-6.031s6.036 2.708 6.036 6.036c0 3.328-2.708 6.031-6.036 6.031h-0.135l-5.438 3.88c0 0.073 0.005 0.141 0.005 0.214 0 2.5-2.021 4.526-4.521 4.526-2.177 0-4.021-1.563-4.443-3.635l-6.135-2.542c1.901 6.719 8.063 11.641 15.391 11.641 8.833 0 15.995-7.161 15.995-16s-7.161-16-15.995-16zM10.052 24.281l-1.964-0.813c0.349 0.724 0.953 1.328 1.755 1.667 1.729 0.719 3.724-0.104 4.443-1.833 0.349-0.844 0.349-1.76 0.005-2.599-0.344-0.844-1-1.495-1.839-1.844-0.828-0.349-1.719-0.333-2.5-0.042l2.026 0.839c1.276 0.536 1.88 2 1.349 3.276s-2 1.88-3.276 1.349zM25.271 11.875c0-2.214-1.802-4.021-4.016-4.021-2.224 0-4.021 1.807-4.021 4.021 0 2.219 1.797 4.021 4.021 4.021 2.214 0 4.016-1.802 4.016-4.021zM18.245 11.87c0-1.672 1.349-3.021 3.016-3.021s3.026 1.349 3.026 3.021c0 1.667-1.359 3.021-3.026 3.021s-3.016-1.354-3.016-3.021z"/>
             </svg>
         </a>
@@ -321,7 +323,6 @@
     </div>
 
     <script>
-        // 🔮 СКРИПТ ДЛЯ РАНДОМНОГО ПОЛЕТА СФЕР
         function moveOrbs() {
             const orb1 = document.getElementById('orb1');
             const orb2 = document.getElementById('orb2');
@@ -398,10 +399,10 @@
         const togglePlaylistBtn = document.getElementById('toggle-playlist-btn');
 
         let playlist = [];
-        // ВАЖНО: Добавлена переменная для хранения текущего трека
         let currentTrackIndex = 0;
 
-        fetch('playlist.json')
+        // ИСПРАВЛЕНИЕ: Добавлен сброс кэша (?nocache=...) при загрузке JSON
+        fetch('playlist.json?nocache=' + new Date().getTime())
             .then(response => response.json())
             .then(data => {
                 playlist = data.filter(fileName => {
@@ -411,7 +412,6 @@
 
                 if(playlist.length > 0) {
                     buildPlaylistMenu();
-                    // Загружаем нулевой трек, но не включаем
                     loadTrack(0, false); 
                 } else {
                     trackNameEl.innerText = "Плейлист пуст";
@@ -458,12 +458,11 @@
             }
         }
 
-        // ВАЖНО: Логика для включения именно следующего трека
         function playNextTrack() {
             if (playlist.length === 0) return;
             currentTrackIndex++;
             if (currentTrackIndex >= playlist.length) {
-                currentTrackIndex = 0; // Если конец - начинаем с первого
+                currentTrackIndex = 0; 
             }
             loadTrack(currentTrackIndex, true);
         }
@@ -473,11 +472,9 @@
             playlistMenu.classList.toggle('show');
         });
 
-        // 🔥 КЛИК В ЛЮБУЮ ЧАСТЬ ЭКРАНА ДЛЯ ЗАКРЫТИЯ МЕНЮ И СТАРТА МУЗЫКИ 🔥
         let hasStartedPlaying = false;
         
         window.addEventListener('click', (e) => {
-            // Закрываем менюхи
             if (!playlistMenu.contains(e.target) && !togglePlaylistBtn.contains(e.target)) {
                 playlistMenu.classList.remove('show');
             }
@@ -486,7 +483,6 @@
                 expandBtn.classList.remove('active');
             }
             
-            // Если музыка еще ни разу не включалась и стоит на паузе - стартуем
             if (!hasStartedPlaying && audio.paused && playlist.length > 0) {
                 togglePlay(true);
                 hasStartedPlaying = true;
@@ -519,10 +515,9 @@
         playBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             togglePlay();
-            hasStartedPlaying = true; // Отмечаем, что мы уже стартанули руками
+            hasStartedPlaying = true; 
         });
 
-        // ВАЖНО: Когда трек закончился, вызываем функцию playNextTrack
         audio.addEventListener('ended', playNextTrack);
     </script>
 </body>
