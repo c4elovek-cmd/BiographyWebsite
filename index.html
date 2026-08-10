@@ -43,8 +43,11 @@
             border-radius: 50%;
             filter: blur(60px);
             z-index: 0;
-            animation: float 12s infinite ease-in-out alternate;
             opacity: 0.6;
+            /* ВАЖНО: Пропускаем клики сквозь сферы, чтобы работал сброс меню */
+            pointer-events: none; 
+            /* translate3d принудительно включает аппаратное ускорение на телефонах */
+            animation: float 12s infinite ease-in-out alternate;
         }
 
         .orb-1 {
@@ -66,9 +69,9 @@
         }
 
         @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(30px, 40px) scale(1.1); }
-            100% { transform: translate(-20px, 60px) scale(0.9); }
+            0% { transform: translate3d(0px, 0px, 0) scale(1); }
+            50% { transform: translate3d(30px, 40px, 0) scale(1.1); }
+            100% { transform: translate3d(-20px, 60px, 0) scale(0.9); }
         }
 
         /* 🧊 Жидкое стекло (Glassmorphism) */
@@ -77,8 +80,8 @@
             backdrop-filter: blur(35px);
             -webkit-backdrop-filter: blur(35px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.25); /* Глянцевый блик сверху */
-            border-left: 1px solid rgba(255, 255, 255, 0.15); /* Блик слева */
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 32px;
             padding: 30px 25px 25px 25px; 
             width: 100%;
@@ -151,6 +154,9 @@
         .bottom-icon-link { color: #ffffff; opacity: 0.4; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; }
         .bottom-icon-link:hover { opacity: 1; transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 4px 8px rgba(255,255,255,0.2));}
         .bottom-icon-svg { width: 28px; height: 28px; fill: currentColor; }
+        
+        /* Возвращаем класс для картинки Steam */
+        .bottom-icon-img { width: 28px; height: 28px; object-fit: contain; filter: invert(1); }
 
         /* 🎵 ПЛЕЕР (Жидкое стекло) */
         .bottom-player-wrapper { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 420px; z-index: 999; }
@@ -224,7 +230,8 @@
         <div class="username">@c4elovek-cmd</div>
 
         <p class="bio">
-            <img src="warning-circle-svgrepo-com.svg" alt="warning" class="inline-icon">
+            <!-- Исправлен путь, т.к. ты перенес иконку в папку svg -->
+            <img src="svg/warning-circle.svg" alt="warning" class="inline-icon" onerror="this.src='warning-circle-svgrepo-com.svg'">
             Сайт сделан потому что были деньги которые надо было потратить. Здесь собраны все актуальные ссылки для связи со мной и мои текущие проекты.
         </p>
 
@@ -249,7 +256,8 @@
                 <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
             </button>
             <div id="expand-content" class="expand-content">
-                <img src="info-square-svgrepo-com.svg" alt="info" class="inline-icon">
+                <!-- Исправлен путь, т.к. ты перенес иконку в папку svg -->
+                <img src="svg/info-square.svg" alt="info" class="inline-icon" onerror="this.src='info-square-svgrepo-com.svg'">
                 рагнарог
             </div>
         </div>
@@ -261,9 +269,8 @@
 
     <div class="bottom-icons">
         <a href="https://steamcommunity.com/id/xxxc4elovekxxx/" target="_blank" class="bottom-icon-link" title="Мой Steam">
-            <svg class="bottom-icon-svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M11.979 0C5.362 0 .001 5.36.001 11.979c0 5.485 3.69 10.106 8.745 11.533L12 18.252a4.428 4.428 0 0 0-1.748.361l-3.328-4.802c.045-.045.093-.092.143-.135a5.556 5.556 0 0 1 8.877-1.121 5.55 5.55 0 0 1 1.258 6.551 5.555 5.555 0 0 1-5.111 2.87c-.894 0-1.761-.212-2.544-.61L6.155 24c1.802.441 3.7.452 5.52.032 5.864-1.34 9.885-6.792 9.885-12.875C23.958 5.36 18.596 0 11.979 0zM15.46 12.012a3.024 3.024 0 0 0-2.315 4.887 3.024 3.024 0 0 0 4.81-2.42 3.023 3.023 0 0 0-2.495-2.467zm-1.026 3.655a1.503 1.503 0 0 1-1.332-2.181 1.502 1.502 0 0 1 2.457 1.238 1.502 1.502 0 0 1-1.125.943zm-4.707 3.23l2.87-1.196a4.4 4.4 0 0 0 .866 1.134l-2.607 1.086a2.477 2.477 0 1 1-1.129-1.024z"/>
-            </svg>
+            <!-- Возвращена поддержка файла svg/steam.svg с инверсией цвета -->
+            <img src="svg/steam.svg" alt="steam" class="bottom-icon-img" />
         </a>
         <a href="https://soundcloud.com" target="_blank" class="bottom-icon-link" title="Мой SoundCloud">
             <svg class="bottom-icon-svg" viewBox="0 0 30 30" fill="currentColor">
@@ -311,7 +318,8 @@
         // Спойлер
         const expandBtn = document.getElementById('expand-btn');
         const expandContent = document.getElementById('expand-content');
-        expandBtn.addEventListener('click', () => {
+        expandBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Отменяем всплытие, чтобы не сработало общее скрытие
             expandBtn.classList.toggle('active');
             expandContent.classList.toggle('show');
         });
@@ -396,7 +404,8 @@
                 let item = document.createElement('div');
                 item.className = 'playlist-item';
                 item.innerText = cleanName;
-                item.onclick = () => {
+                item.onclick = (e) => {
+                    e.stopPropagation(); // Чтобы меню закрывалось корректно
                     loadTrack(index, true);
                     playlistMenu.classList.remove('show');
                 };
@@ -432,9 +441,16 @@
             playlistMenu.classList.toggle('show');
         });
 
+        // 🚨 ФУНКЦИЯ ЗАКРЫТИЯ ПРИ КЛИКЕ В ЛЮБОЕ МЕСТО ЭКРАНА
         window.addEventListener('click', (e) => {
+            // Закрываем меню плейлиста, если кликнули мимо него и мимо кнопки
             if (!playlistMenu.contains(e.target) && !togglePlaylistBtn.contains(e.target)) {
                 playlistMenu.classList.remove('show');
+            }
+            // Закрываем спойлер "Доп. информация", если кликнули мимо него и мимо кнопки
+            if (!expandContent.contains(e.target) && !expandBtn.contains(e.target)) {
+                expandContent.classList.remove('show');
+                expandBtn.classList.remove('active');
             }
         });
 
