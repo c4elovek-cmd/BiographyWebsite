@@ -397,9 +397,14 @@
         let playlist = [];
         let currentTrackIndex = 0;
 
-        // ИСПРАВЛЕНИЕ: Убрал ?nocache=, чтобы избежать блокировки браузером
-        fetch('playlist.json')
-            .then(response => response.json())
+        // ИСПРАВЛЕНИЕ: Жесткий обход кэша
+        fetch('playlist.json', { cache: 'no-store' })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 playlist = data.filter(fileName => {
                     const nameLower = fileName.toLowerCase();
