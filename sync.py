@@ -63,9 +63,15 @@ def sync_tracks():
 
 def update_playlist_json():
     print("4. Обновляю playlist.json...")
+    # Собираем только файлы .mp3
     tracks = [os.path.basename(f) for f in glob.glob(f'{SAVE_DIR}/*.mp3')]
+    
+    # ОЧЕНЬ ВАЖНО: Принудительно задаем кодировку utf-8 и запрещаем 
+    # преобразовывать русские буквы в "кракозябры" (ensure_ascii=False)
+    # separators=(',', ':') делает файл компактным и убирает лишние пробелы, 
+    # где может спрятаться ошибка.
     with open('playlist.json', 'w', encoding='utf-8') as f:
-        json.dump(tracks, f, ensure_ascii=False)
+        json.dump(tracks, f, ensure_ascii=False, indent=2, separators=(',', ': '))
 
 def push_to_github():
     print("5. Отправляю изменения на GitHub...")
