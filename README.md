@@ -1,4 +1,4 @@
 # Biography Website
-Buyed on: https://namecheap.com <br>
-Site: https://c4elovek.online <br>
+**Buyed on:** [namecheap.com](https://namecheap.com) <br>
+__Site:__ [c4elovek.online](https://c4elovek.online) <br>
 **Hosting on:** [github.com](https://github.com)
