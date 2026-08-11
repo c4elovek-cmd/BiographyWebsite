@@ -5,89 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>c4elovek | Персональная страница</title>
     
+    <!-- Подключаем шрифт Rubik Glitch для имени -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik+Maze&display=swap" rel="stylesheet">
-
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/site.webmanifest">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap" rel="stylesheet">
 
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: "Rubik Maze", system-ui, sans-serif;
+            font-family: sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
-        html, body {
-            width: 100%;
-            min-height: 100vh;
-            overflow-x: hidden;
-            overflow-y: auto; 
-            position: relative;
-            background-color: #000000;
-        }
-
         body {
+            background-color: #000000;
             color: #ffffff;
             display: flex;
-            flex-direction: column; 
-            justify-content: flex-start; 
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 40px 20px 150px 20px; 
+            min-height: 100vh;
+            overflow: hidden; /* Скрываем полосы прокрутки для фоновой анимации */
+            position: relative;
         }
 
+        /* ----------------------------------------------------------- */
+        /* ЗАДАЧА 1: ФОНОВЫЕ ЭЛЕМЕНТЫ (КРУГИ ДЛЯ ЭФФЕКТА СТЕКЛА) */
+        /* ----------------------------------------------------------- */
         .orb-1, .orb-2 {
-            position: fixed; 
+            position: absolute;
             border-radius: 50%;
             filter: blur(50px);
             z-index: 0;
             opacity: 0.8;
-            pointer-events: none; 
-            transition: transform 10s ease-in-out; 
-            will-change: transform;
+            pointer-events: none; /* Круги не мешают кликам */
+            animation: orbMove 15s ease-in-out infinite alternate;
         }
 
         .orb-1 {
-            width: 320px;
-            height: 320px;
+            width: 280px;
+            height: 280px;
             background: linear-gradient(135deg, #ffffff, #333333);
-            top: 0; left: 0; 
+            top: 20%;
+            left: 10%;
         }
 
         .orb-2 {
-            width: 380px;
-            height: 380px;
+            width: 350px;
+            height: 350px;
             background: linear-gradient(135deg, #777777, #111111);
-            top: 0; left: 0; 
+            bottom: 15%;
+            right: 5%;
+            animation-delay: -5s; /* Разная фаза анимации */
         }
 
-        .gradient-border-wrap {
-            margin: auto 0;
-            position: relative;
-            border-radius: 32px;
-            padding: 2px; 
-            background: linear-gradient(135deg, #ffffff 0%, #111111 50%, #ffffff 100%);
-            width: 100%;
+        @keyframes orbMove {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(50px, -30px) scale(1.1); }
+            100% { transform: translate(-30px, 50px); }
+        }
+
+        /* ----------------------------------------------------------- */
+        /* ЗАДАЧА 1: КАРТОЧКА В СТИЛЕ "ЖИДКОГО СТЕКЛА" */
+        /* ----------------------------------------------------------- */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03); /* Очень прозрачный фон */
+            backdrop-filter: blur(40px) saturate(180%); /* Ключевой эффект: сильное размытие и насыщенность */
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            
+            border-radius: 30px;
+            
+            /* Тонкий, преломляющий свет край (край жидкого стекла) */
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            
+            /* Мягкая тень и свечение края */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8),
+                        inset 0 0 1px rgba(255, 255, 255, 0.1); 
+
+            padding: 30px 25px 25px 25px;
+            width: calc(100% - 40px);
             max-width: 420px;
-            z-index: 2;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
-            animation: glassAppear 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        .card {
-            background: rgba(12, 12, 12, 0.8); 
-            backdrop-filter: blur(35px);
-            -webkit-backdrop-filter: blur(35px);
-            border-radius: 30px; 
-            padding: 28px 25px 23px 25px; 
-            width: 100%;
-            height: 100%;
             text-align: center;
+            z-index: 10;
+            position: relative;
+            animation: glassAppear 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         @keyframes glassAppear {
@@ -95,411 +98,735 @@
             to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
 
-        .avatar-container { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
-        .avatar-container::before {
-            content: ''; position: absolute; top: -4%; left: -4%; right: -4%; bottom: -4%;
-            background: linear-gradient(45deg, #ffffff, #444444);
-            border-radius: 50%; z-index: -1; filter: blur(12px); opacity: 0.6;
-            transition: opacity 0.5s ease;
+        /* Элементы внутри карточки */
+        .avatar-container {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 15px auto;
+            position: relative;
         }
+
+        .avatar-container::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            background: linear-gradient(45deg, #ffffff, #444444);
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+
         .avatar {
-            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
             border: 2px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
-            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        .avatar-container:hover .avatar { transform: scale(1.05); }
-        .avatar-container:hover::before { opacity: 0.9; }
 
-        h1 { font-size: 26px; font-weight: normal; margin-bottom: 2px; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(255,255,255,0.3); }
-        .username { font-size: 14px; color: #a3a3a3; font-weight: normal; margin-bottom: 15px; letter-spacing: 1px; }
-        .bio { font-size: 14px; color: #d4d4d4; line-height: 1.6; margin-bottom: 25px; font-weight: normal; }
+        h1 {
+            font-family: "Rubik Glitch", system-ui, sans-serif;
+            font-size: 28px;
+            font-weight: normal;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.3);
+        }
 
-        .links-container { display: flex; flex-direction: column; gap: 12px; }
+        .username {
+            font-size: 14px;
+            color: #a1a1aa;
+            font-weight: normal;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .bio {
+            font-size: 14px;
+            color: #d4d4d8;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: normal;
+        }
+
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
         .link-item {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            padding: 12px 18px; 
-            background: rgba(255, 255, 255, 0.05); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 18px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: normal;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .link-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .icon {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        .expand-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            outline: none;
+            color: #9ca3af;
+            font-size: 14px;
+            font-weight: normal;
+            transition: color 0.3s ease;
+        }
+
+        .expand-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-btn:hover {
+            color: #ffffff;
+        }
+
+        .expand-btn.active svg {
+            transform: rotate(180deg);
+        }
+
+        .expand-content {
+            display: none;
+            align-items: center;
+            margin-top: 10px;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: #e5e5e5;
+            font-size: 14px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .expand-content.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .inline-icon {
+            width: 18px;
+            height: 18px;
+            vertical-align: text-bottom;
+            margin-right: 6px;
+            filter: brightness(0) invert(1);
+        }
+        
+        .footer {
+            margin-top: 30px;
+            font-size: 10px;
+            color: #71717a;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: normal;
+        }
+
+        /* ----------------------------------------------------------- */
+        /* ЗАДАЧА 3: ЗНАЧКИ СТИМА И СК ПОД КАРТОЧКОЙ */
+        /* ----------------------------------------------------------- */
+        .bottom-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 25px; /* Отступ от карточки */
+            z-index: 2; /* Над кругами */
+            opacity: 0;
+            animation: iconsAppear 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 0.4s;
+        }
+
+        @keyframes iconsAppear {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bottom-icon-link {
+            color: #ffffff;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bottom-icon-link:hover {
+            opacity: 1;
+            transform: scale(1.15) translateY(-2px);
+            filter: drop-shadow(0 4px 8px rgba(255,255,255,0.4));
+        }
+
+        .bottom-icon-svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+        }
+
+        /* 🎵 ПЛЕЕР (НИЖНЯЯ ПАНЕЛЬ) */
+        .bottom-player {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 420px;
+            background: rgba(12, 12, 12, 0.6); /* Полупрозрачный для эффекта */
+            backdrop-filter: blur(40px); /* Сильное размытие, как у карточки */
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-top: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 18px; color: #ffffff; text-decoration: none; font-size: 15px; font-weight: normal;
-            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer;
-        }
-        .link-item:hover { 
-            background: rgba(255, 255, 255, 0.15); 
-            border-color: rgba(255, 255, 255, 0.4); 
-            transform: translateY(-3px); 
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); 
-        }
-        .icon { width: 22px; height: 22px; fill: currentColor; flex-shrink: 0; }
-
-        .expand-container { display: flex; flex-direction: column; align-items: flex-start; margin-top: 18px; width: 100%; }
-        .expand-btn { background: none; border: none; cursor: pointer; padding: 5px 0; display: flex; align-items: center; gap: 6px; outline: none; color: #9ca3af; font-size: 14px; font-weight: normal; transition: color 0.3s ease; }
-        .expand-btn svg { width: 20px; height: 20px; fill: currentColor; transition: transform 0.3s ease; }
-        .expand-btn:hover { color: #ffffff; }
-        .expand-btn.active svg { transform: rotate(180deg); }
-        .expand-content { display: none; align-items: center; margin-top: 10px; padding: 12px 16px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; color: #e5e5e5; font-size: 14px; width: 100%; text-align: left; }
-        .expand-content.show { display: flex; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-
-        .inline-icon { width: 18px; height: 18px; vertical-align: text-bottom; margin-right: 6px; filter: brightness(0) invert(1); opacity: 1; }
-        
-        .footer { margin-top: 25px; font-size: 10px; color: #71717a; letter-spacing: 2px; text-transform: uppercase; font-weight: normal;}
-
-        .bottom-icons { display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 20px; z-index: 2; opacity: 0; animation: iconsAppear 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 0.4s; }
-        @keyframes iconsAppear { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .bottom-icon-link { color: #ffffff; opacity: 0.7; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; }
-        .bottom-icon-link:hover { opacity: 1; transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 4px 8px rgba(255,255,255,0.4));}
-        .bottom-icon-svg { width: 28px; height: 28px; fill: currentColor; }
-
-        /* 🎵 ПЛЕЕР */
-        .bottom-player-wrapper { 
-            position: fixed; 
-            bottom: 15px; left: 50%; 
-            transform: translateX(-50%); 
-            width: calc(100% - 40px); 
-            max-width: 420px; 
-            z-index: 999; 
-        }
-
-        .player-gradient-wrap {
-            padding: 2px;
-            border-radius: 26px;
-            background: linear-gradient(135deg, #ffffff 0%, #111111 50%, #ffffff 100%);
+            border-radius: 24px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+            z-index: 999; /* Поверх всего */
             animation: playerSlideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
             animation-delay: 0.2s;
             opacity: 0;
-            transform: translateY(100px);
+            transform: translate(-50%, 100px);
         }
 
-        .bottom-player { 
-            width: 100%; 
-            background: rgba(12, 12, 12, 0.8); 
-            backdrop-filter: blur(40px); 
-            -webkit-backdrop-filter: blur(40px); 
-            border-radius: 24px; 
-            padding: 12px 20px; 
-            display: flex; align-items: center; justify-content: space-between; 
-            position: relative; 
+        @keyframes playerSlideUp {
+            to { transform: translate(-50%, 0); opacity: 1; }
         }
-        @keyframes playerSlideUp { to { transform: translateY(0); opacity: 1; } }
         
-        .player-controls { display: flex; align-items: center; gap: 15px; width: 100%; }
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
         
-        .play-pause-btn { background: #ffffff; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #000000; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); flex-shrink: 0; box-shadow: 0 4px 15px rgba(255,255,255,0.2);}
-        .play-pause-btn:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(255,255,255,0.4); }
-        .play-pause-btn svg { width: 18px; height: 18px; fill: currentColor; }
+        .play-pause-btn {
+            background: #ffffff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #000000;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+        }
 
-        .track-meta { display: flex; flex-direction: column; overflow: hidden; flex-grow: 1; }
-        .track-name { font-size: 14px; font-weight: normal; color: #ffffff; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 5px rgba(0,0,0,0.8);}
-        .track-status { font-size: 11px; color: #a1a1aa; margin-top: 2px; font-weight: normal; letter-spacing: 1px;}
+        .play-pause-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(255,255,255,0.4);
+        }
 
-        .playlist-toggle-btn { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; cursor: pointer; color: #fff; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; padding: 8px; }
-        .playlist-toggle-btn:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); border-color: rgba(255,255,255,0.3);}
-        .playlist-toggle-btn svg { width: 20px; height: 20px; fill: currentColor; }
+        .play-pause-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
 
-        .equalizer { display: flex; align-items: flex-end; gap: 3px; width: 18px; height: 16px; flex-shrink: 0; margin-left: 5px;}
-        .eq-bar { width: 4px; height: 100%; background: #ffffff; transform-origin: bottom; animation: bounce 0.5s ease-in-out infinite alternate; animation-play-state: paused; border-radius: 2px; box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);}
-        .equalizer.playing .eq-bar { animation-play-state: running; }
-        .eq-bar:nth-child(1) { animation-duration: 0.4s; } .eq-bar:nth-child(2) { animation-duration: 0.7s; background: #aaaaaa; box-shadow: 0 0 8px rgba(170, 170, 170, 0.5);} .eq-bar:nth-child(3) { animation-duration: 0.5s; }
-        @keyframes bounce { 0% { transform: scaleY(0.15); } 100% { transform: scaleY(1); } }
+        .track-meta {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-grow: 1;
+        }
 
-        .playlist-menu { position: absolute; bottom: 85px; left: 0; width: 100%; max-height: 280px; background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px); border: 1px solid rgba(255, 255, 255, 0.15); border-top: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; overflow-y: auto; display: none; flex-direction: column; padding: 8px 0; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9); z-index: 1000; }
-        .playlist-menu.show { display: flex; animation: menuFadeIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        @keyframes menuFadeIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .track-name {
+            font-size: 14px;
+            font-weight: normal;
+            color: #ffffff;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.8);
+        }
+
+        .track-status {
+            font-size: 11px;
+            color: #a1a1aa;
+            margin-top: 2px;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        .playlist-toggle-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            cursor: pointer;
+            color: #fff;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+        }
+
+        .playlist-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .playlist-toggle-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .equalizer {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            width: 18px;
+            height: 16px;
+            flex-shrink: 0;
+            margin-left: 5px;
+        }
+
+        .eq-bar {
+            width: 4px;
+            height: 100%;
+            background: #ffffff;
+            transform-origin: bottom;
+            animation: bounce 0.5s ease-in-out infinite alternate;
+            animation-play-state: paused;
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        .equalizer.playing .eq-bar {
+            animation-play-state: running;
+        }
+
+        .eq-bar:nth-child(1) { animation-duration: 0.4s; }
+        .eq-bar:nth-child(2) { animation-duration: 0.7s; background: #aaaaaa; box-shadow: 0 0 8px rgba(170, 170, 170, 0.5);}
+        .eq-bar:nth-child(3) { animation-duration: 0.5s; }
+
+        @keyframes bounce {
+            0% { transform: scaleY(0.15); }
+            100% { transform: scaleY(1); }
+        }
+
+        /* Меню плейлиста */
+        .playlist-menu {
+            position: fixed;
+            bottom: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 420px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            flex-direction: column;
+            padding: 8px 0;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+            z-index: 998;
+        }
+
+        .playlist-menu.show {
+            display: flex;
+            animation: menuFadeIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes menuFadeIn {
+            from { opacity: 0; transform: translate(-50%, 10px) scale(0.98); }
+            to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+        }
         
-        .playlist-item { padding: 14px 20px; font-size: 14px; color: #a1a1aa; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; min-height: 44px; line-height: 1.2;}
-        .playlist-item:last-child { border-bottom: none; }
-        .playlist-item:hover { background: rgba(255, 255, 255, 0.1); color: #fff; padding-left: 25px;}
-        .playlist-item.active { color: #fff; font-weight: normal; background: rgba(255, 255, 255, 0.08); border-left: 4px solid #ffffff; padding-left: 20px;}
+        .playlist-item {
+            padding: 14px 20px;
+            font-size: 14px;
+            color: #a1a1aa;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
 
-        .playlist-menu::-webkit-scrollbar { width: 5px; }
-        .playlist-menu::-webkit-scrollbar-track { background: transparent; margin: 10px 0;}
-        .playlist-menu::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.25); border-radius: 10px; }
+        .playlist-item:last-child {
+            border-bottom: none;
+        }
+
+        .playlist-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding-left: 25px;
+        }
+
+        .playlist-item.active {
+            color: #fff;
+            font-weight: normal;
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 4px solid #ffffff;
+            padding-left: 20px;
+        }
+
+        /* Стилизация скроллбара меню */
+        .playlist-menu::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .playlist-menu::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 10px 0;
+        }
+
+        .playlist-menu::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="orb-1" id="orb1"></div>
-    <div class="orb-2" id="orb2"></div>
+    <!-- Фоновые "жидкие" сферы -->
+    <div class="orb-1"></div>
+    <div class="orb-2"></div>
 
-    <div class="gradient-border-wrap">
-        <div class="card">
-            <div class="avatar-container">
-                <img src="avatar.png" alt="c4elovek avatar" class="avatar">
-            </div>
-
-            <h1>c4elovek</h1>
-            <div class="username">@c4elovek-cmd</div>
-
-            <p class="bio">
-                <img src="svg/warning-circle.svg" alt="warning" class="inline-icon" onerror="this.src='warning-circle-svgrepo-com.svg'">
-                Сайт сделан потому что были деньги которые надо было потратить. Здесь собраны все актуальные ссылки для связи со мной и мои текущие проекты.
-            </p>
-
-            <div class="links-container">
-                <a href="https://t.me/pick4x3" target="_blank" class="link-item">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.62.15-.15 2.7-2.46 2.75-2.67.01-.03.01-.14-.06-.2-.07-.06-.17-.04-.24-.02-.1.02-1.69 1.07-4.77 3.14-.45.31-.86.46-1.22.45-.4-.01-1.17-.23-1.74-.41-.7-.23-1.25-.35-1.2-.74.03-.2.3-.41.82-.62 3.2-1.39 5.34-2.31 6.42-2.76 3.07-1.28 3.71-1.5 4.13-1.51.09 0 .3.02.44.14.12.1.15.24.16.34.01.06.02.21 0 .34z"/></svg>
-                    Telegram
-                </a>
-                <a href="https://github.com/c4elovek-cmd" target="_blank" class="link-item">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
-                    GitHub
-                </a>
-                <a href="#" id="discord-btn" class="link-item">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-                        <span id="discord-text">Discord: _c4elovek_</span>
-                    </a>
-                </div>
-
-                <div class="expand-container">
-                    <button id="expand-btn" class="expand-btn" title="Развернуть информацию">
-                        Доп. информация
-                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-                    </button>
-                    <div id="expand-content" class="expand-content">
-                        <img src="svg/info-square.svg" alt="info" class="inline-icon" onerror="this.src='info-square-svgrepo-com.svg'">
-                        рагнарог
-                    </div>
-                </div>
-
-                <div class="footer">
-                    © 2026 c4elovek.online
-                </div>
-            </div>
+    <!-- Основная карточка (Стиль: Жидкое стекло) -->
+    <div class="glass-card">
+        <div class="avatar-container">
+            <img src="avatar.png" alt="c4elovek avatar" class="avatar">
         </div>
 
-        <div class="bottom-icons">
-            <a href="https://steamcommunity.com/id/xxxc4elovekxxx/" target="_blank" class="bottom-icon-link" title="Мой Steam">
-                <svg class="bottom-icon-svg" viewBox="0 0 32 32" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15.974 0c-8.401 0-15.292 6.479-15.943 14.714l8.573 3.547c0.729-0.495 1.604-0.786 2.552-0.786 0.083 0 0.167 0.005 0.25 0.005l3.813-5.521v-0.078c0-3.328 2.703-6.031 6.031-6.031s6.036 2.708 6.036 6.036c0 3.328-2.708 6.031-6.036 6.031h-0.135l-5.438 3.88c0 0.073 0.005 0.141 0.005 0.214 0 2.5-2.021 4.526-4.521 4.526-2.177 0-4.021-1.563-4.443-3.635l-6.135-2.542c1.901 6.719 8.063 11.641 15.391 11.641 8.833 0 15.995-7.161 15.995-16s-7.161-16-15.995-16zM10.052 24.281l-1.964-0.813c0.349 0.724 0.953 1.328 1.755 1.667 1.729 0.719 3.724-0.104 4.443-1.833 0.349-0.844 0.349-1.76 0.005-2.599-0.344-0.844-1-1.495-1.839-1.844-0.828-0.349-1.719-0.333-2.5-0.042l2.026 0.839c1.276 0.536 1.88 2 1.349 3.276s-2 1.88-3.276 1.349zM25.271 11.875c0-2.214-1.802-4.021-4.016-4.021-2.224 0-4.021 1.807-4.021 4.021 0 2.219 1.797 4.021 4.021 4.021 2.214 0 4.016-1.802 4.016-4.021zM18.245 11.87c0-1.672 1.349-3.021 3.016-3.021s3.026 1.349 3.026 3.021c0 1.667-1.359 3.021-3.026 3.021s-3.016-1.354-3.016-3.021z"/>
-                </svg>
+        <h1>c4elovek</h1>
+        <p class="username">@c4elovek-cmd</p>
+
+        <p class="bio">
+            <img src="https://img.icons8.com/m_outlined/ffffff/info.png" alt="info" class="inline-icon">
+            Сайт сделан потому что были деньги которые надо было потратить. Здесь собраны все актуальные ссылки для связи со мной и мои текущие проекты.
+        </p>
+
+        <div class="links-container">
+            <a href="https://t.me/pick4x3" target="_blank" class="link-item">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.62.15-.15 2.7-2.46 2.75-2.67.01-.03.01-.14-.06-.2-.07-.06-.17-.04-.24-.02-.1.02-1.69 1.07-4.77 3.14-.45.31-.86.46-1.22.45-.4-.01-1.17-.23-1.74-.41-.7-.23-1.25-.35-1.2-.74.03-.2.3-.41.82-.62 3.2-1.39 5.34-2.31 6.42-2.76 3.07-1.28 3.71-1.5 4.13-1.51.09 0 .3.02.44.14.12.1.15.24.16.34.01.06.02.21 0 .34z"/></svg>
+                Telegram
             </a>
-            <a href="https://soundcloud.com" target="_blank" class="bottom-icon-link" title="Мой SoundCloud">
-                <svg class="bottom-icon-svg" viewBox="0 0 30 30" fill="currentColor">
-                    <path d="M 18.398438 8.9726562 C 17.565438 8.9726562 16.755109 9.1351094 16.037109 9.4121094 C 15.759109 9.5201094 15.686594 9.6316563 15.683594 9.8476562 L 15.683594 21.558594 C 15.686594 21.784594 15.860078 21.959422 16.080078 21.982422 C 16.089078 21.983422 26.308594 21.982422 26.308594 21.982422 C 28.346594 21.982422 29.998047 20.348547 29.998047 18.310547 C 29.999047 16.271547 28.348547 14.619141 26.310547 14.619141 C 25.805547 14.619141 25.321812 14.72125 24.882812 14.90625 C 24.589813 11.58125 21.799437 8.9726562 18.398438 8.9726562 z M 14.929688 9.8359375 C 14.832688 9.8359375 14.742828 9.8716875 14.673828 9.9296875 C 14.583828 10.003687 14.525438 10.115234 14.523438 10.240234 L 14.523438 10.283203 L 14.357422 18.554688 L 14.441406 20.082031 L 14.523438 21.570312 C 14.526438 21.790312 14.709641 21.972656 14.931641 21.972656 C 15.150332 21.972656 15.332785 21.793449 15.337891 21.572266 L 15.337891 21.568359 L 15.517578 18.554688 L 15.337891 10.242188 C 15.333891 10.094187 15.253719 9.9655312 15.136719 9.8945312 C 15.075719 9.8575312 15.004687 9.8359375 14.929688 9.8359375 z M 13.669922 10.552734 C 13.594922 10.552734 13.524844 10.574281 13.464844 10.613281 C 13.360844 10.680281 13.291062 10.798641 13.289062 10.931641 L 13.289062 11.003906 L 13.146484 18.550781 C 13.146484 18.555781 13.289062 21.615234 13.289062 21.615234 C 13.289062 21.620234 13.289062 21.623906 13.289062 21.628906 C 13.294063 21.713906 13.326906 21.791516 13.378906 21.853516 C 13.448906 21.937516 13.554875 21.992187 13.671875 21.992188 C 13.774875 21.992188 13.8695 21.950859 13.9375 21.880859 C 14.0055 21.812859 14.049781 21.716328 14.050781 21.611328 L 14.066406 21.308594 L 14.210938 18.552734 L 14.050781 10.929688 C 14.047781 10.800688 13.980859 10.685188 13.880859 10.617188 C 13.819859 10.576187 13.746922 10.552734 13.669922 10.552734 z M 9.9023438 11.427734 C 9.7363437 11.427734 9.6026562 11.561469 9.5976562 11.730469 L 9.4082031 18.550781 L 9.5976562 21.681641 C 9.6026563 21.849641 9.7363438 21.982422 9.9023438 21.982422 C 10.067344 21.982422 10.199078 21.849688 10.205078 21.679688 L 10.419922 18.550781 L 10.205078 11.730469 C 10.199078 11.560469 10.067344 11.427734 9.9023438 11.427734 z M 11.148438 11.576172 C 10.967438 11.576172 10.823359 11.720297 10.818359 11.904297 L 10.644531 18.552734 L 10.818359 21.652344 C 10.822359 21.834344 10.966484 21.978516 11.146484 21.978516 C 11.325836 21.978516 11.470584 21.833439 11.476562 21.650391 L 11.671875 18.550781 L 11.476562 11.902344 C 11.472562 11.719344 11.328437 11.576172 11.148438 11.576172 z M 8.6640625 11.675781 C 8.5130625 11.675781 8.3917188 11.796172 8.3867188 11.951172 L 8.1835938 18.550781 L 8.3867188 21.701172 C 8.3927188 21.855172 8.5130625 21.976562 8.6640625 21.976562 C 8.8134341 21.976562 8.9364183 21.857191 8.9433594 21.703125 L 8.9433594 21.701172 L 9.1738281 18.552734 L 8.9433594 11.951172 C 8.9373594 11.796172 8.8140625 11.675781 8.6640625 11.675781 z M 12.402344 11.792969 C 12.207344 11.792969 12.051828 11.949484 12.048828 12.146484 L 11.890625 18.550781 L 12.048828 21.632812 C 12.052828 21.828813 12.206344 21.984375 12.402344 21.984375 C 12.596029 21.984375 12.751809 21.83085 12.757812 21.634766 L 12.757812 21.630859 L 12.935547 18.552734 L 12.757812 12.146484 C 12.754812 11.948484 12.597344 11.792969 12.402344 11.792969 z M 7.4199219 12.226562 C 7.2839219 12.226562 7.1720156 12.336562 7.1660156 12.476562 L 6.9472656 18.566406 L 7.1660156 21.751953 C 7.1720156 21.890953 7.2839219 22 7.4199219 22 C 7.5543002 22 7.6659189 21.889079 7.671875 21.75 L 7.9199219 18.568359 L 7.671875 12.476562 C 7.665875 12.335563 7.5549219 12.226562 7.4199219 12.226562 z M 6.2207031 13.367188 C 6.0997031 13.367188 6.0001406 13.464797 5.9941406 13.591797 L 5.7597656 18.548828 L 5.9941406 21.751953 C 6.0011406 21.876953 6.0997031 21.976563 6.2207031 21.976562 C 6.3407031 21.976562 6.4402656 21.877953 6.4472656 21.751953 L 6.7128906 18.548828 L 6.4472656 13.591797 C 6.4402656 13.466797 6.3407031 13.367188 6.2207031 13.367188 z M 3.8164062 15.091797 C 3.7234063 15.091797 3.647625 15.164672 3.640625 15.263672 L 3.3769531 18.548828 L 3.640625 21.724609 C 3.648625 21.822609 3.7234062 21.898438 3.8164062 21.898438 C 3.9084063 21.898438 3.9832344 21.823609 3.9902344 21.724609 L 4.2929688 18.548828 L 3.9902344 15.263672 C 3.9822344 15.165672 3.9084062 15.091797 3.8164062 15.091797 z M 2.6289062 15.203125 C 2.5489062 15.203125 2.4865156 15.264609 2.4785156 15.349609 L 2.1972656 18.546875 L 2.4785156 21.626953 C 2.4855156 21.711953 2.5499062 21.773437 2.6289062 21.773438 C 2.7069062 21.773438 2.7683438 21.711953 2.7773438 21.626953 L 3.0957031 18.546875 L 2.7773438 15.349609 C 2.7673437 15.265609 2.7069062 15.203125 2.6289062 15.203125 z M 5.0136719 15.302734 C 4.9056719 15.302734 4.8175469 15.387953 4.8105469 15.501953 L 4.5625 18.548828 L 4.8105469 21.751953 C 4.8175469 21.863953 4.9056719 21.949219 5.0136719 21.949219 C 5.1206719 21.949219 5.2068437 21.865953 5.2148438 21.751953 L 5.4980469 18.548828 L 5.2148438 15.5 C 5.2078438 15.387 5.1206719 15.302734 5.0136719 15.302734 z M 1.4472656 15.732422 C 1.3832656 15.732422 1.3312656 15.783516 1.3222656 15.853516 L 1.0273438 18.546875 L 1.3222656 21.181641 C 1.3302656 21.251641 1.3832656 21.302734 1.4472656 21.302734 C 1.5102656 21.302734 1.5612656 21.252641 1.5722656 21.181641 L 1.9082031 18.546875 L 1.5722656 15.853516 C 1.5622656 15.782516 1.5112656 15.732422 1.4472656 15.732422 z M 0.33984375 16.763672 C 0.27684375 16.763672 0.22675 16.812859 0.21875 16.880859 L 0 18.546875 L 0.21875 20.185547 C 0.22675 20.254547 0.27784375 20.302734 0.33984375 20.302734 C 0.40084375 20.302734 0.44898438 20.253547 0.45898438 20.185547 L 0.71875 18.546875 L 0.45898438 16.880859 C 0.44998438 16.812859 0.40084375 16.763672 0.33984375 16.763672 z"></path>
-                </svg>
+            <a href="https://github.com/c4elovek-cmd" target="_blank" class="link-item">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                GitHub
+            </a>
+            <a href="#" id="discord-btn" class="link-item">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                <span id="discord-text">Discord: _c4elovek_</span>
             </a>
         </div>
 
-        <!-- 🔥 ВОТ ТЕГ AUDIO 🔥 -->
-        <audio id="bg-music" src=""></audio>
-
-        <!-- Обертка плеера -->
-        <div class="bottom-player-wrapper">
-            <div id="playlist-menu" class="playlist-menu">
-                <div style="text-align:center; padding: 10px; color:#a1a1aa; font-size:13px;">Загрузка треков...</div>
-            </div>
-
-            <div class="player-gradient-wrap">
-                <div class="bottom-player">
-                    <div class="player-controls">
-                        <button id="play-btn" class="play-pause-btn" title="Play">
-                            <svg id="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            <svg id="icon-pause" viewBox="0 0 24 24" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                        </button>
-                        
-                        <div class="track-meta">
-                            <span id="track-name" class="track-name">Ожидание...</span>
-                            <span id="player-status" class="track-status">Кликните плей</span>
-                        </div>
-
-                        <button id="toggle-playlist-btn" class="playlist-toggle-btn" title="Показать весь плейлист">
-                            <svg viewBox="0 0 24 24"><path d="M3 18h12v-2H3v2zM3 6v2h18V6H3zm0 7h18v-2H3v2z"/></svg>
-                        </button>
-
-                        <div id="eq" class="equalizer">
-                            <div class="eq-bar"></div>
-                            <div class="eq-bar"></div>
-                            <div class="eq-bar"></div>
-                        </div>
-                    </div>
-                </div>
+        <div class="expand-container">
+            <button id="expand-btn" class="expand-btn">
+                Доп. информация
+                <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+            </button>
+            <div id="expand-content" class="expand-content">
+                <img src="svg/info-square.svg" alt="info" class="inline-icon">
+                рагнарог
             </div>
         </div>
 
-        <script>
-            function moveOrbs() {
-                const orb1 = document.getElementById('orb1');
-                const orb2 = document.getElementById('orb2');
-                
-                const maxX = window.innerWidth;
-                const maxY = window.innerHeight;
+        <div class="footer">
+            © 2026 c4elovek.online
+        </div>
+    </div>
 
-                const randomX1 = Math.floor(Math.random() * maxX) - 150; 
-                const randomY1 = Math.floor(Math.random() * maxY) - 150;
-                
-                const randomX2 = Math.floor(Math.random() * maxX) - 150;
-                const randomY2 = Math.floor(Math.random() * maxY) - 150;
+    <!-- ----------------------------------------------------------- -->
+    <!-- ЗАДАЧА 3: ЗНАЧКИ СТИМА И СК ПОД КАРТОЧКОЙ -->
+    <!-- ----------------------------------------------------------- -->
+    <div class="bottom-icons">
+        <a href="https://steamcommunity.com/id/c4elovek/" target="_blank" class="bottom-icon-link" title="My Steam">
+            <svg class="bottom-icon-svg" viewBox="0 0 32 32" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"><path d="M15.974 0C7.159 0 0 7.159 0 15.974S7.159 31.948 15.974 31.948 31.948 24.789 31.948 15.974 24.789 0 15.974 0zm0 1.834c7.808 0 14.139 6.331 14.139 14.139S23.782 30.113 15.974 30.113c-.947 0-1.868-.094-2.763-.27l-7.797-3.327c.451.32.993.511 1.58.511.238 0 .463-.03.681-.086l6.634-9.351.055-.008c2.403 0 4.352-1.948 4.352-4.351s-1.949-4.351-4.352-4.351c-2.403 0-4.351 1.948-4.351 4.351a4.32 4.32 0 0 0 .548 2.083l-6.804 9.58c-1.539.068-2.784 1.341-2.784 2.91 0 1.611 1.306 2.917 2.917 2.917 1.258 0 2.327-.8 2.73-1.91l6.702 2.859c-.642-.236-1.107-.847-1.107-1.571 0-1.189.964-2.152 2.153-2.152a2.14 2.14 0 0 1 .465.05l5.244-3.743c0 .06.006.118.006.179 0 2.593-2.102 4.695-4.695 4.695-2.593 0-4.695-2.102-4.695-4.695a4.673 4.673 0 0 1 .15-.828l-6.601 9.304-.15-.008a1.6 1.6 0 0 1-.22-.016l-6.529-2.785A14.07 14.07 0 0 1 1.834 15.974c0-7.808 6.331-14.139 14.139-14.139zm-10.963 17.58l1.328-1.87c.394.137.822.213 1.267.213.111 0 .219-.005.326-.014l-1.332 1.875a.82.82 0 0 1-.274.026.83.83 0 0 1-.222-.023c.319 0 .616-.118.847-.315l1.332-1.875a1.8 1.8 0 0 0 .378-.04c.159 0 .313-.017.463-.048l-1.328 1.87c-.31-.1-.652-.162-1.008-.162a2.13 2.13 0 0 0-.411.042c-.417.158-.756.463-.941.85a.846.846 0 0 1 .153.228 2.12 2.12 0 0 1 .01.12c.189-.136.42-.218.672-.218.257 0 .493.085.683.228 1.258 0 2.279 1.02 2.279 2.278S13.064 26.65 11.806 26.65s-2.279-1.021-2.279-2.278c0-.687.305-1.303.784-1.72l-1.328 1.87a.8.8 0 0 1-.16-.016.81.81 0 0 1-.2-.047c-.035 0-.069-.004-.103-.008-.258-.063-.483-.2-.656-.379-.319-.118-.585-.327-.775-.597a.82.82 0 0 1-.118-.04l1.332-1.875a2.14 2.14 0 0 0 .426-.048l-1.332 1.875a.84.84 0 0 1 .082.025c-.004 0-.007-.002-.01-.002-.042 0-.083.003-.124.008a2.14 2.14 0 0 0-.46.048zM15.974 6.883a4.673 4.673 0 0 1 .15-.828c2.593 0 4.695 2.102 4.695 4.695 0 2.593-2.102 4.695-4.695 4.695-2.593 0-4.695-2.102-4.695-4.695a4.673 4.673 0 0 1 .15-.828 2.13 2.13 0 0 1 .465.05l5.244-3.743c.006.111.006.223.006.335s-.006.224-.006.335a4.34 4.34 0 0 0-4.351-4.351s1.949-4.351 4.352-4.351c2.403 0 4.352 1.948 4.352 4.351 0 2.403-1.949 4.351-4.352 4.351zm-4.695-2.102c0 .061.006.12.006.18a2.14 2.14 0 0 1 .465.05l5.244-3.743c.006.111.006.224.006.335s-.006.223-.006.335a4.32 4.32 0 0 0-4.351-4.351z"/></svg>
+        </a>
+        <a href="https://soundcloud.com/you/likes" target="_blank" class="bottom-icon-link" title="SoundCloud Likes">
+            <svg class="bottom-icon-svg" viewBox="0 0 30 30" fill="currentColor">
+                <path d="M 18.398438 8.9726562 C 17.565438 8.9726562 16.755109 9.1351094 16.037109 9.4121094 C 15.759109 9.5201094 15.686594 9.6316563 15.683594 9.8476562 L 15.683594 21.558594 C 15.686594 21.784594 15.860078 21.959422 16.080078 21.982422 C 16.089078 21.983422 26.308594 21.982422 26.308594 21.982422 C 28.346594 21.982422 29.998047 20.348547 29.998047 18.310547 C 29.999047 16.271547 28.348547 14.619141 26.310547 14.619141 C 25.805547 14.619141 25.321812 14.72125 24.882812 14.90625 C 24.589813 11.58125 21.799437 8.9726562 18.398438 8.9726562 z M 14.929688 9.8359375 C 14.832688 9.8359375 14.742828 9.8716875 14.673828 9.9296875 C 14.583828 10.003687 14.525438 10.115234 14.523438 10.240234 L 14.523438 10.283203 L 14.357422 18.554688 L 14.441406 20.082031 L 14.523438 21.570312 C 14.526438 21.790312 14.709641 21.972656 14.931641 21.972656 C 15.150332 21.972656 15.332785 21.793449 15.337891 21.572266 L 15.337891 21.568359 L 15.517578 18.554688 L 15.337891 10.242188 C 15.333891 10.094187 15.253719 9.9655312 15.136719 9.8945312 C 15.075719 9.8575312 15.004687 9.8359375 14.929688 9.8359375 z M 13.669922 10.552734 C 13.594922 10.552734 13.524844 10.574281 13.464844 10.613281 C 13.360844 10.680281 13.291062 10.798641 13.289062 10.931641 L 13.289062 11.003906 L 13.146484 18.550781 C 13.146484 18.555781 13.289062 21.615234 13.289062 21.615234 C 13.289062 21.620234 13.289062 21.623906 13.289062 21.628906 C 13.294063 21.713906 13.326906 21.791516 13.378906 21.853516 C 13.448906 21.937516 13.554875 21.992187 13.671875 21.992188 C 13.774875 21.992188 13.8695 21.950859 13.9375 21.880859 C 14.0055 21.812859 14.049781 21.716328 14.050781 21.611328 L 14.066406 21.308594 L 14.210938 18.552734 L 14.050781 10.929688 C 14.047781 10.800688 13.980859 10.685188 13.880859 10.617188 C 13.819859 10.576187 13.746922 10.552734 13.669922 10.552734 z M 9.9023438 11.427734 C 9.7363437 11.427734 9.6026562 11.561469 9.5976562 11.730469 L 9.4082031 18.550781 L 9.5976562 21.681641 C 9.6026563 21.849641 9.7363438 21.982422 9.9023438 21.982422 C 10.067344 21.982422 10.199078 21.849688 10.205078 21.679688 L 10.419922 18.550781 L 10.205078 11.730469 C 10.199078 11.560469 10.067344 11.427734 9.9023438 11.427734 z M 11.148438 11.576172 C 10.967438 11.576172 10.823359 11.720297 10.818359 11.904297 L 10.644531 18.552734 L 10.818359 21.652344 C 10.822359 21.834344 10.966484 21.978516 11.146484 21.978516 C 11.325836 21.978516 11.470584 21.833439 11.476562 21.650391 L 11.671875 18.550781 L 11.476562 11.902344 C 11.472562 11.719344 11.328437 11.576172 11.148438 11.576172 z M 8.6640625 11.675781 C 8.5130625 11.675781 8.3917188 11.796172 8.3867188 11.951172 L 8.1835938 18.550781 L 8.3867188 21.701172 C 8.3927188 21.855172 8.5130625 21.976562 8.6640625 21.976562 C 8.8134341 21.976562 8.9364183 21.857191 8.9433594 21.703125 L 8.9433594 21.701172 L 9.1738281 18.552734 L 8.9433594 11.951172 C 8.9373594 11.796172 8.8140625 11.675781 8.6640625 11.675781 z M 12.402344 11.792969 C 12.207344 11.792969 12.051828 11.949484 12.048828 12.146484 L 11.890625 18.550781 L 12.048828 21.632812 C 12.052828 21.828813 12.206344 21.984375 12.402344 21.984375 C 12.596029 21.984375 12.751809 21.83085 12.757812 21.634766 L 12.757812 21.630859 L 12.935547 18.552734 L 12.757812 12.146484 C 12.754812 11.948484 12.597344 11.792969 12.402344 11.792969 z M 7.4199219 12.226562 C 7.2839219 12.226562 7.1720156 12.336562 7.1660156 12.476562 L 6.9472656 18.566406 L 7.1660156 21.751953 C 7.1720156 21.890953 7.2839219 22 7.4199219 22 C 7.5543002 22 7.6659189 21.889079 7.671875 21.75 L 7.9199219 18.568359 L 7.671875 12.476562 C 7.665875 12.335563 7.5549219 12.226562 7.4199219 12.226562 z M 6.2207031 13.367188 C 6.0997031 13.367188 6.0001406 13.464797 5.9941406 13.591797 L 5.7597656 18.548828 L 5.9941406 21.751953 C 6.0011406 21.876953 6.0997031 21.976563 6.2207031 21.976562 C 6.3407031 21.976562 6.4402656 21.877953 6.4472656 21.751953 L 6.7128906 18.548828 L 6.4472656 13.591797 C 6.4402656 13.466797 6.3407031 13.367188 6.2207031 13.367188 z M 3.8164062 15.091797 C 3.7234063 15.091797 3.647625 15.164672 3.640625 15.263672 L 3.3769531 18.548828 L 3.640625 21.724609 C 3.648625 21.822609 3.7234062 21.898438 3.8164062 21.898438 C 3.9084063 21.898438 3.9832344 21.823609 3.9902344 21.724609 L 4.2929688 18.548828 L 3.9902344 15.263672 C 3.9822344 15.165672 3.9084062 15.091797 3.8164062 15.091797 z M 2.6289062 15.203125 C 2.5489062 15.203125 2.4865156 15.264609 2.4785156 15.349609 L 2.1972656 18.546875 L 2.4785156 21.626953 C 2.4855156 21.711953 2.5499062 21.773437 2.6289062 21.773438 C 2.7069062 21.773438 2.7683438 21.711953 2.7773438 21.626953 L 3.0957031 18.546875 L 2.7773438 15.349609 C 2.7673437 15.265609 2.7069062 15.203125 2.6289062 15.203125 z M 5.0136719 15.302734 C 4.9056719 15.302734 4.8175469 15.387953 4.8105469 15.501953 L 4.5625 18.548828 L 4.8105469 21.751953 C 4.8175469 21.863953 4.9056719 21.949219 5.0136719 21.949219 C 5.1206719 21.949219 5.2068437 21.865953 5.2148438 21.751953 L 5.4980469 18.548828 L 5.2148438 15.5 C 5.2078438 15.387 5.1206719 15.302734 5.0136719 15.302734 z M 1.4472656 15.732422 C 1.3832656 15.732422 1.3312656 15.783516 1.3222656 15.853516 L 1.0273438 18.546875 L 1.3222656 21.181641 C 1.3302656 21.251641 1.3832656 21.302734 1.4472656 21.302734 C 1.5102656 21.302734 1.5612656 21.252641 1.5722656 21.181641 L 1.9082031 18.546875 L 1.5722656 15.853516 C 1.5622656 15.782516 1.5112656 15.732422 1.4472656 15.732422 z M 0.33984375 16.763672 C 0.27684375 16.763672 0.22675 16.812859 0.21875 16.880859 L 0 18.546875 L 0.21875 20.185547 C 0.22675 20.254547 0.27784375 20.302734 0.33984375 20.302734 C 0.40084375 20.302734 0.44898438 20.253547 0.45898438 20.185547 L 0.71875 18.546875 L 0.45898438 16.880859 C 0.44998438 16.812859 0.40084375 16.763672 0.33984375 16.763672 z"></path></svg>
+        </a>
+    </div>
 
-                orb1.style.transform = `translate(${randomX1}px, ${randomY1}px) scale(${Math.random() * 0.5 + 0.8})`;
-                orb2.style.transform = `translate(${randomX2}px, ${randomY2}px) scale(${Math.random() * 0.5 + 0.8})`;
+    <!-- 🎵 ПЛЕЕР (НИЖНЯЯ ПАНЕЛЬ) -->
+    <div class="bottom-player">
+        <audio id="bg-music" src="" loop></audio>
+        
+        <div class="player-controls">
+            <button id="play-btn" class="play-pause-btn" title="Play">
+                <svg id="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="icon-pause" viewBox="0 0 24 24" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            
+            <div class="track-meta">
+                <span id="track-name" class="track-name">Ничего не выбрано</span>
+                <span id="player-status" class="track-status">нажмите play</span>
+            </div>
+
+            <button id="toggle-playlist-btn" class="playlist-toggle-btn" title="Open Playlist">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/></svg>
+            </button>
+
+            <div id="eq" class="equalizer">
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Меню плейлиста -->
+    <div id="playlist-menu" class="playlist-menu">
+        <!-- Сюда JS добавит треки -->
+    </div>
+
+    <script>
+        // -----------------------------------------------------------
+        // ЗАДАЧА 2: БЛЭКЛИСТ ТРЕКОВ
+        // -----------------------------------------------------------
+        const BLACKLIST = [
+            'chainsaww',
+            'overdose',
+            'tesla'
+        ];
+
+        // 🎵 СПИСОК ТРЕКОВ
+        const playlistRaw = [
+            'chainsaww.mp3',
+            'everyday.mp3',
+            'overdose.mp3',
+            'rainy_day.mp3',
+            'tesla.mp3',
+            'cyberpunk.mp3'
+        ];
+
+        // Фильтруем плейлист, убирая треки из блэклиста
+        const playlist = playlistRaw.filter(track => {
+            const trackName = track.split('.mp3')[0];
+            return !BLACKLIST.includes(trackName);
+        });
+
+        // 🎵 ЭЛЕМЕНТЫ
+        const audio = document.getElementById('bg-music');
+        const playBtn = document.getElementById('play-btn');
+        const iconPlay = document.getElementById('icon-play');
+        const iconPause = document.getElementById('icon-pause');
+        const statusText = document.getElementById('player-status');
+        const trackNameEl = document.getElementById('track-name');
+        const eq = document.getElementById('eq');
+        const playlistMenu = document.getElementById('playlist-menu');
+        const togglePlaylistBtn = document.getElementById('toggle-playlist-btn');
+
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+
+        // 🎵 ИНИЦИАЛИЗАЦИЯ
+        function initPlayer() {
+            if (playlist.length > 0) {
+                loadTrack(currentTrackIndex);
+                buildPlaylistMenu();
+            } else {
+                trackNameEl.innerText = "Пустой плейлист";
+                statusText.innerText = "";
             }
+        }
 
-            setTimeout(moveOrbs, 100); 
-            setInterval(moveOrbs, 10000);
-
-            const expandBtn = document.getElementById('expand-btn');
-            const expandContent = document.getElementById('expand-content');
+        // 🎵 ЗАГРУЗКА ТРЕКА
+        function loadTrack(index) {
+            currentTrackIndex = index;
+            const fileName = playlist[index];
+            audio.src = `music/${fileName}`; // Путь к папке с музыкой
             
-            expandBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); 
-                expandBtn.classList.toggle('active');
-                expandContent.classList.toggle('show');
-            });
+            // Убираем расширение .mp3 и заменяем нижние подчеркивания
+            const cleanName = fileName.split('.mp3')[0].replace(/_/g, ' ');
+            trackNameEl.innerText = cleanName;
 
-            const discordBtn = document.getElementById('discord-btn');
-            const discordText = document.getElementById('discord-text');
-            discordBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                navigator.clipboard.writeText('_c4elovek_').then(() => {
-                    const originalText = discordText.innerText;
-                    discordText.innerText = 'Скопировано!';
-                    setTimeout(() => { discordText.innerText = originalText; }, 2000);
-                }).catch(err => console.error('Ошибка копирования: ', err));
-            });
+            // Обновляем активный трек в меню
+            updateActivePlaylistItem();
 
-            const BLACKLIST = [];
-
-            const audio = document.getElementById('bg-music');
-            const playBtn = document.getElementById('play-btn');
-            const iconPlay = document.getElementById('icon-play');
-            const iconPause = document.getElementById('icon-pause');
-            const statusText = document.getElementById('player-status');
-            const trackNameEl = document.getElementById('track-name');
-            const eq = document.getElementById('eq');
-            
-            const playlistMenu = document.getElementById('playlist-menu');
-            const togglePlaylistBtn = document.getElementById('toggle-playlist-btn');
-
-            let playlist = [];
-            let currentTrackIndex = 0;
-
-            fetch('playlist.json', { cache: 'no-store' })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    playlist = data.filter(fileName => {
-                        const nameLower = fileName.toLowerCase();
-                        return !BLACKLIST.some(badWord => nameLower.includes(badWord.toLowerCase()));
-                    });
-
-                    if(playlist.length > 0) {
-                        buildPlaylistMenu();
-                        loadTrack(0, false); 
-                    } else {
-                        trackNameEl.innerText = "Плейлист пуст";
-                        playlistMenu.innerHTML = '<div style="text-align:center; padding:15px; color:#a1a1aa;">Нет доступных треков</div>';
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    trackNameEl.innerText = "Ошибка списка";
-                    playlistMenu.innerHTML = '<div style="text-align:center; padding:15px; color:#ef4444;">Не удалось загрузить треки</div>';
+            // -----------------------------------------------------------
+            // ЗАДАЧА 4: КАРТИНКА И ДАННЫЕ В УВЕДОМЛЕНИИ
+            // -----------------------------------------------------------
+            // Как это работает: Мы используем MediaSession API. 
+            // Это стандартный способ сказать браузеру/телефону, что именно сейчас играет.
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: cleanName, // Название трека
+                    artist: 'c4elovek.online', // Исполнитель (имя твоего сайта)
+                    album: 'Likes Playlist', // Название альбома/плейлиста
+                    artwork: [
+                        // Ссылка на твой аватар. Браузер выберет лучшее разрешение.
+                        { src: 'avatar.png', sizes: '96x96', type: 'image/png' },
+                        { src: 'avatar.png', sizes: '128x128', type: 'image/png' },
+                        { src: 'avatar.png', sizes: '192x192', type: 'image/png' },
+                        { src: 'avatar.png', sizes: '256x256', type: 'image/png' },
+                        { src: 'avatar.png', sizes: '384x384', type: 'image/png' },
+                        { src: 'avatar.png', sizes: '512x512', type: 'image/png' },
+                    ]
                 });
 
-            function buildPlaylistMenu() {
-                playlistMenu.innerHTML = ''; 
-                playlist.forEach((file, index) => {
-                    let cleanName = file.replace('.mp3', '');
-                    let item = document.createElement('div');
-                    item.className = 'playlist-item';
-                    item.innerText = cleanName;
-                    item.onclick = (e) => {
-                        e.stopPropagation(); 
-                        loadTrack(index, true);
-                        playlistMenu.classList.remove('show');
-                    };
-                    playlistMenu.appendChild(item);
+                // Добавляем обработчики кнопок в уведомлении (на всякий случай)
+                navigator.mediaSession.setActionHandler('play', togglePlay);
+                navigator.mediaSession.setActionHandler('pause', togglePlay);
+            }
+        }
+
+        // 🎵 PLAY / PAUSE
+        function togglePlay() {
+            if (playlist.length === 0) return;
+
+            if (isPlaying) {
+                audio.pause();
+                iconPlay.style.display = 'block';
+                iconPause.style.display = 'none';
+                statusText.innerText = 'на паузе';
+                eq.classList.remove('playing');
+            } else {
+                audio.play();
+                iconPlay.style.display = 'none';
+                iconPause.style.display = 'block';
+                statusText.innerText = 'сейчас играет';
+                eq.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 🎵 МЕНЮ ПЛЕЙЛИСТА
+        function buildPlaylistMenu() {
+            playlistMenu.innerHTML = ''; // Очищаем
+            playlist.forEach((track, index) => {
+                const item = document.createElement('div');
+                item.className = 'playlist-item';
+                if (index === currentTrackIndex) item.classList.add('active');
+                
+                const cleanName = track.split('.mp3')[0].replace(/_/g, ' ');
+                item.innerText = `${index + 1}. ${cleanName}`;
+                
+                item.addEventListener('click', () => {
+                    loadTrack(index);
+                    if (!isPlaying) togglePlay(); // Сразу включаем, если стоял на паузе
+                    playlistMenu.classList.remove('show'); // Закрываем меню
                 });
-            }
-
-            function loadTrack(index, autoPlay = true) {
-                currentTrackIndex = index;
-                let file = playlist[index];
-                let cleanName = file.replace('.mp3', '');
                 
-                document.querySelectorAll('.playlist-item').forEach((el, i) => {
-                    if(i === index) el.classList.add('active');
-                    else el.classList.remove('active');
-                });
-
-                audio.src = 'music/' + encodeURIComponent(file);
-                trackNameEl.innerText = cleanName;
-                
-                if(autoPlay) {
-                    togglePlay(true);
-                }
-            }
-
-            function playNextTrack() {
-                if (playlist.length === 0) return;
-                currentTrackIndex++;
-                if (currentTrackIndex >= playlist.length) {
-                    currentTrackIndex = 0; 
-                }
-                loadTrack(currentTrackIndex, true);
-            }
-
-            togglePlaylistBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                playlistMenu.classList.toggle('show');
+                playlistMenu.appendChild(item);
             });
+        }
 
-            let hasStartedPlaying = false;
-            
-            window.addEventListener('click', (e) => {
-                if (!playlistMenu.contains(e.target) && !togglePlaylistBtn.contains(e.target)) {
-                    playlistMenu.classList.remove('show');
-                }
-                if (!expandContent.contains(e.target) && !expandBtn.contains(e.target)) {
-                    expandContent.classList.remove('show');
-                    expandBtn.classList.remove('active');
-                }
-                
-                if (!hasStartedPlaying && audio.paused && playlist.length > 0) {
-                    togglePlay(true);
-                    hasStartedPlaying = true;
-                }
-            });
-
-            function togglePlay(forcePlay = false) {
-                if (playlist.length === 0) return;
-                
-                if (audio.paused || forcePlay) {
-                    audio.play().then(() => {
-                        iconPlay.style.display = 'none';
-                        iconPause.style.display = 'block';
-                        statusText.innerText = 'сейчас играет';
-                        eq.classList.add('playing');
-                    }).catch(err => {
-                        console.log("Автозапуск заблокирован браузером.");
-                        iconPlay.style.display = 'block';
-                        iconPause.style.display = 'none';
-                    });
+        function updateActivePlaylistItem() {
+            const items = playlistMenu.querySelectorAll('.playlist-item');
+            items.forEach((item, index) => {
+                if (index === currentTrackIndex) {
+                    item.classList.add('active');
                 } else {
-                    audio.pause();
-                    iconPlay.style.display = 'block';
-                    iconPause.style.display = 'none';
-                    statusText.innerText = 'на паузе';
-                    eq.classList.remove('playing');
+                    item.classList.remove('active');
                 }
-            }
-
-            playBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                togglePlay();
-                hasStartedPlaying = true; 
             });
+        }
 
-            audio.addEventListener('ended', playNextTrack);
-        </script>
-    </body>
-    </html>
+        // 🎵 ИВЕНТЫ
+        playBtn.addEventListener('click', togglePlay);
+        
+        togglePlaylistBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Чтобы клик не улетел на body
+            playlistMenu.classList.toggle('show');
+        });
+
+        // Закрываем меню при клике вне его
+        document.addEventListener('click', (e) => {
+            if (playlistMenu.classList.contains('show') && !playlistMenu.contains(e.target) && e.target !== togglePlaylistBtn) {
+                playlistMenu.classList.remove('show');
+            }
+        });
+
+        // 🎵 ДОП. ИНФО (Аккордеон)
+        const expandBtn = document.getElementById('expand-btn');
+        const expandContent = document.getElementById('expand-content');
+
+        expandBtn.addEventListener('click', () => {
+            expandBtn.classList.toggle('active');
+            expandContent.classList.toggle('show');
+        });
+
+        // 🎵 Копирование Discord
+        const discordBtn = document.getElementById('discord-btn');
+        const discordText = document.getElementById('discord-text');
+
+        discordBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const textToCopy = '_c4elovek_';
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = discordText.innerText;
+                discordText.innerText = 'Скопировано!';
+                discordText.style.color = '#34d399'; // Зеленый цвет
+
+                setTimeout(() => {
+                    discordText.innerText = originalText;
+                    discordText.style.color = ''; // Сброс цвета
+                }, 2000);
+            }).catch(err => {
+                console.error('Не удалось скопировать: ', err);
+            });
+        });
+
+        // Запускаем плеер
+        initPlayer();
+
+    </script>
+
+</body>
+</html>
