@@ -3,8 +3,8 @@ import json
 import yt_dlp
 
 # --- НАСТРОЙКИ ---
-# Вставь сюда ссылку на то, откуда качать (твои лайки или плейлист на SoundCloud)
-PLAYLIST_URL = 'https://soundcloud.com/you/likes'
+# Теперь здесь твоя верная ссылка
+PLAYLIST_URL = 'https://soundcloud.com/c4elovechik/likes'
 
 MUSIC_DIR = 'music'
 OUTPUT_JSON = 'playlist.json'
@@ -21,32 +21,24 @@ BLACKLIST = [
 
 def sync_tracks():
     print("-" * 50)
-    print("1. Запуск yt-dlp: скачивание новых треков и обложек...")
+    print(f"1. Скачивание с {PLAYLIST_URL}...")
     print("-" * 50)
     
     if not os.path.exists(MUSIC_DIR):
         os.makedirs(MUSIC_DIR)
 
-    # Настройки yt-dlp
     ydl_opts = {
         'format': 'bestaudio/best',
         'outtmpl': f'{MUSIC_DIR}/%(title)s.%(ext)s',
-        'download_archive': ARCHIVE_FILE,  # Записываем скачанное, чтобы не качать дубли
-        'writethumbnail': True,            # Обязательно: качаем обложку трека
+        'download_archive': ARCHIVE_FILE,
+        'writethumbnail': True,
         'postprocessors': [
-            {
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            },
-            {
-                'key': 'FFmpegMetadata',   # Вшиваем метаданные (название, артист)
-            },
-            {
-                'key': 'EmbedThumbnail',   # Вшиваем саму картинку внутрь MP3 файла
-            }
+            {'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192'},
+            {'key': 'FFmpegThumbnailsConvertor', 'format': 'jpg'},
+            {'key': 'EmbedThumbnail'},
+            {'key': 'FFmpegMetadata', 'add_metadata': True}
         ],
-        'ignoreerrors': True,              # Не падаем, если трек заблокирован или удален
+        'ignoreerrors': True,
         'quiet': False
     }
 
@@ -58,49 +50,32 @@ def sync_tracks():
 
 def update_playlist_json():
     print("\n" + "-" * 50)
-    print("2. Генерация playlist.json и проверка блэклиста...")
+    print("2. Генерация playlist.json...")
     print("-" * 50)
     
     playlist = []
     ignored_count = 0
     
-    # Берем все mp3 файлы в папке
     files = [f for f in os.listdir(MUSIC_DIR) if f.lower().endswith('.mp3')]
-    
-    # Сортируем их (по алфавиту)
     files.sort()
 
     for filename in files:
         name_lower = filename.lower()
         
-        # Проверка по блэклисту
         if any(bad_word.lower() in name_lower for bad_word in BLACKLIST):
             print(f"[БЛЭКЛИСТ] Пропущен: {filename}")
             ignored_count += 1
-            
-            # Если хочешь, чтобы скрипт сразу удалял заблокированные треки с диска,
-            # просто убери решетки с трех строчек ниже:
-            # file_path = os.path.join(MUSIC_DIR, filename)
-            # if os.path.exists(file_path):
-            #     os.remove(file_path)
-            
             continue
 
         playlist.append(filename)
         print(f"[ДОБАВЛЕНО] {filename}")
 
-    # Перезаписываем JSON
     with open(OUTPUT_JSON, 'w', encoding='utf-8') as f:
         json.dump(playlist, f, ensure_ascii=False, indent=2)
     
     print("-" * 50)
     print(f"Готово! В плейлисте: {len(playlist)} треков. Скрыто: {ignored_count}")
-    print(f"Файл {OUTPUT_JSON} успешно обновлен.")
 
 if __name__ == "__main__":
-    # Сначала скачиваем новые треки и вшиваем в них картинки
     sync_tracks()
-    
-    # Затем собираем чистый список для сайта
     update_playlist_json()
-
