@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>c4elovek | Персональная страница</title>
     
-    <!-- Подключаем шрифт Rubik Maze -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Maze&display=swap" rel="stylesheet">
@@ -21,7 +20,7 @@
             margin: 0;
             padding: 0;
             font-family: sans-serif;
-            -webkit-tap-highlight-color: transparent;
+	    -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -66,7 +65,6 @@
             top: 0; left: 0; 
         }
 
-        /* Обертка для сохранения твоей градиентной обводки */
         .gradient-border-wrap {
             margin: auto 0;
             position: relative;
@@ -80,13 +78,12 @@
             animation: glassAppear 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        /* Применяем Rubik Maze только к телу карточки */
         .glass-card * {
             font-family: "Rubik Maze", system-ui, sans-serif;
         }
 
         /* ----------------------------------------------------------- */
-        /* УЛУЧШЕННАЯ КАРТОЧКА В СТИЛЕ "ЖИДКОГО СТЕКЛА" */
+        /* КАРТОЧКА В СТИЛЕ "ЖИДКОГО СТЕКЛА" */
         /* ----------------------------------------------------------- */
         .glass-card {
             background: rgba(255, 255, 255, 0.03); 
@@ -160,21 +157,21 @@
         .footer { margin-top: 25px; font-size: 10px; color: #71717a; letter-spacing: 2px; text-transform: uppercase; font-weight: normal;}
 
         /* ----------------------------------------------------------- */
-        /* ЗАДАЧА: ИСПРАВЛЕНО - ЗНАЧКИ ВНУТРИ КАРТОЧКИ, В САМОМ НИЗУ */
+        /* ЗНАЧКИ ВНУТРИ КАРТОЧКИ (СНИЗУ) */
         /* ----------------------------------------------------------- */
         .card-footer-icons {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 16px; /* Чуть меньше gap для компактности */
-            margin-top: 15px; /* Отступ от Футера */
+            gap: 16px;
+            margin-top: 15px; 
             padding-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05); /* Тонкая линия */
+            border-top: 1px solid rgba(255, 255, 255, 0.05); 
         }
         
         .bottom-icon-link {
             color: #ffffff;
-            opacity: 0.6; /* Больше прозрачности для СК */
+            opacity: 0.6; 
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
@@ -188,7 +185,7 @@
         }
 
         .bottom-icon-svg {
-            width: 24px; /* Меньше значки */
+            width: 24px; 
             height: 24px;
             fill: currentColor;
         }
@@ -216,7 +213,7 @@
 
         .bottom-player { 
             width: 100%; 
-            background: rgba(12, 12, 12, 0.6); /* Полупрозрачный фон плеера */
+            background: rgba(12, 12, 12, 0.6); 
             backdrop-filter: blur(40px); 
             -webkit-backdrop-filter: blur(40px); 
             border-radius: 24px; 
@@ -232,12 +229,12 @@
         .play-pause-btn:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(255,255,255,0.4); }
         .play-pause-btn svg { width: 18px; height: 18px; fill: currentColor; }
 
-        .track-meta { display: flex; flex-direction: column; overflow: hidden; flex-grow: 1; max-width: calc(100% - 150px); } /* max-width для meta */
+        .track-meta { display: flex; flex-direction: column; overflow: hidden; flex-grow: 1; max-width: calc(100% - 150px); } 
         .track-name { font-size: 14px; font-weight: normal; color: #ffffff; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 5px rgba(0,0,0,0.8);}
         .track-status { font-size: 11px; color: #a1a1aa; margin-top: 2px; font-weight: normal; letter-spacing: 1px;}
 
         /* ----------------------------------------------------------- */
-        /* ЗАДАЧА: СТИЛИ ПОЛЗУНКА ГРОМКОСТИ */
+        /* СТИЛИ ПОЛЗУНКА ГРОМКОСТИ */
         /* ----------------------------------------------------------- */
         .volume-control-wrap {
             display: flex;
@@ -259,17 +256,16 @@
 
         .volume-slider {
             -webkit-appearance: none;
-            width: 70px; /* Тонкий ползунок */
+            width: 70px; 
             height: 4px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 2px;
             outline: none;
-            opacity: 0; /* Скрыт по умолчанию */
+            opacity: 0; 
             transition: all 0.3s ease;
             cursor: pointer;
         }
         
-        /* Ползунок появляется при наведении на иконку или wrap */
         .volume-control-wrap:hover .volume-slider {
             opacity: 1;
             width: 70px;
@@ -362,48 +358,44 @@
                 © 2026 c4elovek.online
             </div>
 
-            <!-- ----------------------------------------------------------- -->
-            <!-- ЗАДАЧА: ИСПРАВЛЕНО - ЗНАЧКИ ВНУТРИ КАРТОЧКИ, В САМОМ НИЗУ -->
-            <!-- ----------------------------------------------------------- -->
             <div class="card-footer-icons">
                 <a href="https://steamcommunity.com/id/xxxc4elovekxxx/" target="_blank" class="bottom-icon-link" title="Мой Steam">
                     <svg class="bottom-icon-svg" viewBox="0 0 32 32" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15.974 0c-8.401 0-15.292 6.479-15.943 14.714l8.573 3.547c0.729-0.495 1.604-0.786 2.552-0.786 0.083 0 0.167 0.005 0.25 0.005l3.813-5.521v-0.078c0-3.328 2.703-6.031 6.031-6.031s6.036 2.708 6.036 6.036c0 3.328-2.708 6.031-6.036 6.031h-0.135l-5.438 3.88c0 0.073 0.005 0.141 0.005 0.214 0 2.5-2.021 4.526-4.521 4.526-2.177 0-4.021-1.563-4.443-3.635l-6.135-2.542c1.901 6.719 8.063 11.641 15.391 11.641 8.833 0 15.995-7.161 15.995-16s-7.161-16-15.995-16zM10.052 24.281l-1.964-0.813c0.349 0.724 0.953 1.328 1.755 1.667 1.729 0.719 3.724-0.104 4.443-1.833 0.349-0.844 0.349-1.76 0.005-2.599-0.344-0.844-1-1.495-1.839-1.844-0.828-0.349-1.719-0.333-2.5-0.042l2.026 0.839c1.276 0.536 1.88 2 1.349 3.276s-2 1.88-3.276 1.349zM25.271 11.875c0-2.214-1.802-4.021-4.016-4.021-2.224 0-4.021 1.807-4.021 4.021 0 2.219 1.797 4.021 4.021 4.021 2.214 0 4.016-1.802 4.016-4.021zM18.245 11.87c0-1.672 1.349-3.021 3.016-3.021s3.026 1.349 3.026 3.021c0 1.667-1.359 3.021-3.026 3.021s-3.016-1.354-3.016-3.021z"/>
                     </svg>
                 </a>
-                <a href="https://soundcloud.com/you/likes" target="_blank" class="bottom-icon-link" title="SoundCloud Likes">
-                    <!-- Твой правильный инлайн-SVG для СК. fill="currentColor" чтобы opacity работала -->
+                <a href="https://soundcloud.com" target="_blank" class="bottom-icon-link" title="Мой SoundCloud">
                     <svg class="bottom-icon-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-	                     viewBox="-271 345.8 256 111.2" xml:space="preserve" fill="currentColor">
+                         viewBox="-271 345.8 256 111.2" xml:space="preserve" fill="currentColor">
                         <g>
-	                        <path d="M-238.4,398.1c-0.8,0-1.4,0.6-1.5,1.5l-2.3,28l2.3,27.1c0.1,0.8,0.7,1.5,1.5,1.5c0.8,0,1.4-0.6,1.5-1.5l2.6-27.1l-2.6-28
-		                        C-237,398.7-237.7,398.1-238.4,398.1z"/>
-	                        <path d="M-228.2,399.9c-0.9,0-1.7,0.7-1.7,1.7l-2.1,26l2.1,27.3c0.1,1,0.8,1.7,1.7,1.7c0.9,0,1.6-0.7,1.7-1.7l2.4-27.3l-2.4-26
-		                        C-226.6,400.6-227.3,399.9-228.2,399.9z"/>
-	                        <path d="M-258.6,403.5c-0.5,0-1,0.4-1.1,1l-2.5,23l2.5,22.5c0.1,0.6,0.5,1,1.1,1c0.5,0,1-0.4,1.1-1l2.9-22.5l-2.9-23
-		                        C-257.7,404-258.1,403.5-258.6,403.5z"/>
-	                        <path d="M-268.1,412.3c-0.5,0-1,0.4-1,1l-1.9,14.3l1.9,14c0.1,0.6,0.5,1,1,1s0.9-0.4,1-1l2.2-14l-2.2-14.2
-		                        C-267.2,412.8-267.6,412.3-268.1,412.3z"/>
-	                        <path d="M-207.5,373.5c-1.2,0-2.1,0.9-2.2,2.1l-1.9,52l1.9,27.2c0.1,1.2,1,2.1,2.2,2.1s2.1-0.9,2.2-2.1l2.1-27.2l-2.1-52
-		                        C-205.4,374.4-206.4,373.5-207.5,373.5z"/>
-	                        <path d="M-248.6,399c-0.7,0-1.2,0.5-1.3,1.3l-2.4,27.3l2.4,26.3c0.1,0.7,0.6,1.3,1.3,1.3c0.7,0,1.2-0.5,1.3-1.2l2.7-26.3l-2.7-27.3
-		                        C-247.4,399.6-247.9,399-248.6,399z"/>
-	                        <path d="M-217.9,383.4c-1,0-1.9,0.8-1.9,1.9l-2,42.3l2,27.3c0.1,1.1,0.9,1.9,1.9,1.9s1.9-0.8,1.9-1.9l2.3-27.3l-2.3-42.3
-		                        C-216,384.2-216.9,383.4-217.9,383.4z"/>
-	                        <path d="M-154.4,359.3c-1.8,0-3.2,1.4-3.2,3.2l-1.2,65l1.2,26.1c0,1.8,1.5,3.2,3.2,3.2c1.8,0,3.2-1.5,3.2-3.2l1.4-26.1l-1.4-65
-		                        C-151.1,360.8-152.6,359.3-154.4,359.3z"/>
-	                        <path d="M-197.1,368.9c-1.3,0-2.3,1-2.4,2.4l-1.8,56.3l1.8,26.9c0,1.3,1.1,2.3,2.4,2.3s2.3-1,2.4-2.4l2-26.9l-2-56.3
-		                        C-194.7,370-195.8,368.9-197.1,368.9z"/>
-	                        <path d="M-46.5,394c-4.3,0-8.4,0.9-12.2,2.4C-61.2,368-85,345.8-114,345.8c-7.1,0-14,1.4-20.1,3.8c-2.4,0.9-3,1.9-3,3.7v99.9
-		                        c0,1.9,1.5,3.5,3.4,3.7c0.1,0,86.7,0,87.3,0c17.4,0,31.5-14.1,31.5-31.5C-15,408.1-29.1,394-46.5,394z"/>
-	                        <path d="M-143.6,353.2c-1.9,0-3.4,1.6-3.5,3.5l-1.4,70.9l1.4,25.7c0,1.9,1.6,3.4,3.5,3.4c1.9,0,3.4-1.6,3.5-3.5l1.5-25.8l-1.5-70.9
-		                        C-140.2,354.8-141.7,353.2-143.6,353.2z"/>
-	                        <path d="M-186.5,366.8c-1.4,0-2.5,1.1-2.6,2.6l-1.6,58.2l1.6,26.7c0,1.4,1.2,2.6,2.6,2.6s2.5-1.1,2.6-2.6l1.8-26.7l-1.8-58.2
-		                        C-184,367.9-185.1,366.8-186.5,366.8z"/>
-	                        <path d="M-175.9,368.1c-1.5,0-2.8,1.2-2.8,2.8l-1.5,56.7l1.5,26.5c0,1.6,1.3,2.8,2.8,2.8s2.8-1.2,2.8-2.8l1.7-26.5l-1.7-56.7
-		                        C-173.1,369.3-174.3,368.1-175.9,368.1z"/>
-	                        <path d="M-165.2,369.9c-1.7,0-3,1.3-3,3l-1.4,54.7l1.4,26.3c0,1.7,1.4,3,3,3c1.7,0,3-1.3,3-3l1.5-26.3l-1.5-54.7
-		                        C-162.2,371.3-163.5,369.9-165.2,369.9z"/>
+                            <path d="M-238.4,398.1c-0.8,0-1.4,0.6-1.5,1.5l-2.3,28l2.3,27.1c0.1,0.8,0.7,1.5,1.5,1.5c0.8,0,1.4-0.6,1.5-1.5l2.6-27.1l-2.6-28
+                                C-237,398.7-237.7,398.1-238.4,398.1z"/>
+                            <path d="M-228.2,399.9c-0.9,0-1.7,0.7-1.7,1.7l-2.1,26l2.1,27.3c0.1,1,0.8,1.7,1.7,1.7c0.9,0,1.6-0.7,1.7-1.7l2.4-27.3l-2.4-26
+                                C-226.6,400.6-227.3,399.9-228.2,399.9z"/>
+                            <path d="M-258.6,403.5c-0.5,0-1,0.4-1.1,1l-2.5,23l2.5,22.5c0.1,0.6,0.5,1,1.1,1c0.5,0,1-0.4,1.1-1l2.9-22.5l-2.9-23
+                                C-257.7,404-258.1,403.5-258.6,403.5z"/>
+                            <path d="M-268.1,412.3c-0.5,0-1,0.4-1,1l-1.9,14.3l1.9,14c0.1,0.6,0.5,1,1,1s0.9-0.4,1-1l2.2-14l-2.2-14.2
+                                C-267.2,412.8-267.6,412.3-268.1,412.3z"/>
+                            <path d="M-207.5,373.5c-1.2,0-2.1,0.9-2.2,2.1l-1.9,52l1.9,27.2c0.1,1.2,1,2.1,2.2,2.1s2.1-0.9,2.2-2.1l2.1-27.2l-2.1-52
+                                C-205.4,374.4-206.4,373.5-207.5,373.5z"/>
+                            <path d="M-248.6,399c-0.7,0-1.2,0.5-1.3,1.3l-2.4,27.3l2.4,26.3c0.1,0.7,0.6,1.3,1.3,1.3c0.7,0,1.2-0.5,1.3-1.2l2.7-26.3l-2.7-27.3
+                                C-247.4,399.6-247.9,399-248.6,399z"/>
+                            <path d="M-217.9,383.4c-1,0-1.9,0.8-1.9,1.9l-2,42.3l2,27.3c0.1,1.1,0.9,1.9,1.9,1.9s1.9-0.8,1.9-1.9l2.3-27.3l-2.3-42.3
+                                C-216,384.2-216.9,383.4-217.9,383.4z"/>
+                            <path d="M-154.4,359.3c-1.8,0-3.2,1.4-3.2,3.2l-1.2,65l1.2,26.1c0,1.8,1.5,3.2,3.2,3.2c1.8,0,3.2-1.5,3.2-3.2l1.4-26.1l-1.4-65
+                                C-151.1,360.8-152.6,359.3-154.4,359.3z"/>
+                            <path d="M-197.1,368.9c-1.3,0-2.3,1-2.4,2.4l-1.8,56.3l1.8,26.9c0,1.3,1.1,2.3,2.4,2.3s2.3-1,2.4-2.4l2-26.9l-2-56.3
+                                C-194.7,370-195.8,368.9-197.1,368.9z"/>
+                            <path d="M-46.5,394c-4.3,0-8.4,0.9-12.2,2.4C-61.2,368-85,345.8-114,345.8c-7.1,0-14,1.4-20.1,3.8c-2.4,0.9-3,1.9-3,3.7v99.9
+                                c0,1.9,1.5,3.5,3.4,3.7c0.1,0,86.7,0,87.3,0c17.4,0,31.5-14.1,31.5-31.5C-15,408.1-29.1,394-46.5,394z"/>
+                            <path d="M-143.6,353.2c-1.9,0-3.4,1.6-3.5,3.5l-1.4,70.9l1.4,25.7c0,1.9,1.6,3.4,3.5,3.4c1.9,0,3.4-1.6,3.5-3.5l1.5-25.8l-1.5-70.9
+                                C-140.2,354.8-141.7,353.2-143.6,353.2z"/>
+                            <path d="M-186.5,366.8c-1.4,0-2.5,1.1-2.6,2.6l-1.6,58.2l1.6,26.7c0,1.4,1.2,2.6,2.6,2.6s2.5-1.1,2.6-2.6l1.8-26.7l-1.8-58.2
+                                C-184,367.9-185.1,366.8-186.5,366.8z"/>
+                            <path d="M-175.9,368.1c-1.5,0-2.8,1.2-2.8,2.8l-1.5,56.7l1.5,26.5c0,1.6,1.3,2.8,2.8,2.8s2.8-1.2,2.8-2.8l1.7-26.5l-1.7-56.7
+                                C-173.1,369.3-174.3,368.1-175.9,368.1z"/>
+                            <path d="M-165.2,369.9c-1.7,0-3,1.3-3,3l-1.4,54.7l1.4,26.3c0,1.7,1.4,3,3,3c1.7,0,3-1.3,3-3l1.5-26.3l-1.5-54.7
+                                C-162.2,371.3-163.5,369.9-165.2,369.9z"/>
                         </g>
                     </svg>
                 </a>
@@ -411,7 +403,7 @@
         </div>
     </div>
 
-    <!-- 🎵 ПЛЕЕР (Значки СК и СТИМ отсюда убраны) -->
+    <!-- 🎵 ПЛЕЕР -->
     <div class="bottom-player-wrapper">
         <audio id="bg-music" src="" loop></audio>
 
@@ -432,13 +424,8 @@
                         <span id="player-status" class="track-status">Кликните плей</span>
                     </div>
 
-                    <!-- ----------------------------------------------------------- -->
-                    <!-- ЗАДАЧА: ДОБАВЛЕН HTML ДЛЯ ПОЛЗУНКА ГРОМКОСТИ -->
-                    <!-- ----------------------------------------------------------- -->
                     <div class="volume-control-wrap">
-                        <!-- Иконка динамика -->
                         <svg class="volume-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.08"/></svg>
-                        <!-- Сам ползунок -->
                         <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
                     </div>
 
@@ -491,7 +478,7 @@
             }).catch(err => console.error('Ошибка копирования: ', err));
         });
 
-        const BLACKLIST = ['chainsaww','overdose','tesla'];
+        const BLACKLIST = ['chainsaww', 'overdose', 'tesla'];
 
         const audio = document.getElementById('bg-music');
         const playBtn = document.getElementById('play-btn');
@@ -502,85 +489,102 @@
         const eq = document.getElementById('eq');
         const playlistMenu = document.getElementById('playlist-menu');
         const togglePlaylistBtn = document.getElementById('toggle-playlist-btn');
+        const volumeSlider = document.getElementById('volume-slider');
 
         let playlist = [];
         let currentTrackIndex = 0;
 
         fetch('playlist.json', { cache: 'no-store' })
-            .then(response => { if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); } return response.json(); })
+            .then(response => { 
+                if (!response.ok) { 
+                    throw new Error(`HTTP error! status: ${response.status}`); 
+                } 
+                return response.json(); 
+            })
             .then(data => {
-                playlist = data.filter(fileName => {
+                // Универсальная фильтрация: поддерживает и старый (строки), и новый (объекты) формат playlist.json
+                playlist = data.filter(item => {
+                    let fileName = typeof item === 'string' ? item : item.file;
                     const nameLower = fileName.toLowerCase();
                     return !BLACKLIST.some(badWord => nameLower.includes(badWord.toLowerCase()));
                 });
-                if(playlist.length > 0) { buildPlaylistMenu(); loadTrack(0, false); }
-                else { trackNameEl.innerText = "Плейлист пуст"; playlistMenu.innerHTML = '<div style="text-align:center; padding:15px; color:#a1a1aa;">Нет доступных треков</div>'; }
+
+                if(playlist.length > 0) { 
+                    buildPlaylistMenu(); 
+                    loadTrack(0, false); 
+                } else { 
+                    trackNameEl.innerText = "Плейлист пуст"; 
+                    playlistMenu.innerHTML = '<div style="text-align:center; padding:15px; color:#a1a1aa;">Нет доступных треков</div>'; 
+                }
             })
-            .catch(err => { console.error(err); trackNameEl.innerText = "Ошибка списка"; playlistMenu.innerHTML = '<div style="text-align:center; padding:15px; color:#ef4444;">Не удалось загрузить треки</div>'; });
+            .catch(err => { 
+                // Вывод полного лога при ошибке загрузки
+                trackNameEl.innerText = "Смотри лог"; 
+                playlistMenu.innerHTML = `<div style="text-align:left; padding:15px; color:#ef4444; font-family: monospace; font-size: 12px; line-height: 1.4; word-wrap: break-word;">
+                    <b>🚨 ОШИБКА ЗАГРУЗКИ:</b><br>${err.name}: ${err.message}<br><br><b>ДЕТАЛИ:</b><br>${err.stack}
+                </div>`; 
+            });
 
         function buildPlaylistMenu() {
             playlistMenu.innerHTML = ''; 
-            playlist.forEach((file, index) => {
-                let cleanName = file.file.replace('.mp3', '').replace(/_/g, ' ');
-                let item = document.createElement('div');
-                item.className = 'playlist-item';
-                item.innerText = `${index + 1}. ${cleanName}`; 
-                item.onclick = (e) => { e.stopPropagation(); loadTrack(index, true); playlistMenu.classList.remove('show'); };
-                playlistMenu.appendChild(item);
+            playlist.forEach((item, index) => {
+                let fileName = typeof item === 'string' ? item : item.file;
+                let cleanName = fileName.replace('.mp3', '').replace(/_/g, ' '); 
+                let el = document.createElement('div');
+                el.className = 'playlist-item';
+                el.innerText = `${index + 1}. ${cleanName}`; 
+                el.onclick = (e) => { e.stopPropagation(); loadTrack(index, true); playlistMenu.classList.remove('show'); };
+                playlistMenu.appendChild(el);
             });
         }
 
-         function loadTrack(index, autoPlay = true) {
+        function loadTrack(index, autoPlay = true) {
             currentTrackIndex = index;
+            let item = playlist[index];
             
-            // Теперь берем данные из объекта
-            let trackData = playlist[index];
-            let file = trackData.file;
-            let coverImage = trackData.cover ? trackData.cover : 'avatar.png'; // Если обложки нет, ставим аватар
-            
+            // Получаем файл и обложку (с поддержкой старого и нового формата JSON)
+            let file = typeof item === 'string' ? item : item.file;
+            let coverImage = (typeof item === 'object' && item.cover) ? item.cover : 'avatar.png';
+
             let cleanName = file.replace('.mp3', '').replace(/_/g, ' ');
             
-            document.querySelectorAll('.playlist-item').forEach((el, i) => {
-                if(i === index) el.classList.add('active');
-                else el.classList.remove('active');
+            document.querySelectorAll('.playlist-item').forEach((el, i) => { 
+                if(i === index) el.classList.add('active'); 
+                else el.classList.remove('active'); 
             });
-
+            
             audio.src = 'music/' + encodeURIComponent(file);
             trackNameEl.innerText = cleanName;
 
-            // Обновляем уведомление телефона
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: cleanName,
-                    artist: 'c4elovek.online',
+                    title: cleanName, 
+                    artist: 'c4elovek.online', 
                     album: 'Избранный плейлист',
                     artwork: [
                         { src: coverImage, sizes: '512x512', type: 'image/jpeg' }
                     ]
                 });
-
-                navigator.mediaSession.setActionHandler('play', togglePlay);
-                navigator.mediaSession.setActionHandler('pause', togglePlay);
+                navigator.mediaSession.setActionHandler('play', () => togglePlay(true));
+                navigator.mediaSession.setActionHandler('pause', () => togglePlay(false));
                 navigator.mediaSession.setActionHandler('previoustrack', playPrevTrack);
                 navigator.mediaSession.setActionHandler('nexttrack', playNextTrack);
             }
             
-            if(autoPlay) {
-                togglePlay(true);
-            }
+            if(autoPlay) { togglePlay(true); }
         }
 
-        // А функцию playPrevTrack добавь, если её нет:
-        function playPrevTrack() {
-            if (playlist.length === 0) return;
-            currentTrackIndex--;
-            if (currentTrackIndex < 0) currentTrackIndex = playlist.length - 1; 
-            loadTrack(currentTrackIndex, true);
-        }
         function playNextTrack() {
             if (playlist.length === 0) return;
             currentTrackIndex++;
             if (currentTrackIndex >= playlist.length) { currentTrackIndex = 0; }
+            loadTrack(currentTrackIndex, true);
+        }
+
+        function playPrevTrack() {
+            if (playlist.length === 0) return;
+            currentTrackIndex--;
+            if (currentTrackIndex < 0) { currentTrackIndex = playlist.length - 1; }
             loadTrack(currentTrackIndex, true);
         }
 
@@ -591,12 +595,16 @@
         window.addEventListener('click', (e) => {
             if (!playlistMenu.contains(e.target) && !togglePlaylistBtn.contains(e.target)) { playlistMenu.classList.remove('show'); }
             if (!expandContent.contains(e.target) && !expandBtn.contains(e.target)) { expandContent.classList.remove('show'); expandBtn.classList.remove('active'); }
-            if (!hasStartedPlaying && audio.paused && playlist.length > 0) { togglePlay(true); hasStartedPlaying = true; }
+            if (!hasStartedPlaying && audio.paused && playlist.length > 0 && e.target !== volumeSlider) { togglePlay(true); hasStartedPlaying = true; }
         });
 
         function togglePlay(forcePlay = false) {
             if (playlist.length === 0) return;
-            if (audio.paused || forcePlay) {
+            
+            // Если передан явный флаг forcePlay, используем его, иначе переключаем текущее состояние
+            const shouldPlay = typeof forcePlay === 'boolean' && forcePlay.isTrusted === undefined ? forcePlay : audio.paused;
+
+            if (shouldPlay) {
                 audio.play().then(() => {
                     iconPlay.style.display = 'none'; iconPause.style.display = 'block';
                     statusText.innerText = 'сейчас играет'; eq.classList.add('playing');
@@ -610,17 +618,8 @@
         playBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePlay(); hasStartedPlaying = true; });
         audio.addEventListener('ended', playNextTrack);
 
-        // -----------------------------------------------------------
-        // ЗАДАЧА: ЛОГИКА ПОЛЗУНКА ГРОМКОСТИ
-        // -----------------------------------------------------------
-        const volumeSlider = document.getElementById('volume-slider');
-
-        // Устанавливаем начальную громкость плеера (0.7 - это 70%)
         audio.volume = volumeSlider.value;
-
-        // Обработчик изменения ползунка
         volumeSlider.addEventListener('input', (e) => {
-            // Присваиваем громкость аудио громкости ползунка (0.0 до 1.0)
             audio.volume = e.target.value;
         });
 
