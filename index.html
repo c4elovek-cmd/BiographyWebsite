@@ -561,40 +561,65 @@
             });
         }
 
-        function loadTrack(index, autoPlay = true) {
-            currentTrackIndex = index;
-            let item = playlist[index];
-            
-            let file = typeof item === 'string' ? item : item.file;
-            let coverImage = (typeof item === 'object' && item.cover) ? item.cover : 'avatar.png';
+	function loadTrack(index, autoPlay = true) {
+	    currentTrackIndex = index;
+	    let item = playlist[index];
+	    let file = typeof item === 'string' ? item : item.file;
+	    let cleanName = file.replace('.mp3', '').replace(/_/g, ' ');
+	    
+	    document.querySelectorAll('.playlist-item').forEach((el, i) => { 
+	        if(i === index) el.classList.add('active'); 
+	        else el.classList.remove('active'); 
+	    });
+	    
+	    const fileUrl = 'music/' + encodeURIComponent(file);
+	    audio.src = fileUrl;
+	    trackNameEl.innerText = cleanName;
 
-            let cleanName = file.replace('.mp3', '').replace(/_/g, ' ');
-            
-            document.querySelectorAll('.playlist-item').forEach((el, i) => { 
-                if(i === index) el.classList.add('active'); 
-                else el.classList.remove('active'); 
-            });
-            
-            audio.src = 'music/' + encodeURIComponent(file);
-            trackNameEl.innerText = cleanName;
+	    // Чтение вшитой обложки прямо из MP3
+	    if (window.jsmediatags) {
+	        window.jsmediatags.read(fileUrl, {
+	            onSuccess: function(tag) {
+	                let artworkArray = [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }];
+	                
+	                if (tag.tags.picture) {
+	                    const data = tag.tags.picture.data;
+	                    const format = tag.tags.picture.format;
+	                    const byteArray = new Uint8Array(data);
+	                    const blob = new Blob([byteArray], { type: format });
+	                    const imageUrl = URL.createObjectURL(blob);
+	                    
+	                    artworkArray = [{ src: imageUrl, sizes: '512x512', type: format }];
+	                }
+	                
+	                updateMediaSession(cleanName, artworkArray);
+	            },
+	            onError: function() {
+	                updateMediaSession(cleanName, [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }]);
+	            }
+	        });
+	    } else {
+	        updateMediaSession(cleanName, [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }]);
+	    }
+	    
+	    if(autoPlay) { togglePlay(true); }
+	}
 
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: cleanName, 
-                    artist: 'c4elovek.online', 
-                    album: 'Избранный плейлист',
-                    artwork: [
-                        { src: coverImage, sizes: '512x512', type: 'image/jpeg' }
-                    ]
-                });
-                navigator.mediaSession.setActionHandler('play', () => togglePlay(true));
-                navigator.mediaSession.setActionHandler('pause', () => togglePlay(false));
-                navigator.mediaSession.setActionHandler('previoustrack', playPrevTrack);
-                navigator.mediaSession.setActionHandler('nexttrack', playNextTrack);
-            }
-            
-            if(autoPlay) { togglePlay(true); }
-        }
+	function updateMediaSession(title, artwork) {
+	    if ('mediaSession' in navigator) {
+	        navigator.mediaSession.metadata = new MediaMetadata({
+	            title: title, 
+	            artist: 'c4elovek.online', 
+	            album: 'Избранный плейлист',
+	            artwork: artwork
+	        });
+	        navigator.mediaSession.setActionHandler('play', () => togglePlay(true));
+	        navigator.mediaSession.setActionHandler('pause', () => togglePlay(false));
+	        navigator.mediaSession.setActionHandler('previoustrack', playPrevTrack);
+	        navigator.mediaSession.setActionHandler('nexttrack', playNextTrack);
+	    }
+	}
+      
 
         function playNextTrack() {
             if (playlist.length === 0) return;
