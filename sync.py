@@ -1,76 +1,106 @@
 import os
 import json
-from mutagen.mp3 import MP3
-from mutagen.id3 import ID3
+import yt_dlp
 
-# --- Настройки ---
+# --- НАСТРОЙКИ ---
+# Вставь сюда ссылку на то, откуда качать (твои лайки или плейлист на SoundCloud)
+PLAYLIST_URL = 'https://soundcloud.com/you/likes'
+
 MUSIC_DIR = 'music'
-COVERS_DIR = os.path.join(MUSIC_DIR, 'covers')
 OUTPUT_JSON = 'playlist.json'
+ARCHIVE_FILE = 'downloaded_tracks.txt'
 
+# Твой полный блэклист
 BLACKLIST = [
-    'chainsaww',
-    'overdose',
-    'tesla'
+    "Странный", "Её парень", "Священная война", "Плёнка", "грустинка",
+    "xsonsss", "overdose", "ммм", "недотрога", "Chance", "фп", "флаг",
+    "тинкер", "клановая", "ослепительна", "madk1d", "гимн", "Катюха",
+    "попал", "MORGENSHTERN", "потеря"
 ]
 # -----------------
 
-def update_playlist():
-    print("-" * 40)
-    print("Синхронизация музыки и обложек...")
+def sync_tracks():
+    print("-" * 50)
+    print("1. Запуск yt-dlp: скачивание новых треков и обложек...")
+    print("-" * 50)
     
-    # Создаем папку для обложек, если её нет
-    if not os.path.exists(COVERS_DIR):
-        os.makedirs(COVERS_DIR)
+    if not os.path.exists(MUSIC_DIR):
+        os.makedirs(MUSIC_DIR)
 
-    playlist = []
+    # Настройки yt-dlp
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'outtmpl': f'{MUSIC_DIR}/%(title)s.%(ext)s',
+        'download_archive': ARCHIVE_FILE,  # Записываем скачанное, чтобы не качать дубли
+        'writethumbnail': True,            # Обязательно: качаем обложку трека
+        'postprocessors': [
+            {
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            },
+            {
+                'key': 'FFmpegMetadata',   # Вшиваем метаданные (название, артист)
+            },
+            {
+                'key': 'EmbedThumbnail',   # Вшиваем саму картинку внутрь MP3 файла
+            }
+        ],
+        'ignoreerrors': True,              # Не падаем, если трек заблокирован или удален
+        'quiet': False
+    }
+
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([PLAYLIST_URL])
+    except Exception as e:
+        print(f"Ошибка при работе yt-dlp: {e}")
+
+def update_playlist_json():
+    print("\n" + "-" * 50)
+    print("2. Генерация playlist.json и проверка блэклиста...")
+    print("-" * 50)
     
-    # Ищем mp3 файлы
+    playlist = []
+    ignored_count = 0
+    
+    # Берем все mp3 файлы в папке
     files = [f for f in os.listdir(MUSIC_DIR) if f.lower().endswith('.mp3')]
+    
+    # Сортируем их (по алфавиту)
     files.sort()
 
     for filename in files:
         name_lower = filename.lower()
         
-        # Проверка блэклиста
-        if any(bad_word in name_lower for bad_word in BLACKLIST):
-            print(f"[ПРОПУСК] {filename}")
+        # Проверка по блэклисту
+        if any(bad_word.lower() in name_lower for bad_word in BLACKLIST):
+            print(f"[БЛЭКЛИСТ] Пропущен: {filename}")
+            ignored_count += 1
+            
+            # Если хочешь, чтобы скрипт сразу удалял заблокированные треки с диска,
+            # просто убери решетки с трех строчек ниже:
+            # file_path = os.path.join(MUSIC_DIR, filename)
+            # if os.path.exists(file_path):
+            #     os.remove(file_path)
+            
             continue
 
-        filepath = os.path.join(MUSIC_DIR, filename)
-        cover_filename = None
+        playlist.append(filename)
+        print(f"[ДОБАВЛЕНО] {filename}")
 
-        # Пытаемся вытащить обложку (APIC тег)
-        try:
-            audio = MP3(filepath, ID3=ID3)
-            if audio.tags:
-                for tag in audio.tags.values():
-                    if tag.FrameID == 'APIC':
-                        # Генерируем имя для картинки
-                        cover_filename = filename.replace('.mp3', '.jpg')
-                        cover_path = os.path.join(COVERS_DIR, cover_filename)
-                        
-                        # Сохраняем картинку
-                        with open(cover_path, 'wb') as img:
-                            img.write(tag.data)
-                        break
-        except Exception as e:
-            print(f"[ОШИБКА] Чтение тегов {filename}: {e}")
-
-        # Добавляем трек в JSON как объект
-        playlist.append({
-            "file": filename,
-            "cover": f"music/covers/{cover_filename}" if cover_filename else None
-        })
-        
-        print(f"[ДОБАВЛЕНО] {filename}" + (" (+обложка)" if cover_filename else ""))
-
-    # Сохраняем playlist.json
+    # Перезаписываем JSON
     with open(OUTPUT_JSON, 'w', encoding='utf-8') as f:
         json.dump(playlist, f, ensure_ascii=False, indent=2)
     
-    print("-" * 40)
-    print("Готово! playlist.json обновлен.")
+    print("-" * 50)
+    print(f"Готово! В плейлисте: {len(playlist)} треков. Скрыто: {ignored_count}")
+    print(f"Файл {OUTPUT_JSON} успешно обновлен.")
 
 if __name__ == "__main__":
-    update_playlist()
+    # Сначала скачиваем новые треки и вшиваем в них картинки
+    sync_tracks()
+    
+    # Затем собираем чистый список для сайта
+    update_playlist_json()
+
