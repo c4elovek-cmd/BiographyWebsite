@@ -521,7 +521,7 @@
         function buildPlaylistMenu() {
             playlistMenu.innerHTML = ''; 
             playlist.forEach((file, index) => {
-                let cleanName = file.replace('.mp3', '').replace(/_/g, ' '); 
+                let cleanName = file.file.replace('.mp3', '').replace(/_/g, ' ');
                 let item = document.createElement('div');
                 item.className = 'playlist-item';
                 item.innerText = `${index + 1}. ${cleanName}`; 
@@ -530,29 +530,53 @@
             });
         }
 
-        function loadTrack(index, autoPlay = true) {
+         function loadTrack(index, autoPlay = true) {
             currentTrackIndex = index;
-            let file = playlist[index];
+            
+            // Теперь берем данные из объекта
+            let trackData = playlist[index];
+            let file = trackData.file;
+            let coverImage = trackData.cover ? trackData.cover : 'avatar.png'; // Если обложки нет, ставим аватар
+            
             let cleanName = file.replace('.mp3', '').replace(/_/g, ' ');
-            document.querySelectorAll('.playlist-item').forEach((el, i) => { if(i === index) el.classList.add('active'); else el.classList.remove('active'); });
+            
+            document.querySelectorAll('.playlist-item').forEach((el, i) => {
+                if(i === index) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+
             audio.src = 'music/' + encodeURIComponent(file);
             trackNameEl.innerText = cleanName;
 
+            // Обновляем уведомление телефона
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: cleanName, artist: 'c4elovek.online', album: 'Избранный плейлист',
+                    title: cleanName,
+                    artist: 'c4elovek.online',
+                    album: 'Избранный плейлист',
                     artwork: [
-                        { src: 'avatar.png', sizes: '96x96', type: 'image/png' },
-                        { src: 'avatar.png', sizes: '256x256', type: 'image/png' },
-                        { src: 'avatar.png', sizes: '512x512', type: 'image/png' },
+                        { src: coverImage, sizes: '512x512', type: 'image/jpeg' }
                     ]
                 });
+
                 navigator.mediaSession.setActionHandler('play', togglePlay);
                 navigator.mediaSession.setActionHandler('pause', togglePlay);
+                navigator.mediaSession.setActionHandler('previoustrack', playPrevTrack);
+                navigator.mediaSession.setActionHandler('nexttrack', playNextTrack);
             }
-            if(autoPlay) { togglePlay(true); }
+            
+            if(autoPlay) {
+                togglePlay(true);
+            }
         }
 
+        // А функцию playPrevTrack добавь, если её нет:
+        function playPrevTrack() {
+            if (playlist.length === 0) return;
+            currentTrackIndex--;
+            if (currentTrackIndex < 0) currentTrackIndex = playlist.length - 1; 
+            loadTrack(currentTrackIndex, true);
+        }
         function playNextTrack() {
             if (playlist.length === 0) return;
             currentTrackIndex++;

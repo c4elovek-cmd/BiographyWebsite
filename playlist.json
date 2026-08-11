@@ -1,45 +1,162 @@
 [
-  "SANYA TEKK.mp3",
-  "Странный.mp3",
-  "chainsaww (feat. siouxxie).mp3",
-  "Её парень.mp3",
-  "goofy Crush x Burnt rice mix.mp3",
-  "s0nder — Solitude.mp3",
-  "Meant To Be.mp3",
-  "священная война.mp3",
-  "ПЛЁНКА.mp3",
-  "tesla (slowed electro mix).mp3",
-  "Bombby_DJ_Javi26_-_Overlook_(SkySound.cc).mp3.mp3",
-  "SOMETIMES Hardstyle (Remix).mp3",
-  "Overdose Чувств.mp3",
-  "onokami -  грустинка (tiktok edition).mp3",
-  "yung trappa, xsonsss - dope dancing nihilist.mp3",
-  "yung trappa + xsonsss - dope prime hardstyle mix.mp3",
-  "yung trappa + xsonsss X (mylancore remix).mp3",
-  "LAZZY2WICE - Chance.mp3",
-  "ФП АМ (Nightcore).mp3",
-  "кузнецкий сквад + xsonsss - the сквад triad.mp3",
-  "Кинопамять - Недотрога.mp3",
-  "МММ ЕЩЁ ОДНА ДЕВЧОНКА С ШИЗОЙ.mp3",
-  "KSB muzic - Тинкер.mp3",
-  "cavetown ⧸⧸ devil town.mp3",
-  "ярче солнца - пообещай (mylancore).mp3",
-  "Ёлка - Прованс Hardstyle Remix.mp3",
-  "ФРЭНК - Саня.mp3",
-  "Rebzyyx - I'm so crazy for youuu ＜⧸3.mp3",
-  "МОЙ БАТЯ.mp3",
-  "Бог - Grad!ent.mp3",
-  "madk1d, tewiq, 2kizz & greyrock — MARTINE ROSE.mp3",
-  "ForestDUMP - Клановая Жизнь.mp3",
-  "KSB muzic - Ослепительна.mp3",
-  "я не приду на выпускной.mp3",
-  "soqql & youngfox – Гимн (Hymn).mp3",
-  "whitek3d - Катюха (tgk： whitek3d).mp3",
-  "truth yandere^^.mp3",
-  "Наблюдатель.mp3",
-  "Noize MC - Кооператив «Лебединое озеро».mp3",
-  "Остановка На Покурить.mp3",
-  "Пообещай.mp3",
-  "MORGENSHTERN - Последняя Любовь.mp3",
-  "lafkrat, парапустяков - потеряпотерь.mp3"
+  {
+    "file": "Bombby_DJ_Javi26_-_Overlook_(SkySound.cc).mp3.mp3",
+    "cover": null
+  },
+  {
+    "file": "ForestDUMP - Клановая Жизнь.mp3",
+    "cover": null
+  },
+  {
+    "file": "KSB muzic - Ослепительна.mp3",
+    "cover": null
+  },
+  {
+    "file": "KSB muzic - Тинкер.mp3",
+    "cover": null
+  },
+  {
+    "file": "LAZZY2WICE - Chance.mp3",
+    "cover": null
+  },
+  {
+    "file": "MORGENSHTERN - Последняя Любовь.mp3",
+    "cover": null
+  },
+  {
+    "file": "Meant To Be.mp3",
+    "cover": null
+  },
+  {
+    "file": "Noize MC - Кооператив «Лебединое озеро».mp3",
+    "cover": null
+  },
+  {
+    "file": "Rebzyyx - I'm so crazy for youuu ＜⧸3.mp3",
+    "cover": null
+  },
+  {
+    "file": "SANYA TEKK.mp3",
+    "cover": null
+  },
+  {
+    "file": "SOMETIMES Hardstyle (Remix).mp3",
+    "cover": null
+  },
+  {
+    "file": "cavetown ⧸⧸ devil town.mp3",
+    "cover": null
+  },
+  {
+    "file": "goofy Crush x Burnt rice mix.mp3",
+    "cover": null
+  },
+  {
+    "file": "lafkrat, парапустяков - потеряпотерь.mp3",
+    "cover": null
+  },
+  {
+    "file": "madk1d, tewiq, 2kizz & greyrock — MARTINE ROSE.mp3",
+    "cover": null
+  },
+  {
+    "file": "onokami -  грустинка (tiktok edition).mp3",
+    "cover": null
+  },
+  {
+    "file": "s0nder — Solitude.mp3",
+    "cover": null
+  },
+  {
+    "file": "soqql & youngfox – Гимн (Hymn).mp3",
+    "cover": null
+  },
+  {
+    "file": "truth yandere^^.mp3",
+    "cover": null
+  },
+  {
+    "file": "whitek3d - Катюха (tgk： whitek3d).mp3",
+    "cover": null
+  },
+  {
+    "file": "yung trappa + xsonsss - dope prime hardstyle mix.mp3",
+    "cover": null
+  },
+  {
+    "file": "yung trappa + xsonsss X (mylancore remix).mp3",
+    "cover": null
+  },
+  {
+    "file": "yung trappa, xsonsss - dope dancing nihilist.mp3",
+    "cover": null
+  },
+  {
+    "file": "Ёлка - Прованс Hardstyle Remix.mp3",
+    "cover": null
+  },
+  {
+    "file": "Бог - Grad!ent.mp3",
+    "cover": null
+  },
+  {
+    "file": "Её парень.mp3",
+    "cover": null
+  },
+  {
+    "file": "Кинопамять - Недотрога.mp3",
+    "cover": null
+  },
+  {
+    "file": "МММ ЕЩЁ ОДНА ДЕВЧОНКА С ШИЗОЙ.mp3",
+    "cover": null
+  },
+  {
+    "file": "МОЙ БАТЯ.mp3",
+    "cover": null
+  },
+  {
+    "file": "Наблюдатель.mp3",
+    "cover": null
+  },
+  {
+    "file": "Остановка На Покурить.mp3",
+    "cover": null
+  },
+  {
+    "file": "ПЛЁНКА.mp3",
+    "cover": null
+  },
+  {
+    "file": "Пообещай.mp3",
+    "cover": null
+  },
+  {
+    "file": "Странный.mp3",
+    "cover": null
+  },
+  {
+    "file": "ФП АМ (Nightcore).mp3",
+    "cover": null
+  },
+  {
+    "file": "ФРЭНК - Саня.mp3",
+    "cover": null
+  },
+  {
+    "file": "кузнецкий сквад + xsonsss - the сквад triad.mp3",
+    "cover": null
+  },
+  {
+    "file": "священная война.mp3",
+    "cover": null
+  },
+  {
+    "file": "я не приду на выпускной.mp3",
+    "cover": null
+  },
+  {
+    "file": "ярче солнца - пообещай (mylancore).mp3",
+    "cover": null
+  }
 ]
