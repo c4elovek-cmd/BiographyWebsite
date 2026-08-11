@@ -19,10 +19,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: #000000; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; overflow-y: auto; position: relative; padding: 40px 20px 150px 20px; }
 
-        /* Лог консоль (скрыта) */
         #admin-log { display: none; position: fixed; top: 10px; left: 10px; right: 10px; max-height: 35vh; overflow-y: auto; background: rgba(0, 0, 0, 0.85); color: #00ff00; border: 1px solid #333; border-radius: 12px; padding: 15px; z-index: 10000; font-family: monospace; font-size: 11px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
 
-        /* Фоновые круги */
         .orb-1, .orb-2 { position: fixed; border-radius: 50%; filter: blur(50px); z-index: 0; opacity: 0.8; pointer-events: none; transition: transform 10s ease-in-out; will-change: transform; }
         .orb-1 { width: 320px; height: 320px; background: linear-gradient(135deg, #ffffff, #333333); top: 0; left: 0; }
         .orb-2 { width: 380px; height: 380px; background: linear-gradient(135deg, #777777, #111111); top: 0; left: 0; }
@@ -79,10 +77,14 @@
         .track-name { font-family: "Rubik Maze", system-ui, sans-serif; font-size: 14px; font-weight: normal; color: #ffffff; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 5px rgba(0,0,0,0.8);}
         .track-status { font-family: "Rubik Maze", system-ui, sans-serif; font-size: 11px; color: #a1a1aa; margin-top: 2px; font-weight: normal; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 
-        /* СТИЛИ ПОЛЗУНКА ГРОМКОСТИ */
+        /* СТИЛИ ПОЛЗУНКА ГРОМКОСТИ И КНОПКИ */
         .volume-control-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; opacity: 0.7; transition: opacity 0.3s ease; }
         .volume-control-wrap:hover { opacity: 1; }
-        .volume-icon { width: 18px; height: 18px; color: #ffffff; flex-shrink: 0; }
+        
+        .volume-btn { background: none; border: none; padding: 0; margin: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #ffffff; width: 22px; height: 22px; flex-shrink: 0; outline: none; transition: transform 0.2s ease; }
+        .volume-btn:hover { transform: scale(1.1); }
+        .vol-svg { width: 100%; height: 100%; }
+
         .volume-slider { -webkit-appearance: none; width: 70px; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; outline: none; opacity: 0; transition: all 0.3s ease; cursor: pointer; }
         .volume-control-wrap:hover .volume-slider { opacity: 1; width: 70px; }
         .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; background: #ffffff; border-radius: 50%; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.5); transition: transform 0.2s ease; }
@@ -231,7 +233,9 @@
                     </div>
 
                     <div class="volume-control-wrap">
-                        <svg class="volume-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.08"/></svg>
+                        <button id="volume-btn" class="volume-btn" title="Выключить звук">
+                            <!-- Иконка будет вставлена через JS -->
+                        </button>
                         <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
                     </div>
 
@@ -250,12 +254,15 @@
     </div>
 
     <script>
+        // --- СВГ ДЛЯ ЗВУКА ---
+        const svgMuted = `<svg viewBox="0 0 22 22" fill="none" class="vol-svg"><path d="M14 7.36979V6.40979C14 3.42979 11.93 2.28979 9.41 3.86979L6.49 5.69979C6.17 5.88979 5.8 5.99979 5.43 5.99979H4C2 5.99979 1 6.99979 1 8.99979V12.9998C1 14.9998 2 15.9998 4 15.9998H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path opacity="0.4" d="M9.41016 18.1302C11.9302 19.7102 14.0002 18.5602 14.0002 15.5902V11.9502" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path opacity="0.4" d="M17.81 8.41992C18.71 10.5699 18.44 13.0799 17 14.9999" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path opacity="0.4" d="M20.1501 6.7998C21.6201 10.2898 21.1801 14.3698 18.8301 17.4998" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 1L1 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+        const svgUnmutedPlaying = `<svg viewBox="0 0 24 24" fill="none" class="vol-svg"><path d="M3.33008 9.99979V13.9998C3.33008 15.9998 4.33008 16.9998 6.33008 16.9998H7.76008C8.13008 16.9998 8.50008 17.1098 8.82008 17.2998L11.7401 19.1298C14.2601 20.7098 16.3301 19.5598 16.3301 16.5898V7.40979C16.3301 4.42979 14.2601 3.28979 11.7401 4.86979L8.82008 6.69979C8.50008 6.88979 8.13008 6.99979 7.76008 6.99979H6.33008C4.33008 6.99979 3.33008 7.99979 3.33008 9.99979Z" stroke="currentColor" stroke-width="1.5"/><path opacity="0.4" d="M19.3301 8C21.1101 10.37 21.1101 13.63 19.3301 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+        const svgUnmutedPaused = `<svg viewBox="0 0 24 24" fill="none" class="vol-svg"><path d="M5.5 9.99979V13.9998C5.5 15.9998 6.5 16.9998 8.5 16.9998H9.93C10.3 16.9998 10.67 17.1098 10.99 17.2998L13.91 19.1298C16.43 20.7098 18.5 19.5598 18.5 16.5898V7.40979C18.5 4.42979 16.43 3.28979 13.91 4.86979L10.99 6.69979C10.67 6.88979 10.3 6.99979 9.93 6.99979H8.5C6.5 6.99979 5.5 7.99979 5.5 9.99979Z" stroke="currentColor" stroke-width="1.5"/></svg>`;
+
         // --- ЛОГИКА СЕКРЕТНЫХ ЛОГОВ ---
         const adminLog = document.getElementById('admin-log');
         function addLog(msg) {
-            if (window.location.hash === '#admin') {
-                adminLog.style.display = 'block';
-            }
+            if (window.location.hash === '#admin') { adminLog.style.display = 'block'; }
             const time = new Date().toLocaleTimeString();
             adminLog.innerHTML += `<div>[${time}] ${msg}</div>`;
             adminLog.scrollTop = adminLog.scrollHeight;
@@ -303,7 +310,7 @@
             "Странный", "Её парень", "Священная война", "Плёнка", "грустинка",
             "xsonsss", "overdose", "ммм", "недотрога", "Chance", "фп", "флаг",
             "тинкер", "клановая", "ослепительна", "madk1d", "гимн", "Катюха",
-            "попал", "MORGENSHTERN", "потеря"
+            "попал", "MORGENSHTERN", "потеря", "truth yandere"
         ];
 
         const audio = document.getElementById('bg-music');
@@ -315,11 +322,51 @@
         const eq = document.getElementById('eq');
         const playlistMenu = document.getElementById('playlist-menu');
         const togglePlaylistBtn = document.getElementById('toggle-playlist-btn');
+        
+        // Звук
         const volumeSlider = document.getElementById('volume-slider');
+        const volumeBtn = document.getElementById('volume-btn');
+        let lastVol = 0.7;
 
         let playlist = [];
         let currentTrackIndex = 0;
         let hasStartedPlaying = false;
+
+        function updateVolumeIcon() {
+            if (audio.muted || audio.volume === 0) {
+                volumeBtn.innerHTML = svgMuted;
+            } else if (audio.paused) {
+                volumeBtn.innerHTML = svgUnmutedPaused;
+            } else {
+                volumeBtn.innerHTML = svgUnmutedPlaying;
+            }
+        }
+
+        volumeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.muted || audio.volume === 0) {
+                audio.muted = false;
+                audio.volume = lastVol > 0 ? lastVol : 0.7;
+                volumeSlider.value = audio.volume;
+            } else {
+                lastVol = audio.volume;
+                audio.muted = true;
+                volumeSlider.value = 0;
+            }
+            updateVolumeIcon();
+        });
+
+        audio.volume = volumeSlider.value;
+        updateVolumeIcon();
+
+        volumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+            if (audio.volume > 0) {
+                audio.muted = false;
+                lastVol = audio.volume;
+            }
+            updateVolumeIcon();
+        });
 
         addLog("Получение playlist.json...");
         fetch('playlist.json', { cache: 'no-store' })
@@ -379,11 +426,9 @@
                 else el.classList.remove('active'); 
             });
             
-            // Используем encode URI, так как аудио элементы требуют правильный формат для пробелов и символов
             const fileUrl = 'music/' + encodeURIComponent(file);
             audio.src = fileUrl;
             
-            // Абсолютный URL для библиотеки jsmediatags (это решило проблему "No suitable reader")
             const absoluteUrl = new URL(fileUrl, window.location.href).href;
             
             trackNameEl.innerText = defaultName;
@@ -440,6 +485,7 @@
             }
             
             if(autoPlay) { togglePlay(true); }
+            updateVolumeIcon(); // обновляем иконку звука при загрузке
         }
 
         function updateMediaSession(title, artist, artwork) {
@@ -479,7 +525,7 @@
         window.addEventListener('click', (e) => {
             if (!playlistMenu.contains(e.target) && !togglePlaylistBtn.contains(e.target)) { playlistMenu.classList.remove('show'); }
             if (!expandContent.contains(e.target) && !expandBtn.contains(e.target)) { expandContent.classList.remove('show'); expandBtn.classList.remove('active'); }
-            if (!hasStartedPlaying && audio.paused && playlist.length > 0 && e.target !== volumeSlider) { togglePlay(true); hasStartedPlaying = true; }
+            if (!hasStartedPlaying && audio.paused && playlist.length > 0 && e.target !== volumeSlider && e.target !== volumeBtn) { togglePlay(true); hasStartedPlaying = true; }
         });
 
         function togglePlay(forcePlay = false) {
@@ -492,24 +538,23 @@
                     iconPlay.style.display = 'none'; iconPause.style.display = 'block';
                     eq.classList.add('playing');
                     addLog("Воспроизведение начато.");
+                    updateVolumeIcon();
                 }).catch(err => { 
                     addLog(`АВТОЗАПУСК ЗАБЛОКИРОВАН браузером.`); 
                     iconPlay.style.display = 'block'; iconPause.style.display = 'none'; 
+                    updateVolumeIcon();
                 });
             } else {
                 audio.pause(); iconPlay.style.display = 'block'; iconPause.style.display = 'none';
                 eq.classList.remove('playing');
                 addLog("Плеер на паузе.");
+                updateVolumeIcon();
             }
         }
 
         playBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePlay(); hasStartedPlaying = true; });
         audio.addEventListener('ended', playNextTrack);
 
-        audio.volume = volumeSlider.value;
-        volumeSlider.addEventListener('input', (e) => {
-            audio.volume = e.target.value;
-        });
     </script>
 </body>
 </html>

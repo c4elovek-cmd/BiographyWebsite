@@ -1,36 +1,66 @@
 import os
 import json
 import yt_dlp
+from mutagen.mp3 import MP3
 
 # --- НАСТРОЙКИ ---
-# Теперь здесь твоя верная ссылка
 PLAYLIST_URL = 'https://soundcloud.com/c4elovechik/likes'
 
 MUSIC_DIR = 'music'
 OUTPUT_JSON = 'playlist.json'
-ARCHIVE_FILE = 'downloaded_tracks.txt'
 
-# Твой полный блэклист
+# Обновленный блэклист
 BLACKLIST = [
     "Странный", "Её парень", "Священная война", "Плёнка", "грустинка",
     "xsonsss", "overdose", "ммм", "недотрога", "Chance", "фп", "флаг",
     "тинкер", "клановая", "ослепительна", "madk1d", "гимн", "Катюха",
-    "попал", "MORGENSHTERN", "потеря"
+    "попал", "MORGENSHTERN", "потеря", "truth yandere"
 ]
 # -----------------
 
+def clean_coverless_tracks():
+    print("-" * 50)
+    print("0. Проверка треков на наличие обложек...")
+    if not os.path.exists(MUSIC_DIR):
+        return
+        
+    deleted_count = 0
+    for filename in os.listdir(MUSIC_DIR):
+        if filename.lower().endswith('.mp3'):
+            filepath = os.path.join(MUSIC_DIR, filename)
+            has_cover = False
+            try:
+                audio = MP3(filepath)
+                if audio.tags:
+                    for key in audio.tags.keys():
+                        if key.startswith('APIC'):
+                            has_cover = True
+                            break
+            except Exception:
+                pass # Пропускаем битые файлы
+            
+            if not has_cover:
+                print(f"[УДАЛЕНИЕ] Нет обложки, файл удален для перекачки: {filename}")
+                os.remove(filepath)
+                deleted_count += 1
+                
+    if deleted_count > 0:
+        print(f"Итого удалено для обновления: {deleted_count} треков.")
+    else:
+        print("Все скачанные треки имеют вшитые обложки.")
+
 def sync_tracks():
     print("-" * 50)
-    print(f"1. Скачивание с {PLAYLIST_URL}...")
+    print(f"1. Скачивание новых треков с {PLAYLIST_URL}...")
     print("-" * 50)
     
     if not os.path.exists(MUSIC_DIR):
         os.makedirs(MUSIC_DIR)
 
+    # Убрали download_archive, чтобы yt-dlp проверял наличие самих файлов.
     ydl_opts = {
         'format': 'bestaudio/best',
         'outtmpl': f'{MUSIC_DIR}/%(title)s.%(ext)s',
-        'download_archive': ARCHIVE_FILE,
         'writethumbnail': True,
         'postprocessors': [
             {'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192'},
@@ -39,7 +69,8 @@ def sync_tracks():
             {'key': 'FFmpegMetadata', 'add_metadata': True}
         ],
         'ignoreerrors': True,
-        'quiet': False
+        'quiet': False,
+        'nooverwrites': True # Пропускает треки, которые УЖЕ есть в папке
     }
 
     try:
@@ -77,5 +108,6 @@ def update_playlist_json():
     print(f"Готово! В плейлисте: {len(playlist)} треков. Скрыто: {ignored_count}")
 
 if __name__ == "__main__":
+    clean_coverless_tracks()
     sync_tracks()
     update_playlist_json()
