@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Maze&display=swap" rel="stylesheet">
 
+    <!-- Библиотека для чтения обложек и авторов прямо из MP3 файлов -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
@@ -36,6 +39,29 @@
             overflow-y: auto; 
             position: relative;
             padding: 40px 20px 150px 20px; 
+        }
+
+        /* ----------------------------------------------------------- */
+        /* СЕКРЕТНАЯ ПАНЕЛЬ ЛОГОВ (ТОЛЬКО ДЛЯ АДМИНА) */
+        /* ----------------------------------------------------------- */
+        #admin-log {
+            display: none;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            max-height: 35vh;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.85);
+            color: #00ff00;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 15px;
+            z-index: 10000;
+            font-family: monospace;
+            font-size: 11px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
         /* ----------------------------------------------------------- */
@@ -92,8 +118,7 @@
             -webkit-backdrop-filter: blur(40px) saturate(180%);
             border-radius: 30px; 
             border: 1px solid rgba(255, 255, 255, 0.08); 
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8),
-                        inset 0 0 1px rgba(255, 255, 255, 0.1); 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 1px rgba(255, 255, 255, 0.1); 
             padding: 28px 25px 23px 25px; 
             width: 100%;
             height: 100%;
@@ -137,10 +162,8 @@
             transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer;
         }
         .link-item:hover { 
-            background: rgba(255, 255, 255, 0.15); 
-            border-color: rgba(255, 255, 255, 0.4); 
-            transform: translateY(-3px); 
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); 
+            background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.4); 
+            transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); 
         }
         .icon { width: 22px; height: 22px; fill: currentColor; flex-shrink: 0; }
 
@@ -154,135 +177,41 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
         .inline-icon { width: 18px; height: 18px; vertical-align: text-bottom; margin-right: 6px; filter: brightness(0) invert(1); opacity: 1; }
-        
         .footer { margin-top: 25px; font-size: 10px; color: #71717a; letter-spacing: 2px; text-transform: uppercase; font-weight: normal;}
 
         /* ----------------------------------------------------------- */
         /* ЗНАЧКИ ВНУТРИ КАРТОЧКИ (СНИЗУ) */
         /* ----------------------------------------------------------- */
         .card-footer-icons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 15px; 
-            padding-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05); 
+            display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 15px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); 
         }
-        
-        .bottom-icon-link {
-            color: #ffffff;
-            opacity: 0.6; 
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .bottom-icon-link:hover {
-            opacity: 1;
-            transform: scale(1.1) translateY(-1px);
-            filter: drop-shadow(0 3px 6px rgba(255,255,255,0.3));
-        }
-
-        .bottom-icon-svg {
-            width: 24px; 
-            height: 24px;
-            fill: currentColor;
-        }
+        .bottom-icon-link { color: #ffffff; opacity: 0.6; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; }
+        .bottom-icon-link:hover { opacity: 1; transform: scale(1.1) translateY(-1px); filter: drop-shadow(0 3px 6px rgba(255,255,255,0.3)); }
+        .bottom-icon-svg { width: 24px; height: 24px; fill: currentColor; }
 
         /* 🎵 ПЛЕЕР */
-        .bottom-player-wrapper { 
-            position: fixed; 
-            bottom: 15px; left: 50%; 
-            transform: translateX(-50%); 
-            width: calc(100% - 40px); 
-            max-width: 420px; 
-            z-index: 999; 
-        }
-
-        .player-gradient-wrap {
-            padding: 2px;
-            border-radius: 26px;
-            background: linear-gradient(135deg, #ffffff 0%, #111111 50%, #ffffff 100%);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
-            animation: playerSlideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            animation-delay: 0.2s;
-            opacity: 0;
-            transform: translateY(100px);
-        }
-
-        .bottom-player { 
-            width: 100%; 
-            background: rgba(12, 12, 12, 0.6); 
-            backdrop-filter: blur(40px); 
-            -webkit-backdrop-filter: blur(40px); 
-            border-radius: 24px; 
-            padding: 12px 20px; 
-            display: flex; align-items: center; justify-content: space-between; 
-            position: relative; 
-        }
+        .bottom-player-wrapper { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 420px; z-index: 999; }
+        .player-gradient-wrap { padding: 2px; border-radius: 26px; background: linear-gradient(135deg, #ffffff 0%, #111111 50%, #ffffff 100%); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9); animation: playerSlideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 0.2s; opacity: 0; transform: translateY(100px); }
+        .bottom-player { width: 100%; background: rgba(12, 12, 12, 0.6); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border-radius: 24px; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; position: relative; }
         @keyframes playerSlideUp { to { transform: translateY(0); opacity: 1; } }
         
         .player-controls { display: flex; align-items: center; gap: 15px; width: 100%; }
-        
         .play-pause-btn { background: #ffffff; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #000000; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); flex-shrink: 0; box-shadow: 0 4px 15px rgba(255,255,255,0.2);}
         .play-pause-btn:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(255,255,255,0.4); }
         .play-pause-btn svg { width: 18px; height: 18px; fill: currentColor; }
 
         .track-meta { display: flex; flex-direction: column; overflow: hidden; flex-grow: 1; max-width: calc(100% - 150px); } 
         
-        /* ИСПРАВЛЕНИЕ: Добавлен шрифт Rubik Maze к тексту плеера */
         .track-name { font-family: "Rubik Maze", system-ui, sans-serif; font-size: 14px; font-weight: normal; color: #ffffff; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 5px rgba(0,0,0,0.8);}
-        .track-status { font-family: "Rubik Maze", system-ui, sans-serif; font-size: 11px; color: #a1a1aa; margin-top: 2px; font-weight: normal; letter-spacing: 1px;}
+        .track-status { font-family: "Rubik Maze", system-ui, sans-serif; font-size: 11px; color: #a1a1aa; margin-top: 2px; font-weight: normal; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 
         /* СТИЛИ ПОЛЗУНКА ГРОМКОСТИ */
-        .volume-control-wrap {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-shrink: 0;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-        
+        .volume-control-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; opacity: 0.7; transition: opacity 0.3s ease; }
         .volume-control-wrap:hover { opacity: 1; }
-
-        .volume-icon {
-            width: 18px;
-            height: 18px;
-            color: #ffffff;
-            flex-shrink: 0;
-        }
-
-        .volume-slider {
-            -webkit-appearance: none;
-            width: 70px; 
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            outline: none;
-            opacity: 0; 
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .volume-control-wrap:hover .volume-slider {
-            opacity: 1;
-            width: 70px;
-        }
-
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 10px;
-            height: 10px;
-            background: #ffffff;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.5);
-            transition: transform 0.2s ease;
-        }
-
+        .volume-icon { width: 18px; height: 18px; color: #ffffff; flex-shrink: 0; }
+        .volume-slider { -webkit-appearance: none; width: 70px; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; outline: none; opacity: 0; transition: all 0.3s ease; cursor: pointer; }
+        .volume-control-wrap:hover .volume-slider { opacity: 1; width: 70px; }
+        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; background: #ffffff; border-radius: 50%; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.5); transition: transform 0.2s ease; }
         .volume-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
         .volume-slider::-webkit-slider-thumb:active { transform: scale(1.1); background: #aaaaaa; }
 
@@ -300,7 +229,6 @@
         .playlist-menu.show { display: flex; animation: menuFadeIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
         @keyframes menuFadeIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
         
-        /* ИСПРАВЛЕНИЕ: Добавлен шрифт Rubik Maze к трекам в меню плейлиста */
         .playlist-item { font-family: "Rubik Maze", system-ui, sans-serif; padding: 14px 20px; font-size: 14px; color: #a1a1aa; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; min-height: 44px; line-height: 1.2;}
         .playlist-item:last-child { border-bottom: none; }
         .playlist-item:hover { background: rgba(255, 255, 255, 0.1); color: #fff; padding-left: 25px;}
@@ -312,6 +240,9 @@
     </style>
 </head>
 <body>
+
+    <!-- СЕКРЕТНАЯ ПАНЕЛЬ ЛОГОВ -->
+    <div id="admin-log"></div>
 
     <div class="orb-1" id="orb1"></div>
     <div class="orb-2" id="orb2"></div>
@@ -360,6 +291,7 @@
                 © 2026 c4elovek.online
             </div>
 
+            <!-- ИКОНКИ СК И СТИМА ПОД КАРТОЧКОЙ -->
             <div class="card-footer-icons">
                 <a href="https://steamcommunity.com/id/xxxc4elovekxxx/" target="_blank" class="bottom-icon-link" title="Мой Steam">
                     <svg class="bottom-icon-svg" viewBox="0 0 32 32" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" xmlns="http://www.w3.org/2000/svg">
@@ -423,7 +355,7 @@
                     
                     <div class="track-meta">
                         <span id="track-name" class="track-name">Ожидание...</span>
-                        <span id="player-status" class="track-status">Кликните плей</span>
+                        <span id="player-status" class="track-status">Загрузка...</span>
                     </div>
 
                     <div class="volume-control-wrap">
@@ -446,6 +378,22 @@
     </div>
 
     <script>
+        // --- ЛОГИКА СЕКРЕТНЫХ ЛОГОВ ---
+        const adminLog = document.getElementById('admin-log');
+        function addLog(msg) {
+            if (window.location.hash === '#admin') {
+                adminLog.style.display = 'block';
+            }
+            const time = new Date().toLocaleTimeString();
+            adminLog.innerHTML += `<div>[${time}] ${msg}</div>`;
+            adminLog.scrollTop = adminLog.scrollHeight;
+        }
+
+        window.addEventListener('hashchange', () => {
+            adminLog.style.display = (window.location.hash === '#admin') ? 'block' : 'none';
+        });
+
+        // Анимация кругов
         function moveOrbs() {
             const orb1 = document.getElementById('orb1');
             const orb2 = document.getElementById('orb2');
@@ -461,6 +409,7 @@
         setTimeout(moveOrbs, 100); 
         setInterval(moveOrbs, 10000);
 
+        // UI Кнопки
         const expandBtn = document.getElementById('expand-btn');
         const expandContent = document.getElementById('expand-content');
         expandBtn.addEventListener('click', (e) => {
@@ -477,32 +426,14 @@
                 const originalText = discordText.innerText;
                 discordText.innerText = 'Скопировано!';
                 setTimeout(() => { discordText.innerText = originalText; }, 2000);
-            }).catch(err => console.error('Ошибка копирования: ', err));
+            }).catch(err => addLog('Ошибка копирования: ' + err));
         });
 
-        // ИСПРАВЛЕНИЕ: Добавлен твой полный блэклист
         const BLACKLIST = [
-            "Странный",
-            "Её парень",
-            "Священная война",
-            "Плёнка",
-            "грустинка",
-            "xsonsss",
-            "overdose",
-            "ммм",
-            "недотрога",
-            "Chance",
-            "фп",
-            "флаг",
-            "тинкер",
-            "клановая",
-            "ослепительна",
-            "madk1d",
-            "гимн",
-            "Катюха",
-            "попал",
-            "MORGENSHTERN",
-            "потеря"
+            "Странный", "Её парень", "Священная война", "Плёнка", "грустинка",
+            "xsonsss", "overdose", "ммм", "недотрога", "Chance", "фп", "флаг",
+            "тинкер", "клановая", "ослепительна", "madk1d", "гимн", "Катюха",
+            "попал", "MORGENSHTERN", "потеря"
         ];
 
         const audio = document.getElementById('bg-music');
@@ -518,15 +449,17 @@
 
         let playlist = [];
         let currentTrackIndex = 0;
+        let hasStartedPlaying = false;
 
+        // Загрузка плейлиста
+        addLog("Получение playlist.json...");
         fetch('playlist.json', { cache: 'no-store' })
             .then(response => { 
-                if (!response.ok) { 
-                    throw new Error(`HTTP error! status: ${response.status}`); 
-                } 
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
                 return response.json(); 
             })
             .then(data => {
+                addLog(`Скачано треков из JSON: ${data.length}`);
                 playlist = data.filter(item => {
                     let fileName = typeof item === 'string' ? item : item.file;
                     const nameLower = fileName.toLowerCase();
@@ -534,18 +467,23 @@
                 });
 
                 if(playlist.length > 0) { 
+                    addLog(`После фильтрации блэклистом осталось: ${playlist.length}`);
                     buildPlaylistMenu(); 
-                    loadTrack(0, false); 
+
+                    // --- РАНДОМНЫЙ СТАРТ ---
+                    currentTrackIndex = Math.floor(Math.random() * playlist.length);
+                    addLog(`Выбран рандомный трек: Индекс ${currentTrackIndex}`);
+                    
+                    loadTrack(currentTrackIndex, false); 
                 } else { 
                     trackNameEl.innerText = "Плейлист пуст"; 
                     playlistMenu.innerHTML = '<div style="text-align:center; padding:15px; color:#a1a1aa;">Нет доступных треков</div>'; 
                 }
             })
             .catch(err => { 
-                trackNameEl.innerText = "Смотри лог"; 
-                playlistMenu.innerHTML = `<div style="text-align:left; padding:15px; color:#ef4444; font-family: monospace; font-size: 12px; line-height: 1.4; word-wrap: break-word;">
-                    <b>🚨 ОШИБКА ЗАГРУЗКИ:</b><br>${err.name}: ${err.message}<br><br><b>ДЕТАЛИ:</b><br>${err.stack}
-                </div>`; 
+                addLog(`КРИТИЧЕСКАЯ ОШИБКА: ${err.message}`);
+                trackNameEl.innerText = "Ошибка загрузки"; 
+                playlistMenu.innerHTML = `<div style="text-align:center; padding:15px; color:#ef4444;">Ошибка: ${err.message}</div>`; 
             });
 
         function buildPlaylistMenu() {
@@ -561,70 +499,93 @@
             });
         }
 
-	function loadTrack(index, autoPlay = true) {
-	    currentTrackIndex = index;
-	    let item = playlist[index];
-	    let file = typeof item === 'string' ? item : item.file;
-	    let cleanName = file.replace('.mp3', '').replace(/_/g, ' ');
-	    
-	    document.querySelectorAll('.playlist-item').forEach((el, i) => { 
-	        if(i === index) el.classList.add('active'); 
-	        else el.classList.remove('active'); 
-	    });
-	    
-	    const fileUrl = 'music/' + encodeURIComponent(file);
-	    audio.src = fileUrl;
-	    trackNameEl.innerText = cleanName;
+        function loadTrack(index, autoPlay = true) {
+            currentTrackIndex = index;
+            let item = playlist[index];
+            let file = typeof item === 'string' ? item : item.file;
 
-	    // Чтение вшитой обложки прямо из MP3
-	    if (window.jsmediatags) {
-	        window.jsmediatags.read(fileUrl, {
-	            onSuccess: function(tag) {
-	                let artworkArray = [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }];
-	                
-	                if (tag.tags.picture) {
-	                    const data = tag.tags.picture.data;
-	                    const format = tag.tags.picture.format;
-	                    const byteArray = new Uint8Array(data);
-	                    const blob = new Blob([byteArray], { type: format });
-	                    const imageUrl = URL.createObjectURL(blob);
-	                    
-	                    artworkArray = [{ src: imageUrl, sizes: '512x512', type: format }];
-	                }
-	                
-	                updateMediaSession(cleanName, artworkArray);
-	            },
-	            onError: function() {
-	                updateMediaSession(cleanName, [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }]);
-	            }
-	        });
-	    } else {
-	        updateMediaSession(cleanName, [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }]);
-	    }
-	    
-	    if(autoPlay) { togglePlay(true); }
-	}
+            let defaultName = file.replace('.mp3', '').replace(/_/g, ' ');
+            
+            document.querySelectorAll('.playlist-item').forEach((el, i) => { 
+                if(i === index) el.classList.add('active'); 
+                else el.classList.remove('active'); 
+            });
+            
+            const fileUrl = 'music/' + encodeURIComponent(file);
+            audio.src = fileUrl;
+            
+            // Ставим дефолтные значения пока теги не прочитались
+            trackNameEl.innerText = defaultName;
+            statusText.innerText = "Чтение файла...";
+            
+            addLog(`--------------------`);
+            addLog(`Загружаю файл: ${file}`);
 
-	function updateMediaSession(title, artwork) {
-	    if ('mediaSession' in navigator) {
-	        navigator.mediaSession.metadata = new MediaMetadata({
-	            title: title, 
-	            artist: 'c4elovek.online', 
-	            album: 'Избранный плейлист',
-	            artwork: artwork
-	        });
-	        navigator.mediaSession.setActionHandler('play', () => togglePlay(true));
-	        navigator.mediaSession.setActionHandler('pause', () => togglePlay(false));
-	        navigator.mediaSession.setActionHandler('previoustrack', playPrevTrack);
-	        navigator.mediaSession.setActionHandler('nexttrack', playNextTrack);
-	    }
-	}
-      
+            if (window.jsmediatags) {
+                window.jsmediatags.read(fileUrl, {
+                    onSuccess: function(tag) {
+                        let title = tag.tags.title || defaultName;
+                        let artist = tag.tags.artist || 'c4elovek.online';
+                        let artworkArray = [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }];
+                        
+                        addLog(`Теги успешно прочитаны. Автор: "${artist}", Название: "${title}"`);
+
+                        if (tag.tags.picture) {
+                            addLog(`Обложка найдена внутри файла!`);
+                            const data = tag.tags.picture.data;
+                            const format = tag.tags.picture.format;
+                            const byteArray = new Uint8Array(data);
+                            const blob = new Blob([byteArray], { type: format });
+                            const imageUrl = URL.createObjectURL(blob);
+                            artworkArray = [{ src: imageUrl, sizes: '512x512', type: format }];
+                        } else {
+                            addLog(`Обложка НЕ найдена, использую аватарку.`);
+                        }
+                        
+                        // Обновляем текст в плеере на сайте (как в SoundCloud)
+                        trackNameEl.innerText = title;
+                        statusText.innerText = artist;
+
+                        updateMediaSession(title, artist, artworkArray);
+                    },
+                    onError: function(error) {
+                        addLog(`Ошибка чтения тегов: ${error.type}`);
+                        trackNameEl.innerText = defaultName;
+                        statusText.innerText = 'c4elovek.online';
+                        updateMediaSession(defaultName, 'c4elovek.online', [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }]);
+                    }
+                });
+            } else {
+                addLog(`ОШИБКА: Библиотека jsmediatags не загружена!`);
+                trackNameEl.innerText = defaultName;
+                statusText.innerText = 'c4elovek.online';
+                updateMediaSession(defaultName, 'c4elovek.online', [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }]);
+            }
+            
+            if(autoPlay) { togglePlay(true); }
+        }
+
+        function updateMediaSession(title, artist, artwork) {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: title, 
+                    artist: artist, 
+                    album: 'Избранный плейлист',
+                    artwork: artwork
+                });
+                navigator.mediaSession.setActionHandler('play', () => togglePlay(true));
+                navigator.mediaSession.setActionHandler('pause', () => togglePlay(false));
+                navigator.mediaSession.setActionHandler('previoustrack', playPrevTrack);
+                navigator.mediaSession.setActionHandler('nexttrack', playNextTrack);
+                addLog(`Уведомление MediaSession обновлено.`);
+            }
+        }
 
         function playNextTrack() {
             if (playlist.length === 0) return;
             currentTrackIndex++;
             if (currentTrackIndex >= playlist.length) { currentTrackIndex = 0; }
+            addLog(`Переключение на СЛЕДУЮЩИЙ трек (Индекс: ${currentTrackIndex})`);
             loadTrack(currentTrackIndex, true);
         }
 
@@ -632,13 +593,12 @@
             if (playlist.length === 0) return;
             currentTrackIndex--;
             if (currentTrackIndex < 0) { currentTrackIndex = playlist.length - 1; }
+            addLog(`Переключение на ПРЕДЫДУЩИЙ трек (Индекс: ${currentTrackIndex})`);
             loadTrack(currentTrackIndex, true);
         }
 
         togglePlaylistBtn.addEventListener('click', (e) => { e.stopPropagation(); playlistMenu.classList.toggle('show'); });
 
-        let hasStartedPlaying = false;
-        
         window.addEventListener('click', (e) => {
             if (!playlistMenu.contains(e.target) && !togglePlaylistBtn.contains(e.target)) { playlistMenu.classList.remove('show'); }
             if (!expandContent.contains(e.target) && !expandBtn.contains(e.target)) { expandContent.classList.remove('show'); expandBtn.classList.remove('active'); }
@@ -653,11 +613,16 @@
             if (shouldPlay) {
                 audio.play().then(() => {
                     iconPlay.style.display = 'none'; iconPause.style.display = 'block';
-                    statusText.innerText = 'сейчас играет'; eq.classList.add('playing');
-                }).catch(err => { console.log("Автозапуск заблокирован."); iconPlay.style.display = 'block'; iconPause.style.display = 'none'; });
+                    eq.classList.add('playing');
+                    addLog("Воспроизведение начато.");
+                }).catch(err => { 
+                    addLog(`АВТОЗАПУСК ЗАБЛОКИРОВАН браузером.`); 
+                    iconPlay.style.display = 'block'; iconPause.style.display = 'none'; 
+                });
             } else {
                 audio.pause(); iconPlay.style.display = 'block'; iconPause.style.display = 'none';
-                statusText.innerText = 'на паузе'; eq.classList.remove('playing');
+                eq.classList.remove('playing');
+                addLog("Плеер на паузе.");
             }
         }
 
@@ -668,7 +633,6 @@
         volumeSlider.addEventListener('input', (e) => {
             audio.volume = e.target.value;
         });
-
     </script>
 </body>
 </html>
