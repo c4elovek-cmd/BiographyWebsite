@@ -39,7 +39,9 @@
 
         h1 { font-size: 26px; font-weight: normal; margin-bottom: 2px; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(255,255,255,0.3); }
         .username { font-size: 14px; color: #a3a3a3; font-weight: normal; margin-bottom: 15px; letter-spacing: 1px; }
-        .bio { font-size: 14px; color: #d4d4d4; line-height: 1.6; margin-bottom: 25px; font-weight: normal; }
+        
+        /* Изменили display на flex для центровки текста с иконкой */
+        .bio { font-size: 14px; color: #d4d4d4; line-height: 1.6; margin-bottom: 25px; font-weight: normal; display: flex; align-items: flex-start; justify-content: center; }
 
         .links-container { display: flex; flex-direction: column; gap: 12px; }
         .link-item { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 18px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-top: 1px solid rgba(255, 255, 255, 0.25); border-radius: 18px; color: #ffffff; text-decoration: none; font-size: 15px; font-weight: normal; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer; }
@@ -54,7 +56,8 @@
         .expand-content { display: none; align-items: center; margin-top: 10px; padding: 12px 16px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; color: #e5e5e5; font-size: 14px; width: 100%; text-align: left; }
         .expand-content.show { display: flex; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-        .inline-icon { width: 18px; height: 18px; vertical-align: text-bottom; margin-right: 6px; filter: brightness(0) invert(1); opacity: 1; }
+        
+        .inline-icon { width: 18px; height: 18px; margin-right: 6px; flex-shrink: 0; margin-top: 2px; }
         .footer { margin-top: 25px; font-size: 10px; color: #71717a; letter-spacing: 2px; text-transform: uppercase; font-weight: normal;}
 
         .card-footer-icons { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 15px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
@@ -132,8 +135,10 @@
             <div class="username">@c4elovek-cmd</div>
 
             <p class="bio">
-                <img src="svg/warning-circle.svg" alt="warning" class="inline-icon" onerror="this.src='warning-circle-svgrepo-com.svg'">
-                Сайт сделан потому что были деньги которые надо было потратить. Здесь собраны все актуальные ссылки для связи со мной и мои текущие проекты.
+                <svg class="inline-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 16.99V17M12 7V14M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Сайт сделан потому что были деньги которые надо было потратить. Здесь собраны все актуальные ссылки для связи со мной и мои текущие проекты.</span>
             </p>
 
             <div class="links-container">
@@ -157,7 +162,11 @@
                     <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
                 </button>
                 <div id="expand-content" class="expand-content">
-                    <img src="svg/info-square.svg" alt="info" class="inline-icon" onerror="this.src='info-square-svgrepo-com.svg'">
+                    <svg class="inline-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 17V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="currentColor"/>
+                        <path d="M22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C21.5093 4.43821 21.8356 5.80655 21.9449 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
                     рагнарог
                 </div>
             </div>
@@ -485,7 +494,7 @@
             }
             
             if(autoPlay) { togglePlay(true); }
-            updateVolumeIcon(); // обновляем иконку звука при загрузке
+            updateVolumeIcon(); 
         }
 
         function updateMediaSession(title, artist, artwork) {
