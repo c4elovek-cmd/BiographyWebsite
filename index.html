@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>c4elovek | Персональная страница</title>
     
+    <!-- Подключаем шрифт Rubik Maze -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Maze&display=swap" rel="stylesheet">
@@ -20,7 +21,7 @@
             margin: 0;
             padding: 0;
             font-family: sans-serif;
-	    -webkit-tap-highlight-color: transparent;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -230,12 +231,12 @@
         .play-pause-btn svg { width: 18px; height: 18px; fill: currentColor; }
 
         .track-meta { display: flex; flex-direction: column; overflow: hidden; flex-grow: 1; max-width: calc(100% - 150px); } 
-        .track-name { font-size: 14px; font-weight: normal; color: #ffffff; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 5px rgba(0,0,0,0.8);}
-        .track-status { font-size: 11px; color: #a1a1aa; margin-top: 2px; font-weight: normal; letter-spacing: 1px;}
+        
+        /* ИСПРАВЛЕНИЕ: Добавлен шрифт Rubik Maze к тексту плеера */
+        .track-name { font-family: "Rubik Maze", system-ui, sans-serif; font-size: 14px; font-weight: normal; color: #ffffff; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 5px rgba(0,0,0,0.8);}
+        .track-status { font-family: "Rubik Maze", system-ui, sans-serif; font-size: 11px; color: #a1a1aa; margin-top: 2px; font-weight: normal; letter-spacing: 1px;}
 
-        /* ----------------------------------------------------------- */
         /* СТИЛИ ПОЛЗУНКА ГРОМКОСТИ */
-        /* ----------------------------------------------------------- */
         .volume-control-wrap {
             display: flex;
             align-items: center;
@@ -299,7 +300,8 @@
         .playlist-menu.show { display: flex; animation: menuFadeIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
         @keyframes menuFadeIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
         
-        .playlist-item { padding: 14px 20px; font-size: 14px; color: #a1a1aa; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; min-height: 44px; line-height: 1.2;}
+        /* ИСПРАВЛЕНИЕ: Добавлен шрифт Rubik Maze к трекам в меню плейлиста */
+        .playlist-item { font-family: "Rubik Maze", system-ui, sans-serif; padding: 14px 20px; font-size: 14px; color: #a1a1aa; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; min-height: 44px; line-height: 1.2;}
         .playlist-item:last-child { border-bottom: none; }
         .playlist-item:hover { background: rgba(255, 255, 255, 0.1); color: #fff; padding-left: 25px;}
         .playlist-item.active { color: #fff; font-weight: normal; background: rgba(255, 255, 255, 0.08); border-left: 4px solid #ffffff; padding-left: 20px;}
@@ -478,7 +480,30 @@
             }).catch(err => console.error('Ошибка копирования: ', err));
         });
 
-        const BLACKLIST = ['chainsaww', 'overdose', 'tesla'];
+        // ИСПРАВЛЕНИЕ: Добавлен твой полный блэклист
+        const BLACKLIST = [
+            "Странный",
+            "Её парень",
+            "Священная война",
+            "Плёнка",
+            "грустинка",
+            "xsonsss",
+            "overdose",
+            "ммм",
+            "недотрога",
+            "Chance",
+            "фп",
+            "флаг",
+            "тинкер",
+            "клановая",
+            "ослепительна",
+            "madk1d",
+            "гимн",
+            "Катюха",
+            "попал",
+            "MORGENSHTERN",
+            "потеря"
+        ];
 
         const audio = document.getElementById('bg-music');
         const playBtn = document.getElementById('play-btn');
@@ -502,7 +527,6 @@
                 return response.json(); 
             })
             .then(data => {
-                // Универсальная фильтрация: поддерживает и старый (строки), и новый (объекты) формат playlist.json
                 playlist = data.filter(item => {
                     let fileName = typeof item === 'string' ? item : item.file;
                     const nameLower = fileName.toLowerCase();
@@ -518,7 +542,6 @@
                 }
             })
             .catch(err => { 
-                // Вывод полного лога при ошибке загрузки
                 trackNameEl.innerText = "Смотри лог"; 
                 playlistMenu.innerHTML = `<div style="text-align:left; padding:15px; color:#ef4444; font-family: monospace; font-size: 12px; line-height: 1.4; word-wrap: break-word;">
                     <b>🚨 ОШИБКА ЗАГРУЗКИ:</b><br>${err.name}: ${err.message}<br><br><b>ДЕТАЛИ:</b><br>${err.stack}
@@ -542,7 +565,6 @@
             currentTrackIndex = index;
             let item = playlist[index];
             
-            // Получаем файл и обложку (с поддержкой старого и нового формата JSON)
             let file = typeof item === 'string' ? item : item.file;
             let coverImage = (typeof item === 'object' && item.cover) ? item.cover : 'avatar.png';
 
@@ -601,7 +623,6 @@
         function togglePlay(forcePlay = false) {
             if (playlist.length === 0) return;
             
-            // Если передан явный флаг forcePlay, используем его, иначе переключаем текущее состояние
             const shouldPlay = typeof forcePlay === 'boolean' && forcePlay.isTrusted === undefined ? forcePlay : audio.paused;
 
             if (shouldPlay) {
