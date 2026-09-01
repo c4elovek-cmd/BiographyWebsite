@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Моды сервера SaperCraft | c4elovek</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Maze&display=swap" rel="stylesheet">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #000000; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; position: relative; padding: 40px 20px; justify-content: center;}
+
+        .orb-1, .orb-2 { position: fixed; border-radius: 50%; filter: blur(50px); z-index: 0; opacity: 0.8; pointer-events: none; }
+        .orb-1 { width: 320px; height: 320px; background: linear-gradient(135deg, #00ff88, #003311); top: 0; left: 0; }
+        .orb-2 { width: 380px; height: 380px; background: linear-gradient(135deg, #0088ff, #001133); top: 0; left: 0; }
+
+        .gradient-border-wrap { margin: auto; position: relative; border-radius: 32px; padding: 2px; background: linear-gradient(135deg, #ffffff 0%, #111111 50%, #ffffff 100%); width: 100%; max-width: 420px; z-index: 2; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(40px); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 35px 25px; width: 100%; text-align: center; }
+        
+        h1 { font-family: "Rubik Maze", system-ui, sans-serif; font-size: 28px; font-weight: normal; margin-bottom: 5px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .subtitle { font-size: 14px; color: #a3a3a3; margin-bottom: 25px; }
+
+        .mods-list { text-align: left; background: rgba(0,0,0,0.4); border-radius: 16px; padding: 20px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); }
+        .mods-list h3 { font-size: 15px; margin-bottom: 12px; color: #fff; }
+        .mods-list ul { list-style: none; }
+        .mods-list li { font-size: 13px; color: #d4d4d4; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .mods-list li::before { content: '✓'; color: #00ff88; font-weight: bold; }
+
+        .instruction { font-size: 12px; color: #9ca3af; text-align: left; margin-bottom: 20px; line-height: 1.5; }
+
+        .btn-group { display: flex; flex-direction: column; gap: 10px; }
+        .btn { display: inline-block; width: 100%; padding: 16px; border-radius: 16px; border: none; background: #ffffff; color: #000000; text-decoration: none; font-size: 15px; font-weight: bold; transition: 0.2s; box-shadow: 0 4px 15px rgba(255,255,255,0.2); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,255,255,0.4); }
+        .btn:active { transform: scale(0.98); }
+        
+        .btn.rar-btn { background: #2a2a2a; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); box-shadow: none; }
+        .btn.rar-btn:hover { background: #333333; }
+
+        .back-link { display: inline-block; margin-top: 30px; color: #9ca3af; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="orb-1" id="orb1"></div>
+    <div class="orb-2" id="orb2"></div>
+
+    <div class="gradient-border-wrap">
+        <div class="glass-card">
+            <h1>SaperCraft</h1>
+            <div class="subtitle">Сборка модов (Версия 1.20.1)</div>
+
+            <div class="mods-list">
+                <h3>В сборку включены:</h3>
+                <ul>
+                    <li><b>Create</b> — механизмы и автоматизация</li>
+                    <li><b>TACZ</b> — крутое оружие</li>
+                    <li><b>ParCool</b> — паркур и акробатика</li>
+                    <li><b>Paraglider</b> — парапланы из Зельды</li>
+                    <li><b>DecoCraft</b> — декор и мебель</li>
+                </ul>
+            </div>
+
+            <div class="instruction">
+                <b>Как установить:</b><br>
+                1. Скачай архив по кнопке ниже.<br>
+                2. Распакуй его содержимое в папку <code>.minecraft/mods</code><br>
+                3. Убедись, что у тебя установлен <b>Forge 1.20.1</b>.
+            </div>
+
+            <div class="btn-group">
+                <!-- Ссылки автоматически конвертированы в прямые для скачивания -->
+                <a href="https://drive.google.com/uc?export=download&id=1FVx6l3JgISApZNllGqDIIwFa6OLPprkr" class="btn">Скачать ZIP-архив (Рекомендуется)</a>
+                <a href="https://drive.google.com/uc?export=download&id=1ftTGnpipp_nCvwB6nlB0DoCjBHv4DY9G" class="btn rar-btn">Скачать RAR-архив</a>
+            </div>
+
+            <a href="/" class="back-link">← На главную</a>
+        </div>
+    </div>
+
+    <script>
+        const orb1 = document.getElementById('orb1');
+        const orb2 = document.getElementById('orb2');
+
+        function moveOrbs() {
+            orb1.style.transition = 'transform 10s ease-in-out';
+            orb2.style.transition = 'transform 10s ease-in-out';
+            orb1.style.transform = `translate(${Math.floor(Math.random() * window.innerWidth) - 150}px, ${Math.floor(Math.random() * window.innerHeight) - 150}px) scale(${Math.random() * 0.5 + 0.8})`;
+            orb2.style.transform = `translate(${Math.floor(Math.random() * window.innerWidth) - 150}px, ${Math.floor(Math.random() * window.innerHeight) - 150}px) scale(${Math.random() * 0.5 + 0.8})`;
+        }
+        
+        moveOrbs();
+        setInterval(moveOrbs, 10000);
+    </script>
+</body>
+</html>
