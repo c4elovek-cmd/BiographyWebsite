@@ -13,7 +13,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: #000000; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; position: relative; padding: 40px 20px; justify-content: center;}
 
-        .orb-1, .orb-2 { position: fixed; border-radius: 50%; filter: blur(50px); z-index: 0; opacity: 0.8; pointer-events: none; transition: transform 10s ease-in-out; }
+        /* Убрали плавность отсюда, ей полностью управляет скрипт */
+        .orb-1, .orb-2 { position: fixed; border-radius: 50%; filter: blur(50px); z-index: 0; opacity: 0.8; pointer-events: none; }
         .orb-1 { width: 320px; height: 320px; background: linear-gradient(135deg, #ffffff, #333333); top: 0; left: 0; }
         .orb-2 { width: 380px; height: 380px; background: linear-gradient(135deg, #777777, #111111); top: 0; left: 0; }
 
@@ -91,12 +92,54 @@
     </div>
 
     <script>
-        function moveOrbs() {
-            document.getElementById('orb1').style.transform = `translate(${Math.floor(Math.random() * window.innerWidth) - 150}px, ${Math.floor(Math.random() * window.innerHeight) - 150}px) scale(${Math.random() * 0.5 + 0.8})`;
-            document.getElementById('orb2').style.transform = `translate(${Math.floor(Math.random() * window.innerWidth) - 150}px, ${Math.floor(Math.random() * window.innerHeight) - 150}px) scale(${Math.random() * 0.5 + 0.8})`;
-        }
-        setTimeout(moveOrbs, 100); setInterval(moveOrbs, 10000);
+        const orb1 = document.getElementById('orb1');
+        const orb2 = document.getElementById('orb2');
 
+        function moveOrbs() {
+            orb1.style.transition = 'transform 10s ease-in-out';
+            orb2.style.transition = 'transform 10s ease-in-out';
+            orb1.style.transform = `translate(${Math.floor(Math.random() * window.innerWidth) - 150}px, ${Math.floor(Math.random() * window.innerHeight) - 150}px) scale(${Math.random() * 0.5 + 0.8})`;
+            orb2.style.transform = `translate(${Math.floor(Math.random() * window.innerWidth) - 150}px, ${Math.floor(Math.random() * window.innerHeight) - 150}px) scale(${Math.random() * 0.5 + 0.8})`;
+        }
+
+        // Читаем точные координаты из памяти
+        const saved1 = sessionStorage.getItem('orb1_matrix');
+        const saved2 = sessionStorage.getItem('orb2_matrix');
+
+        if (saved1 && saved2 && saved1 !== 'none') {
+            // Мгновенно ставим круги на прошлую позицию без анимации
+            orb1.style.transition = 'none';
+            orb2.style.transition = 'none';
+            orb1.style.transform = saved1;
+            orb2.style.transform = saved2;
+            
+            // Ждем пока браузер отрендерит кадр, и запускаем полет дальше
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => moveOrbs());
+            });
+        } else {
+            moveOrbs();
+        }
+
+        setInterval(moveOrbs, 10000);
+
+        // Функция сохранения точных координат "в полете"
+        function saveOrbsPos() {
+            const style1 = window.getComputedStyle(orb1).transform;
+            const style2 = window.getComputedStyle(orb2).transform;
+            if(style1 !== 'none') sessionStorage.setItem('orb1_matrix', style1);
+            if(style2 !== 'none') sessionStorage.setItem('orb2_matrix', style2);
+        }
+
+        // Сохраняем при обновлении страницы на ПК
+        window.addEventListener('beforeunload', saveOrbsPos);
+        // Сохраняем при сворачивании браузера на телефоне
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') saveOrbsPos();
+        });
+
+
+        // --- Логика сокращателя ---
         const btn = document.getElementById('shorten-btn');
         const urlInput = document.getElementById('long-url');
         const lengthInput = document.getElementById('link-length');
@@ -104,7 +147,6 @@
         const expireSelect = document.getElementById('link-expire');
         const specialCheck = document.getElementById('link-special');
         const oneTimeCheck = document.getElementById('link-onetime');
-        
         const resultBox = document.getElementById('result-box');
         const resultLink = document.getElementById('result-link');
         const copyBtn = document.getElementById('copy-btn');
@@ -140,11 +182,14 @@
                     })
                 });
                 
-                if (!response.ok) throw new Error();
-                
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(errText || 'Ошибка сервера');
+                }
                 const data = await response.json();
+                if(data.error) throw new Error(data.error);
+
                 currentShortUrl = data.shortUrl;
-                
                 resultLink.innerText = currentShortUrl;
                 resultLink.href = currentShortUrl;
                 copyBtn.style.display = 'inline-block';
@@ -153,10 +198,16 @@
                 expireSelect.value = ''; oneTimeCheck.checked = false; specialCheck.checked = false;
             } catch (e) {
                 resultBox.classList.add('error');
-                resultLink.innerText = 'Ошибка соединения с сервером.';
+                let errorMsg = 'Ошибка соединения с сервером.';
+                try {
+                    const parsedErr = JSON.parse(e.message);
+                    if(parsedErr.error) errorMsg = parsedErr.error;
+                } catch(err) {
+                    if (e.message !== 'Ошибка сервера') errorMsg = e.message;
+                }
+                resultLink.innerText = errorMsg;
                 resultLink.removeAttribute('href');
             }
-            
             btn.innerText = 'Создать ссылку';
             btn.disabled = false;
         });
