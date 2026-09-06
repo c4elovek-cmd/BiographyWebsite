@@ -1,32 +1,118 @@
 [
-  "Amoral.mp3",
-  "Bombby_DJ_Javi26_-_Overlook_(SkySound.cc).mp3.mp3",
-  "It's A Dream (feat Lil Uzi Vert).mp3",
-  "Meant To Be.mp3",
-  "Noize MC - Кооператив «Лебединое озеро».mp3",
-  "Rebzyyx - I'm so crazy for youuu ＜⧸3.mp3",
-  "S0N6F0RMYD34TH x kurapika.mp3",
-  "S0N6F0RMYD34TH.mp3",
-  "SANYA TEKK.mp3",
-  "SOMETIMES Hardstyle (Remix).mp3",
-  "cavetown ⧸⧸ devil town.mp3",
-  "chainsaww (feat. siouxxie).mp3",
-  "goofy Crush x Burnt rice mix.mp3",
-  "s0nder — Solitude.mp3",
-  "tesla (slowed electro mix).mp3",
-  "Ёлка - Прованс Hardstyle Remix.mp3",
-  "Бог - Grad!ent.mp3",
-  "МОЙ БАТЯ.mp3",
-  "Монеточка, noise – Люди с автоматами.mp3",
-  "Наблюдатель.mp3",
-  "Остановка На Покурить.mp3",
-  "Пообещай.mp3",
-  "ФРЭНК - Саня.mp3",
-  "большие планы (prod. thereddmelly, clxner).mp3",
-  "в коже by ɖʝ ʐʊք ʀǟɨɨɨ.mp3",
-  "не придет домой (prod. youngslashprod + nowaycvv).mp3",
-  "порезы на руках + elox1m (prod. maniken05).mp3",
-  "револьвер.mp3",
-  "я не приду на выпускной.mp3",
-  "ярче солнца - пообещай (mylancore).mp3"
+  {
+    "file": "track01.mp3",
+    "name": "Amoral"
+  },
+  {
+    "file": "track02.mp3",
+    "name": "Bombby DJ Javi26 - Overlook (SkySound.cc).mp3"
+  },
+  {
+    "file": "track08.mp3",
+    "name": "Meant To Be"
+  },
+  {
+    "file": "track09.mp3",
+    "name": "Noize MC - Кооператив «Лебединое озеро»"
+  },
+  {
+    "file": "track11.mp3",
+    "name": "Rebzyyx - I'm so crazy for youuu ＜⧸3"
+  },
+  {
+    "file": "track12.mp3",
+    "name": "S0N6F0RMYD34TH x kurapika"
+  },
+  {
+    "file": "track13.mp3",
+    "name": "S0N6F0RMYD34TH"
+  },
+  {
+    "file": "track14.mp3",
+    "name": "SANYA TEKK"
+  },
+  {
+    "file": "track15.mp3",
+    "name": "SOMETIMES Hardstyle (Remix)"
+  },
+  {
+    "file": "track16.mp3",
+    "name": "cavetown ⧸⧸ devil town"
+  },
+  {
+    "file": "track17.mp3",
+    "name": "chainsaww (feat. siouxxie)"
+  },
+  {
+    "file": "track18.mp3",
+    "name": "goofy Crush x Burnt rice mix"
+  },
+  {
+    "file": "track23.mp3",
+    "name": "s0nder — Solitude"
+  },
+  {
+    "file": "track25.mp3",
+    "name": "tesla (slowed electro mix)"
+  },
+  {
+    "file": "track31.mp3",
+    "name": "Ёлка - Прованс Hardstyle Remix"
+  },
+  {
+    "file": "track32.mp3",
+    "name": "Бог - Grad!ent"
+  },
+  {
+    "file": "track36.mp3",
+    "name": "МОЙ БАТЯ"
+  },
+  {
+    "file": "track37.mp3",
+    "name": "Монеточка, noise – Люди с автоматами"
+  },
+  {
+    "file": "track38.mp3",
+    "name": "Наблюдатель"
+  },
+  {
+    "file": "track39.mp3",
+    "name": "Остановка На Покурить"
+  },
+  {
+    "file": "track41.mp3",
+    "name": "Пообещай"
+  },
+  {
+    "file": "track44.mp3",
+    "name": "ФРЭНК - Саня"
+  },
+  {
+    "file": "track45.mp3",
+    "name": "большие планы (prod. thereddmelly, clxner)"
+  },
+  {
+    "file": "track46.mp3",
+    "name": "в коже by ɖʝ ʐʊք ʀǟɨɨɨ"
+  },
+  {
+    "file": "track48.mp3",
+    "name": "не придет домой (prod. youngslashprod + nowaycvv)"
+  },
+  {
+    "file": "track49.mp3",
+    "name": "порезы на руках + elox1m (prod. maniken05)"
+  },
+  {
+    "file": "track50.mp3",
+    "name": "револьвер"
+  },
+  {
+    "file": "track52.mp3",
+    "name": "я не приду на выпускной"
+  },
+  {
+    "file": "track53.mp3",
+    "name": "ярче солнца - пообещай (mylancore)"
+  }
 ]
