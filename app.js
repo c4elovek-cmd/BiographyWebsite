@@ -148,7 +148,7 @@ function buildPlaylistMenu() {
 playlistMenu.innerHTML = '';
 playlist.forEach((item, index) => {
 let fileName = typeof item === 'string' ? item : item.file;
-let cleanName = fileName.replace('.mp3', '').replace(/_/g, ' ');
+let cleanName = (typeof item === 'object' && item.name) ? item.name : fileName.replace('.mp3', '').replace(/_/g, ' ');
 let el = document.createElement('div');
 el.className = 'playlist-item';
 el.innerText = `${index + 1}. ${cleanName}`;
@@ -160,7 +160,7 @@ function loadTrack(index, autoPlay = true) {
 currentTrackIndex = index;
 let item = playlist[index];
 let file = typeof item === 'string' ? item : item.file;
-let defaultName = file.replace('.mp3', '').replace(/_/g, ' ');
+let defaultName = (typeof item === 'object' && item.name) ? item.name : file.replace('.mp3', '').replace(/_/g, ' ');
 document.querySelectorAll('.playlist-item').forEach((el, i) => {
 if(i === index) el.classList.add('active');
 else el.classList.remove('active');
