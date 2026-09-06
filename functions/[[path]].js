@@ -1,9 +1,14 @@
-// Catch-all: короткие ссылки из KV (переехало из Worker secure-shortener).
-// Статические файлы Pages отдаёт сам — функция вызывается только для путей без ассета.
+// Catch-all: сначала отдаём статический файл (next()), а для несуществующих
+// путей ищем короткую ссылку в KV (переезжает из Worker secure-shortener).
 export async function onRequest(context) {
-  const { request, env, params } = context;
-  const url = new URL(request.url);
+  const { request, env, params, next } = context;
 
+  const response = await next();
+  if (response.status !== 404) {
+    return response;
+  }
+
+  const url = new URL(request.url);
   if (url.pathname.startsWith("/api/")) {
     return new Response(JSON.stringify({ error: "Not found" }), {
       status: 404,
@@ -13,12 +18,12 @@ export async function onRequest(context) {
 
   const path = (Array.isArray(params.path) ? params.path.join("/") : params.path) || "";
   if (!path) {
-    return new Response("Not found", { status: 404 });
+    return response;
   }
 
   const rawData = await env.LINKS.get(path);
   if (!rawData) {
-    return new Response("Not found", { status: 404 });
+    return response;
   }
 
   let targetUrl = rawData;
