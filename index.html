@@ -1,145 +1,34 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>c4elovek | Персональная страница</title>
-    
+    <title>c4elovek | РџРµСЂСЃРѕРЅР°Р»СЊРЅР°СЏ СЃС‚СЂР°РЅРёС†Р°</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Maze&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
-
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <link rel="manifest" href="favicon/site.webmanifest">
-
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #000000; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; overflow-y: auto; position: relative; padding: 40px 20px 150px 20px; }
-
-        #admin-log { display: none; position: fixed; top: 10px; left: 10px; right: 10px; max-height: 35vh; overflow-y: auto; background: rgba(0, 0, 0, 0.85); color: #00ff00; border: 1px solid #333; border-radius: 12px; padding: 15px; z-index: 10000; font-family: monospace; font-size: 11px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-
-        .orb-1, .orb-2 { position: fixed; border-radius: 50%; filter: blur(50px); z-index: 0; opacity: 0.8; pointer-events: none; transition: transform 10s ease-in-out; will-change: transform; }
-        .orb-1 { width: 320px; height: 320px; background: linear-gradient(135deg, #ffffff, #333333); top: 0; left: 0; }
-        .orb-2 { width: 380px; height: 380px; background: linear-gradient(135deg, #777777, #111111); top: 0; left: 0; }
-
-        .gradient-border-wrap { margin: auto 0; position: relative; border-radius: 32px; padding: 2px; width: 100%; max-width: 420px; z-index: 2; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9); animation: glassAppear 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .gradient-border-wrap::before { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; border-radius: 32px; padding: 2px; background: linear-gradient(135deg, #ffffff 0%, #111111 50%, #ffffff 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; pointer-events: none; }
-        .glass-card * { font-family: "Rubik Maze", system-ui, sans-serif; }
-
-        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 1px rgba(255, 255, 255, 0.1); padding: 28px 25px 23px 25px; width: 100%; height: 100%; text-align: center; }
-        @keyframes glassAppear { from { opacity: 0; transform: scale(0.9) translateY(20px); filter: blur(15px); } to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } }
-
-        .avatar-container { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
-        .avatar-container::before { content: ''; position: absolute; top: -4%; left: -4%; right: -4%; bottom: -4%; background: linear-gradient(45deg, #ffffff, #444444); border-radius: 50%; z-index: -1; filter: blur(12px); opacity: 0.6; transition: opacity 0.5s ease; }
-        .avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.5); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .avatar-container:hover .avatar { transform: scale(1.05); }
-        .avatar-container:hover::before { opacity: 0.9; }
-
-        h1 { font-size: 26px; font-weight: normal; margin-bottom: 2px; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(255,255,255,0.3); }
-        .username { font-size: 14px; color: #a3a3a3; font-weight: normal; margin-bottom: 15px; letter-spacing: 1px; }
-        
-        /* Убрали flex, чтобы текст с иконкой был единым блоком и не было дыр */
-        .bio { font-size: 14px; color: #d4d4d4; line-height: 1.6; margin-bottom: 25px; font-weight: normal; }
-
-        .links-container { display: flex; flex-direction: column; gap: 12px; }
-        .link-item { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 18px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-top: 1px solid rgba(255, 255, 255, 0.25); border-radius: 18px; color: #ffffff; text-decoration: none; font-size: 15px; font-weight: normal; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer; }
-        .link-item:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.4); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); }
-        .icon { width: 22px; height: 22px; fill: currentColor; flex-shrink: 0; }
-
-        .expand-container { display: flex; flex-direction: column; align-items: flex-start; margin-top: 18px; width: 100%; }
-        .expand-btn { background: none; border: none; cursor: pointer; padding: 5px 0; display: flex; align-items: center; gap: 6px; outline: none; color: #9ca3af; font-size: 14px; font-weight: normal; transition: color 0.3s ease; }
-        .expand-btn svg { width: 20px; height: 20px; fill: currentColor; transition: transform 0.3s ease; }
-        .expand-btn:hover { color: #ffffff; }
-        .expand-btn.active svg { transform: rotate(180deg); }
-        .expand-content { display: none; align-items: center; margin-top: 10px; padding: 12px 16px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; color: #e5e5e5; font-size: 14px; width: 100%; text-align: left; }
-        .expand-content.show { display: flex; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .inline-icon { width: 18px; height: 18px; display: inline-block; vertical-align: middle; margin-right: 4px; position: relative; top: -2px; flex-shrink: 0; }
-        
-        .footer { margin-top: 25px; font-size: 10px; color: rgba(255, 255, 255, 0.6); letter-spacing: 2px; text-transform: uppercase; font-weight: normal; text-shadow: 0 1px 3px rgba(0,0,0,0.5);}
-
-        .card-footer-icons { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 15px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
-        .bottom-icon-link { color: #ffffff; opacity: 0.6; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; }
-        .bottom-icon-link:hover { opacity: 1; transform: scale(1.1) translateY(-1px); filter: drop-shadow(0 3px 6px rgba(255,255,255,0.3)); }
-        .bottom-icon-svg { width: 24px; height: 24px; fill: currentColor; }
-
-        /* 🎵 ПЛЕЕР */
-        .bottom-player-wrapper { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 420px; z-index: 999; }
-        .player-gradient-wrap { padding: 2px; border-radius: 26px; background: linear-gradient(135deg, #ffffff 0%, #111111 50%, #ffffff 100%); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9); animation: playerSlideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 0.2s; opacity: 0; transform: translateY(100px); }
-        .bottom-player { width: 100%; background: rgba(12, 12, 12, 0.6); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border-radius: 24px; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; position: relative; }
-        @keyframes playerSlideUp { to { transform: translateY(0); opacity: 1; } }
-        
-        .player-controls { display: flex; align-items: center; gap: 12px; width: 100%; }
-        .play-pause-btn { background: #ffffff; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #000000; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); flex-shrink: 0; box-shadow: 0 4px 15px rgba(255,255,255,0.2);}
-        .play-pause-btn:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(255,255,255,0.4); }
-        .play-pause-btn svg { width: 18px; height: 18px; fill: currentColor; }
-
-        .track-meta { display: flex; flex-direction: column; overflow: hidden; flex: 1 1 auto; margin-right: 5px; min-width: 0; } 
-        .track-name { font-family: "Rubik Maze", system-ui, sans-serif; font-size: 14px; font-weight: normal; color: #ffffff; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 5px rgba(0,0,0,0.8);}
-        .track-status { font-family: "Rubik Maze", system-ui, sans-serif; font-size: 11px; color: #a1a1aa; margin-top: 2px; font-weight: normal; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-
-        /* Кнопки управления */
-        .extra-controls { display: flex; gap: 6px; align-items: center; flex-shrink: 0; margin-right: 5px; }
-        .icon-btn { background: none; border: none; color: #71717a; width: 18px; height: 18px; cursor: pointer; transition: all 0.3s ease; padding: 0; display: flex; outline: none; }
-        .icon-btn:hover { color: #fff; transform: scale(1.1); }
-        .icon-btn.active { color: #ffffff; filter: drop-shadow(0 0 4px rgba(255,255,255,0.6)); }
-        .icon-btn svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-        .volume-control-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; opacity: 0.7; transition: opacity 0.3s ease; }
-        .volume-control-wrap:hover { opacity: 1; }
-        
-        .volume-btn { background: none; border: none; padding: 0; margin: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #ffffff; width: 22px; height: 22px; flex-shrink: 0; outline: none; transition: transform 0.2s ease; }
-        .volume-btn:hover { transform: scale(1.1); }
-        .vol-svg { width: 100%; height: 100%; }
-
-        .volume-slider { -webkit-appearance: none; width: 60px; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; outline: none; opacity: 0; transition: all 0.3s ease; cursor: pointer; }
-        .volume-control-wrap:hover .volume-slider { opacity: 1; width: 60px; }
-        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; background: #ffffff; border-radius: 50%; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.5); transition: transform 0.2s ease; }
-        .volume-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
-        .volume-slider::-webkit-slider-thumb:active { transform: scale(1.1); background: #aaaaaa; }
-
-        .playlist-toggle-btn { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; cursor: pointer; color: #fff; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; padding: 8px; flex-shrink: 0;}
-        .playlist-toggle-btn:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); border-color: rgba(255,255,255,0.3);}
-        .playlist-toggle-btn svg { width: 20px; height: 20px; fill: currentColor; }
-
-        .playlist-menu { position: absolute; bottom: 85px; left: 0; width: 100%; max-height: 280px; background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px); border: 1px solid rgba(255, 255, 255, 0.15); border-top: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; overflow-y: auto; display: none; flex-direction: column; padding: 8px 0; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9); z-index: 1000; }
-        .playlist-menu.show { display: flex; animation: menuFadeIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        @keyframes menuFadeIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        
-        .playlist-item { font-family: "Rubik Maze", system-ui, sans-serif; padding: 14px 20px; font-size: 14px; color: #a1a1aa; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; min-height: 44px; line-height: 1.2;}
-        .playlist-item:last-child { border-bottom: none; }
-        .playlist-item:hover { background: rgba(255, 255, 255, 0.1); color: #fff; padding-left: 25px;}
-        .playlist-item.active { color: #fff; font-weight: normal; background: rgba(255, 255, 255, 0.08); border-left: 4px solid #ffffff; padding-left: 20px;}
-        .playlist-menu::-webkit-scrollbar { width: 5px; }
-        .playlist-menu::-webkit-scrollbar-track { background: transparent; margin: 10px 0;}
-        .playlist-menu::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.25); border-radius: 10px; }
-    </style>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-
     <div id="admin-log"></div>
-
     <div class="orb-1" id="orb1"></div>
     <div class="orb-2" id="orb2"></div>
-
     <div class="gradient-border-wrap">
         <div class="glass-card">
             <div class="avatar-container">
-                <img src="avatar.png" alt="c4elovek avatar" class="avatar">
+                <img src="avatar.jpg" alt="c4elovek avatar" class="avatar">
             </div>
-
             <h1>c4elovek</h1>
             <div class="username">@c4elovek-cmd</div>
-
-            <!-- Иконка теперь аккуратно в тексте без лишних пробелов -->
+            <!-- РРєРѕРЅРєР° С‚РµРїРµСЂСЊ Р°РєРєСѓСЂР°С‚РЅРѕ РІ С‚РµРєСЃС‚Рµ Р±РµР· Р»РёС€РЅРёС… РїСЂРѕР±РµР»РѕРІ -->
             <p class="bio">
-                <svg class="inline-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.99V17M12 7V14M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Сайт сделан потому что были деньги которые надо было потратить. Здесь собраны все актуальные ссылки для связи со мной и мои текущие проекты.
+                <svg class="inline-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.99V17M12 7V14M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>РЎР°Р№С‚ СЃРґРµР»Р°РЅ РїРѕС‚РѕРјСѓ С‡С‚Рѕ Р±С‹Р»Рё РґРµРЅСЊРіРё РєРѕС‚РѕСЂС‹Рµ РЅР°РґРѕ Р±С‹Р»Рѕ РїРѕС‚СЂР°С‚РёС‚СЊ. Р—РґРµСЃСЊ СЃРѕР±СЂР°РЅС‹ РІСЃРµ Р°РєС‚СѓР°Р»СЊРЅС‹Рµ СЃСЃС‹Р»РєРё РґР»СЏ СЃРІСЏР·Рё СЃРѕ РјРЅРѕР№ Рё РјРѕРё С‚РµРєСѓС‰РёРµ РїСЂРѕРµРєС‚С‹.
             </p>
-
             <div class="links-container">
                 <a href="https://t.me/pick4x3" target="_blank" class="link-item">
                     <svg class="icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -160,10 +49,9 @@
                     <span id="discord-text">Discord: _c4elovek_</span>
                 </a>
             </div>
-
             <div class="expand-container">
-                <button id="expand-btn" class="expand-btn" title="Развернуть информацию">
-                    Доп. информация
+                <button id="expand-btn" class="expand-btn" title="Р Р°Р·РІРµСЂРЅСѓС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ">
+                    Р”РѕРї. РёРЅС„РѕСЂРјР°С†РёСЏ
                     <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
                 </button>
                 <div id="expand-content" class="expand-content">
@@ -172,21 +60,19 @@
                         <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="currentColor"/>
                         <path d="M22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C21.5093 4.43821 21.8356 5.80655 21.9449 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                     </svg>
-                    рагнарог
+                    СЂР°РіРЅР°СЂРѕРі
                 </div>
             </div>
-
             <div class="footer">
-                © 2026 c4elovek.online
+                В© 2026 c4elovek.online
             </div>
-
             <div class="card-footer-icons">
-                <a href="https://steamcommunity.com/id/xxxc4elovekxxx/" target="_blank" class="bottom-icon-link" title="Мой Steam">
+                <a href="https://steamcommunity.com/id/xxxc4elovekxxx/" target="_blank" class="bottom-icon-link" title="РњРѕР№ Steam">
                     <svg class="bottom-icon-svg" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/>
                     </svg>
                 </a>
-                <a href="https://soundcloud.com" target="_blank" class="bottom-icon-link" title="Мой SoundCloud">
+                <a href="https://soundcloud.com" target="_blank" class="bottom-icon-link" title="РњРѕР№ SoundCloud">
                     <svg class="bottom-icon-svg" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M23.999 14.165c-.052 1.796-1.612 3.169-3.4 3.169h-8.18a.68.68 0 0 1-.675-.683V7.862a.747.747 0 0 1 .452-.724s.75-.513 2.333-.513a5.364 5.364 0 0 1 2.763.755 5.433 5.433 0 0 1 2.57 3.54c.282-.08.574-.121.868-.12.884 0 1.73.358 2.347.992s.948 1.49.922 2.373ZM10.721 8.421c.247 2.98.427 5.697 0 8.672a.264.264 0 0 1-.53 0c-.395-2.946-.22-5.718 0-8.672a.264.264 0 0 1 .53 0ZM9.072 9.448c.285 2.659.37 4.986-.006 7.655a.277.277 0 0 1-.55 0c-.331-2.63-.256-5.02 0-7.655a.277.277 0 0 1 .556 0Zm-1.663-.257c.27 2.726.39 5.171 0 7.904a.266.266 0 0 1-.532 0c-.38-2.69-.257-5.21 0-7.904a.266.266 0 0 1 .532 0Zm-1.647.77a26.108 26.108 0 0 1-.008 7.147.272.272 0 0 1-.542 0 27.955 27.955 0 0 1 0-7.147.275.275 0 0 1 .55 0Zm-1.67 1.769c.421 1.865.228 3.5-.029 5.388a.257.257 0 0 1-.514 0c-.21-1.858-.398-3.549 0-5.389a.272.272 0 0 1 .543 0Zm-1.655-.273c.388 1.897.26 3.508-.01 5.412-.026.28-.514.283-.54 0-.244-1.878-.347-3.54-.01-5.412a.283.283 0 0 1 .56 0Zm-1.668.911c.4 1.268.257 2.292-.026 3.572a.257.257 0 0 1-.514 0c-.241-1.262-.354-2.312-.023-3.572a.283.283 0 0 1 .563 0Z"/>
                     </svg>
@@ -194,15 +80,12 @@
             </div>
         </div>
     </div>
-
-    <!-- 🎵 ПЛЕЕР -->
+    <!-- рџЋµ РџР›Р•Р•Р  -->
     <div class="bottom-player-wrapper">
         <audio id="bg-music" src=""></audio>
-
         <div id="playlist-menu" class="playlist-menu">
-            <div style="text-align:center; padding: 10px; color:#a1a1aa; font-size:13px;">Загрузка треков...</div>
+            <div style="text-align:center; padding: 10px; color:#a1a1aa; font-size:13px;">Р—Р°РіСЂСѓР·РєР° С‚СЂРµРєРѕРІ...</div>
         </div>
-
         <div class="player-gradient-wrap">
             <div class="bottom-player">
                 <div class="player-controls">
@@ -210,374 +93,31 @@
                         <svg id="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                         <svg id="icon-pause" viewBox="0 0 24 24" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
                     </button>
-                    
                     <div class="track-meta">
-                        <span id="track-name" class="track-name">Ожидание...</span>
-                        <span id="player-status" class="track-status">Загрузка...</span>
+                        <span id="track-name" class="track-name">РћР¶РёРґР°РЅРёРµ...</span>
+                        <span id="player-status" class="track-status">Р—Р°РіСЂСѓР·РєР°...</span>
                     </div>
-
                     <div class="extra-controls">
-                        <button id="shuffle-btn" class="icon-btn" title="Перемешать (Случайный трек)">
+                        <button id="shuffle-btn" class="icon-btn" title="РџРµСЂРµРјРµС€Р°С‚СЊ (РЎР»СѓС‡Р°Р№РЅС‹Р№ С‚СЂРµРє)">
                             <svg viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>
                         </button>
-                        <button id="repeat-btn" class="icon-btn" title="Повтор одного трека">
+                        <button id="repeat-btn" class="icon-btn" title="РџРѕРІС‚РѕСЂ РѕРґРЅРѕРіРѕ С‚СЂРµРєР°">
                             <svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
                         </button>
                     </div>
-
                     <div class="volume-control-wrap">
-                        <button id="volume-btn" class="volume-btn" title="Выключить звук">
-                            <!-- Иконка будет вставлена через JS -->
+                        <button id="volume-btn" class="volume-btn" title="Р’С‹РєР»СЋС‡РёС‚СЊ Р·РІСѓРє">
+                            <!-- РРєРѕРЅРєР° Р±СѓРґРµС‚ РІСЃС‚Р°РІР»РµРЅР° С‡РµСЂРµР· JS -->
                         </button>
                         <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
                     </div>
-
-                    <button id="toggle-playlist-btn" class="playlist-toggle-btn" title="Показать весь плейлист">
+                    <button id="toggle-playlist-btn" class="playlist-toggle-btn" title="РџРѕРєР°Р·Р°С‚СЊ РІРµСЃСЊ РїР»РµР№Р»РёСЃС‚">
                         <svg viewBox="0 0 24 24"><path d="M3 18h12v-2H3v2zM3 6v2h18V6H3zm0 7h18v-2H3v2z"/></svg>
                     </button>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        // --- СВГ ДЛЯ ЗВУКА ---
-        const svgMuted = `<svg viewBox="0 0 22 22" fill="none" class="vol-svg"><path d="M14 7.36979V6.40979C14 3.42979 11.93 2.28979 9.41 3.86979L6.49 5.69979C6.17 5.88979 5.8 5.99979 5.43 5.99979H4C2 5.99979 1 6.99979 1 8.99979V12.9998C1 14.9998 2 15.9998 4 15.9998H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path opacity="0.4" d="M9.41016 18.1302C11.9302 19.7102 14.0002 18.5602 14.0002 15.5902V11.9502" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path opacity="0.4" d="M17.81 8.41992C18.71 10.5699 18.44 13.0799 17 14.9999" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path opacity="0.4" d="M20.1501 6.7998C21.6201 10.2898 21.1801 14.3698 18.8301 17.4998" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 1L1 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-        const svgUnmutedPlaying = `<svg viewBox="0 0 24 24" fill="none" class="vol-svg"><path d="M3.33008 9.99979V13.9998C3.33008 15.9998 4.33008 16.9998 6.33008 16.9998H7.76008C8.13008 16.9998 8.50008 17.1098 8.82008 17.2998L11.7401 19.1298C14.2601 20.7098 16.3301 19.5598 16.3301 16.5898V7.40979C16.3301 4.42979 14.2601 3.28979 11.7401 4.86979L8.82008 6.69979C8.50008 6.88979 8.13008 6.99979 7.76008 6.99979H6.33008C4.33008 6.99979 3.33008 7.99979 3.33008 9.99979Z" stroke="currentColor" stroke-width="1.5"/><path opacity="0.4" d="M19.3301 8C21.1101 10.37 21.1101 13.63 19.3301 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-        const svgUnmutedPaused = `<svg viewBox="0 0 24 24" fill="none" class="vol-svg"><path d="M5.5 9.99979V13.9998C5.5 15.9998 6.5 16.9998 8.5 16.9998H9.93C10.3 16.9998 10.67 17.1098 10.99 17.2998L13.91 19.1298C16.43 20.7098 18.5 19.5598 18.5 16.5898V7.40979C18.5 4.42979 16.43 3.28979 13.91 4.86979L10.99 6.69979C10.67 6.88979 10.3 6.99979 9.93 6.99979H8.5C6.5 6.99979 5.5 7.99979 5.5 9.99979Z" stroke="currentColor" stroke-width="1.5"/></svg>`;
-
-        // --- ЛОГИКА СЕКРЕТНЫХ ЛОГОВ ---
-        const adminLog = document.getElementById('admin-log');
-        function addLog(msg) {
-            if (window.location.hash === '#admin') { adminLog.style.display = 'block'; }
-            const time = new Date().toLocaleTimeString();
-            adminLog.innerHTML += `<div>[${time}] ${msg}</div>`;
-            adminLog.scrollTop = adminLog.scrollHeight;
-        }
-
-        window.addEventListener('hashchange', () => {
-            adminLog.style.display = (window.location.hash === '#admin') ? 'block' : 'none';
-        });
-
-        function moveOrbs() {
-            const orb1 = document.getElementById('orb1');
-            const orb2 = document.getElementById('orb2');
-            const maxX = window.innerWidth;
-            const maxY = window.innerHeight;
-            const randomX1 = Math.floor(Math.random() * maxX) - 150; 
-            const randomY1 = Math.floor(Math.random() * maxY) - 150;
-            const randomX2 = Math.floor(Math.random() * maxX) - 150;
-            const randomY2 = Math.floor(Math.random() * maxY) - 150;
-            orb1.style.transform = `translate(${randomX1}px, ${randomY1}px) scale(${Math.random() * 0.5 + 0.8})`;
-            orb2.style.transform = `translate(${randomX2}px, ${randomY2}px) scale(${Math.random() * 0.5 + 0.8})`;
-        }
-        setTimeout(moveOrbs, 100); 
-        setInterval(moveOrbs, 10000);
-
-        const expandBtn = document.getElementById('expand-btn');
-        const expandContent = document.getElementById('expand-content');
-        expandBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); 
-            expandBtn.classList.toggle('active');
-            expandContent.classList.toggle('show');
-        });
-
-        const discordBtn = document.getElementById('discord-btn');
-        const discordText = document.getElementById('discord-text');
-        discordBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            navigator.clipboard.writeText('_c4elovek_').then(() => {
-                const originalText = discordText.innerText;
-                discordText.innerText = 'Скопировано!';
-                setTimeout(() => { discordText.innerText = originalText; }, 2000);
-            }).catch(err => addLog('Ошибка копирования: ' + err));
-        });
-
-        const BLACKLIST = [
-            "Странный", "Её парень", "Священная война", "Плёнка", "грустинка",
-            "xsonsss", "overdose", "ммм", "недотрога", "Chance", "фп", "флаг",
-            "тинкер", "клановая", "ослепительна", "madk1d", "гимн", "Катюха",
-            "попал", "MORGENSHTERN", "потеря", "truth yandere"
-        ];
-
-        const audio = document.getElementById('bg-music');
-        const playBtn = document.getElementById('play-btn');
-        const iconPlay = document.getElementById('icon-play');
-        const iconPause = document.getElementById('icon-pause');
-        const statusText = document.getElementById('player-status');
-        const trackNameEl = document.getElementById('track-name');
-        const playlistMenu = document.getElementById('playlist-menu');
-        const togglePlaylistBtn = document.getElementById('toggle-playlist-btn');
-        
-        // Звук
-        const volumeSlider = document.getElementById('volume-slider');
-        const volumeBtn = document.getElementById('volume-btn');
-        let lastVol = 0.7;
-
-        // Новые режимы воспроизведения
-        let isShuffle = false;
-        const shuffleBtn = document.getElementById('shuffle-btn');
-        const repeatBtn = document.getElementById('repeat-btn');
-
-        let playlist = [];
-        let currentTrackIndex = 0;
-        let hasStartedPlaying = false;
-
-        // Управление перемешиванием
-        shuffleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            isShuffle = !isShuffle;
-            shuffleBtn.classList.toggle('active', isShuffle);
-            addLog(`Режим 'Случайный трек': ${isShuffle ? 'ВКЛ' : 'ВЫКЛ'}`);
-        });
-
-        // Управление повтором (зацикливанием)
-        repeatBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            audio.loop = !audio.loop; // Ставим или убираем loop на уровне аудиоэлемента
-            repeatBtn.classList.toggle('active', audio.loop);
-            addLog(`Режим 'Повтор трека': ${audio.loop ? 'ВКЛ' : 'ВЫКЛ'}`);
-        });
-
-        function updateVolumeIcon() {
-            if (audio.muted || audio.volume === 0) {
-                volumeBtn.innerHTML = svgMuted;
-            } else if (audio.paused) {
-                volumeBtn.innerHTML = svgUnmutedPaused;
-            } else {
-                volumeBtn.innerHTML = svgUnmutedPlaying;
-            }
-        }
-
-        volumeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (audio.muted || audio.volume === 0) {
-                audio.muted = false;
-                audio.volume = lastVol > 0 ? lastVol : 0.7;
-                volumeSlider.value = audio.volume;
-            } else {
-                lastVol = audio.volume;
-                audio.muted = true;
-                volumeSlider.value = 0;
-            }
-            updateVolumeIcon();
-        });
-
-        audio.volume = volumeSlider.value;
-        updateVolumeIcon();
-
-        volumeSlider.addEventListener('input', (e) => {
-            audio.volume = e.target.value;
-            if (audio.volume > 0) {
-                audio.muted = false;
-                lastVol = audio.volume;
-            }
-            updateVolumeIcon();
-        });
-
-        addLog("Получение playlist.json...");
-        fetch('playlist.json', { cache: 'no-store' })
-            .then(response => { 
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
-                return response.json(); 
-            })
-            .then(data => {
-                addLog(`Скачано треков из JSON: ${data.length}`);
-                playlist = data.filter(item => {
-                    let fileName = typeof item === 'string' ? item : item.file;
-                    const nameLower = fileName.toLowerCase();
-                    return !BLACKLIST.some(badWord => nameLower.includes(badWord.toLowerCase()));
-                });
-
-                if(playlist.length > 0) { 
-                    addLog(`После фильтрации блэклистом осталось: ${playlist.length}`);
-                    buildPlaylistMenu(); 
-
-                    currentTrackIndex = Math.floor(Math.random() * playlist.length);
-                    addLog(`Выбран рандомный трек: Индекс ${currentTrackIndex}`);
-                    
-                    loadTrack(currentTrackIndex, false); 
-                } else { 
-                    trackNameEl.innerText = "Плейлист пуст"; 
-                    playlistMenu.innerHTML = '<div style="text-align:center; padding:15px; color:#a1a1aa;">Нет доступных треков</div>'; 
-                }
-            })
-            .catch(err => { 
-                addLog(`КРИТИЧЕСКАЯ ОШИБКА: ${err.message}`);
-                trackNameEl.innerText = "Ошибка загрузки"; 
-                playlistMenu.innerHTML = `<div style="text-align:center; padding:15px; color:#ef4444;">Ошибка: ${err.message}</div>`; 
-            });
-
-        function buildPlaylistMenu() {
-            playlistMenu.innerHTML = ''; 
-            playlist.forEach((item, index) => {
-                let fileName = typeof item === 'string' ? item : item.file;
-                let cleanName = fileName.replace('.mp3', '').replace(/_/g, ' '); 
-                let el = document.createElement('div');
-                el.className = 'playlist-item';
-                el.innerText = `${index + 1}. ${cleanName}`; 
-                el.onclick = (e) => { e.stopPropagation(); loadTrack(index, true); playlistMenu.classList.remove('show'); };
-                playlistMenu.appendChild(el);
-            });
-        }
-
-        function loadTrack(index, autoPlay = true) {
-            currentTrackIndex = index;
-            let item = playlist[index];
-            let file = typeof item === 'string' ? item : item.file;
-
-            let defaultName = file.replace('.mp3', '').replace(/_/g, ' ');
-            
-            document.querySelectorAll('.playlist-item').forEach((el, i) => { 
-                if(i === index) el.classList.add('active'); 
-                else el.classList.remove('active'); 
-            });
-            
-            const fileUrl = 'music/' + encodeURIComponent(file);
-            audio.src = fileUrl;
-            
-            const absoluteUrl = new URL(fileUrl, window.location.href).href;
-            
-            trackNameEl.innerText = defaultName;
-            statusText.innerText = "Чтение файла...";
-            
-            addLog(`--------------------`);
-            addLog(`Загружаю файл: ${file}`);
-
-            if (window.jsmediatags) {
-                try {
-                    window.jsmediatags.read(absoluteUrl, {
-                        onSuccess: function(tag) {
-                            let title = tag.tags.title || defaultName;
-                            let artist = tag.tags.artist || 'c4elovek.online';
-                            let artworkArray = [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }];
-                            
-                            addLog(`Теги успешно прочитаны. Автор: "${artist}", Название: "${title}"`);
-
-                            if (tag.tags.picture) {
-                                addLog(`Обложка найдена внутри файла!`);
-                                const data = tag.tags.picture.data;
-                                const format = tag.tags.picture.format || 'image/jpeg';
-                                const byteArray = new Uint8Array(data);
-                                const blob = new Blob([byteArray], { type: format });
-                                const imageUrl = URL.createObjectURL(blob);
-                                artworkArray = [{ src: imageUrl, sizes: '512x512', type: format }];
-                            } else {
-                                addLog(`Обложка НЕ найдена, использую аватарку.`);
-                            }
-                            
-                            trackNameEl.innerText = title;
-                            statusText.innerText = artist;
-
-                            updateMediaSession(title, artist, artworkArray);
-                        },
-                        onError: function(error) {
-                            addLog(`Ошибка чтения тегов: ${error.type || error.info || error}`);
-                            trackNameEl.innerText = defaultName;
-                            statusText.innerText = 'c4elovek.online';
-                            updateMediaSession(defaultName, 'c4elovek.online', [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }]);
-                        }
-                    });
-                } catch (e) {
-                    addLog(`Синхронная ошибка jsmediatags: ${e.message}`);
-                    trackNameEl.innerText = defaultName;
-                    statusText.innerText = 'c4elovek.online';
-                    updateMediaSession(defaultName, 'c4elovek.online', [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }]);
-                }
-            } else {
-                addLog(`ОШИБКА: Библиотека jsmediatags не загружена!`);
-                trackNameEl.innerText = defaultName;
-                statusText.innerText = 'c4elovek.online';
-                updateMediaSession(defaultName, 'c4elovek.online', [{ src: 'avatar.png', sizes: '512x512', type: 'image/png' }]);
-            }
-            
-            if(autoPlay) { togglePlay(true); }
-            updateVolumeIcon(); 
-        }
-
-        function updateMediaSession(title, artist, artwork) {
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: title, 
-                    artist: artist, 
-                    album: 'Избранный плейлист',
-                    artwork: artwork
-                });
-                navigator.mediaSession.setActionHandler('play', () => togglePlay(true));
-                navigator.mediaSession.setActionHandler('pause', () => togglePlay(false));
-                navigator.mediaSession.setActionHandler('previoustrack', playPrevTrack);
-                navigator.mediaSession.setActionHandler('nexttrack', playNextTrack);
-                addLog(`Уведомление MediaSession обновлено.`);
-            }
-        }
-
-        function playNextTrack() {
-            if (playlist.length === 0) return;
-            
-            if (isShuffle) {
-                let newIndex = currentTrackIndex;
-                if (playlist.length > 1) {
-                    while (newIndex === currentTrackIndex) {
-                        newIndex = Math.floor(Math.random() * playlist.length);
-                    }
-                }
-                currentTrackIndex = newIndex;
-            } else {
-                currentTrackIndex++;
-                if (currentTrackIndex >= playlist.length) { currentTrackIndex = 0; }
-            }
-            
-            addLog(`Переключение на СЛЕДУЮЩИЙ трек (Индекс: ${currentTrackIndex})`);
-            loadTrack(currentTrackIndex, true);
-        }
-
-        function playPrevTrack() {
-            if (playlist.length === 0) return;
-            currentTrackIndex--;
-            if (currentTrackIndex < 0) { currentTrackIndex = playlist.length - 1; }
-            addLog(`Переключение на ПРЕДЫДУЩИЙ трек (Индекс: ${currentTrackIndex})`);
-            loadTrack(currentTrackIndex, true);
-        }
-
-        togglePlaylistBtn.addEventListener('click', (e) => { e.stopPropagation(); playlistMenu.classList.toggle('show'); });
-
-        window.addEventListener('click', (e) => {
-            if (!playlistMenu.contains(e.target) && !togglePlaylistBtn.contains(e.target)) { playlistMenu.classList.remove('show'); }
-            if (!expandContent.contains(e.target) && !expandBtn.contains(e.target)) { expandContent.classList.remove('show'); expandBtn.classList.remove('active'); }
-            
-            if (!hasStartedPlaying && audio.paused && playlist.length > 0 && !e.target.closest('button') && e.target !== volumeSlider) { 
-                togglePlay(true); 
-                hasStartedPlaying = true; 
-            }
-        });
-
-        function togglePlay(forcePlay = false) {
-            if (playlist.length === 0) return;
-            
-            const shouldPlay = typeof forcePlay === 'boolean' && forcePlay.isTrusted === undefined ? forcePlay : audio.paused;
-
-            if (shouldPlay) {
-                audio.play().then(() => {
-                    iconPlay.style.display = 'none'; iconPause.style.display = 'block';
-                    addLog("Воспроизведение начато.");
-                    updateVolumeIcon();
-                }).catch(err => { 
-                    addLog(`АВТОЗАПУСК ЗАБЛОКИРОВАН браузером.`); 
-                    iconPlay.style.display = 'block'; iconPause.style.display = 'none'; 
-                    updateVolumeIcon();
-                });
-            } else {
-                audio.pause(); iconPlay.style.display = 'block'; iconPause.style.display = 'none';
-                addLog("Плеер на паузе.");
-                updateVolumeIcon();
-            }
-        }
-
-        playBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePlay(); hasStartedPlaying = true; });
-        
-        audio.addEventListener('ended', playNextTrack);
-
-    </script>
+    <script src="/app.js"></script>
 </body>
 </html>
-
