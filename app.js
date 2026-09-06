@@ -190,7 +190,10 @@
                 else el.classList.remove('active'); 
             });
             
-            const fileUrl = 'music/' + encodeURIComponent(file);
+            // Треки лежат в GitHub Releases (release tag: music), имена track01..track30
+            // по порядку playlist.json — порядок в чёрном списке плеера ничего не отсеивает.
+            const fileUrl = 'https://github.com/c4elovek-cmd/BiographyWebsite/releases/download/music/track'
+                + String(index + 1).padStart(2, '0') + '.mp3';
             audio.src = fileUrl;
             
             const absoluteUrl = new URL(fileUrl, window.location.href).href;
