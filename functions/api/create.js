@@ -1,4 +1,4 @@
-// POST /api/create — создание короткой ссылки (переехало из Worker secure-shortener)
+// POST /api/create — создание короткой ссылки (Pages Functions, KV: LINKS)
 export async function onRequestPost(context) {
   const { request, env } = context;
   const url = new URL(request.url);
